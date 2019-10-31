@@ -1,4 +1,11 @@
 Id,Area,Stories,YearBuilt,TypeID,Latitude,Longitude,Occupancy,ParcelId,BuildingId,MedianRepairCost,RepairCostStdDev,MedianDowntime,RedTagged,PGA,LossRatio
+// ParcelId (postal info), BuildingId (irrel.), MedianDowntime (time to rebuild), RedTagged PGA-Peak Ground Acceleration (how strong earthquake was at that point), LossRatio (repaircost/constructioncost)
+// Sunburst zoom - 
+    // 1 - Year intervals, 6 chunks of 27 years, (1848-1875, 1875-1902, 1902-1929, 1929-1956, 1956-1983, 1983-2010)
+    // 2 - Materials - Steel, Bla, Bla, Bla
+    // 3 - Median repair cost - intervals again
+    // 4 - Red tagged - yes/no
+    // bins
 1,1325,1,1946,2,37.74938695,-122.4773802,Residential,21390,20745,5461.702731,17008.49749,5.365616623,0,0.236391437,0.01997908
 2,1150,1,1930,2,37.74110186,-122.4511604,Residential,39917,38738,2174.897626,10503.6389,2.294930632,0,0.158810398,0.009166516
 3,3500,2,1907,3,37.77392102,-122.4516378,Residential,118772,111439,21411.6784,20804.08982,17.25561075,0,0.175997961,0.029651452
