@@ -1,6 +1,4 @@
- function drawPlot(data){
-
-    console.log("Test");
+function drawPlot(data){
 
     // set the dimensions and margins of the graph
     var margin = {top: 10, right: 30, bottom: 30, left: 60},
@@ -9,11 +7,15 @@
 
 // append the svg object to the body of the page
     var svg = d3.select("#my_dataviz")
+        .data(data)
+        //console.log(data)
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
     // Add X axis
     var x = d3.scaleLinear()
         .domain([0, 4000])
