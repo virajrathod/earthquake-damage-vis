@@ -34,20 +34,6 @@ function drawPlot(data){
 
 		//var dataset = data.slice(0, numBars + 1);
 		//max vs min
-		var dataset = [];
-		dataset.push([46, 32]);
-		dataset.push([47, 31]);
-		dataset.push([51, 41]);
-		dataset.push([52, 38]);
-		dataset.push([38, 29]);
-
-		/*
-		dataset = [{max: 46, min: 32},
-					{max: 47, min: 31},
-					{max: 51, min: 41},
-					{max: 52, min: 38},
-					{max: 38, min: 29}];
-					*/
 
 		//scale function
 		var xScale = d3.scaleLinear()
@@ -71,7 +57,7 @@ function drawPlot(data){
 					.attr("width", w)
 					.attr("height", h);
 
-		svg.selectAll("circle")
+		svg.selectAll(".my_dataviz")
 			.data(dataset)
 			.enter()
 			.append("circle")
