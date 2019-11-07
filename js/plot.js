@@ -52,23 +52,23 @@ function drawPlot(data){
 		var yAxis = d3.axisLeft().scale(yScale).ticks(5);
 
 		//create svg element
-		var svg = d3.select("body")
+		var svg = d3.select(".scatterplot")
 					.append("svg")
 					.attr("width", w)
-					.attr("height", h);
+					.attr("height", h)
 
-		svg.selectAll(".my_dataviz")
-			.data(dataset)
-			.enter()
-			.append("circle")
-			.attr("cx", function(d) {
-				return xScale(d[0]);
-			})
-			.attr("cy", function(d) {
-				return h - yScale(d[1]);
-			})
-			.attr("r", 5)
-			.attr("fill", "green");
+		// svg.selectAll(".scatterplot")
+		// 	.data(data)
+		// 	.enter()
+		// 	.append("circle")
+		// 	.attr("cx", function(d) {
+		// 		return xScale(d[0]);
+		// 	})
+		// 	.attr("cy", function(d) {
+		// 		return h - yScale(d[1]);
+		// 	})
+		// 	.attr("r", 5)
+		// 	.attr("fill", "green");
 
 		//x axis
 		svg.append("g")
