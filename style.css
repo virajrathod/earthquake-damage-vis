@@ -71,12 +71,10 @@ body,
     position: absolute;
 }
 
-
 .marker_div svg {
     font: 10px sans-serif;
     position: absolute;
 }
-
 
 #overlay {
     position: absolute;
@@ -92,4 +90,40 @@ body,
     backdrop-filter: blur(20px);
     /*background-image: url("photographer.jpg");*/
     /*opacity: 0.6;*/
+}
+
+#header-wrap
+{
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  background-size: 120% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  -ms-background-clip: text;
+  -ms-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  background-image: linear-gradient(45deg,
+                    #7794ff,
+                    #44107A,
+                    #FF1361,
+                    #FFF800);
+  animation: .8s shake infinite alternate;
+  animation-iteration-count: 6;
+
+}
+
+@keyframes shake {
+  0% { transform: skewX(-15deg); }
+  5% { transform: skewX(15deg); }
+  10% { transform: skewX(-15deg); }
+  15% { transform: skewX(15deg); }
+  20% { transform: skewX(0deg); }
+  100% { transform: skewX(0deg); }
 }
