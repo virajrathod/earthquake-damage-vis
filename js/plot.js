@@ -34,20 +34,6 @@ function drawPlot(data){
 
 		//var dataset = data.slice(0, numBars + 1);
 		//max vs min
-		var dataset = [];
-		dataset.push([46, 32]);
-		dataset.push([47, 31]);
-		dataset.push([51, 41]);
-		dataset.push([52, 38]);
-		dataset.push([38, 29]);
-
-		/*
-		dataset = [{max: 46, min: 32},
-					{max: 47, min: 31},
-					{max: 51, min: 41},
-					{max: 52, min: 38},
-					{max: 38, min: 29}];
-					*/
 
 		//scale function
 		var xScale = d3.scaleLinear()
@@ -66,23 +52,23 @@ function drawPlot(data){
 		var yAxis = d3.axisLeft().scale(yScale).ticks(5);
 
 		//create svg element
-		var svg = d3.select("body")
+		var svg = d3.select(".scatterplot")
 					.append("svg")
 					.attr("width", w)
-					.attr("height", h);
+					.attr("height", h)
 
-		svg.selectAll("circle")
-			.data(dataset)
-			.enter()
-			.append("circle")
-			.attr("cx", function(d) {
-				return xScale(d[0]);
-			})
-			.attr("cy", function(d) {
-				return h - yScale(d[1]);
-			})
-			.attr("r", 5)
-			.attr("fill", "green");
+		// svg.selectAll(".scatterplot")
+		// 	.data(data)
+		// 	.enter()
+		// 	.append("circle")
+		// 	.attr("cx", function(d) {
+		// 		return xScale(d[0]);
+		// 	})
+		// 	.attr("cy", function(d) {
+		// 		return h - yScale(d[1]);
+		// 	})
+		// 	.attr("r", 5)
+		// 	.attr("fill", "green");
 
 		//x axis
 		svg.append("g")

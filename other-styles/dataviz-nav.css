@@ -10,7 +10,7 @@
   
   .links a {
     display: block;
-    width: 33%;
+    width: 33.333%;
     float: left;
     text-align: center;
     background-color: #555;
@@ -35,7 +35,7 @@
   
   .dataviz-elements {
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     position: relative;
     scroll-behavior: smooth;
     scroll-snap-type: mandatory;
