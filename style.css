@@ -40,6 +40,11 @@ body {
       0 22px 30px rgba(0, 0, 0, 0.9);
 }
 
+.project-header--shake:hover {
+    animation: 1.2s shake infinite alternate;
+    animation-iteration-count: 6;
+}
+
 .our-names {
     display: flex;
     justify-content: space-between;
@@ -90,33 +95,6 @@ body,
     backdrop-filter: blur(20px);
     /*background-image: url("photographer.jpg");*/
     /*opacity: 0.6;*/
-}
-
-#header-wrap
-{
-  position: relative;
-  text-transform: uppercase;
-  letter-spacing: 6px;
-  text-decoration: none;
-  color: white;
-  display: inline-block;
-  background-size: 120% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-  -ms-background-clip: text;
-  -ms-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  background-image: linear-gradient(45deg,
-                    #7794ff,
-                    #44107A,
-                    #FF1361,
-                    #FFF800);
-  animation: .8s shake infinite alternate;
-  animation-iteration-count: 6;
-
 }
 
 @keyframes shake {
