@@ -30,9 +30,7 @@ class Sunburst {
         
         // Assign Type ID children
         const typeIdChildren = filter(this.data, "TypeID");
-        // const typeIdChildren = filterByTypeIds(this, this.data);
         hierarchy.children = typeIdChildren;
-        // console.log('filtered by typeId', hierarchy);
 
         // Assign Occupancy children (6)
         currRoot = hierarchy.children;
@@ -40,7 +38,6 @@ class Sunburst {
             const temp = filter(typeIdChild.children, "Occupancy");
             typeIdChild.children = temp;
         }
-        // console.log('filtered by occupancy', hierarchy);
 
         // Assign # of Stories
         for (let typeIdChild of currRoot) {
@@ -120,6 +117,7 @@ class Sunburst {
             // console.log("Filtering for: ", newFilter)
             return dataset.reduce((acc, item) => {
                 if (acc.filter(obj => obj.name === item[newFilter]).length === 0) {
+                    // TODO Replace with actual value of repair costs 
                     if (newFilter !== 'Stories')acc.push({name: item[newFilter], children: [item]});
                     else acc.push({name: item[newFilter], value: 4, children: [item]});
                 }

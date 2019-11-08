@@ -12,9 +12,11 @@ body {
 }
 
 .project-header {    
+    align-self: center;
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     font-size: 4rem;
     padding: 2rem;
+    width: fit-content;
     text-align: center;
     text-transform: uppercase;
     text-rendering: optimizeLegibility;
