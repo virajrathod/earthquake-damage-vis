@@ -2,10 +2,16 @@ function drawPlot(data){
 
     console.log("Test");
    //width and height
-		var w = 600;
-		var h = 400;
-		var padding = 40;
+	const width = 932;
+	var padding = 40;
+		var w = width-padding;
+		var h = width-padding;
 
+
+	const svg = d3.select("#dataviz-scatterplot").append("svg");
+		svg.attr("viewBox", [0, 0, width, width])
+		.style("margin", "2rem")
+		.style("font", "10px sans-serif");
 			//data.forEach(function(d) {
 			//dataset.push(d.precipitation);
 			// return {
@@ -36,19 +42,19 @@ function drawPlot(data){
 		//max vs min
 		//create svg element
 
-		const svg = d3.select('#scatterPlot')
-					.attr("width", w)
-					.attr("height", h);
+		// const svg = d3.select('#scatterPlot')
+		// 			.attr("width", w)
+		// 			.attr("height", h);
 
 		// scale function
 		var xScale = d3.scaleLinear()
 					//.domain(["Alabama","Alaska","Arizona","Arkansas","California"])
-					.domain([0, d3.max(data, function(d) { return d[0]; })])
+					.domain([0, d3.max(data, function(d) { return d.DamageRatio; })])
 					//.range([padding, w-padding * 2]);
-					.range([padding, w - padding * 2]);
+					.range([padding, w  ]);
 
 		var yScale = d3.scaleLinear()
-					.domain([0, d3.max(data, function(d) { return d[1]; })])
+					.domain([0, d3.max(data, function(d) { return d['Area(m2)']; })])
 					//.range([padding, w-padding * 2]);
 					.range([h - padding, padding]);
 
@@ -59,22 +65,22 @@ function drawPlot(data){
 
 
 
-		let circles = svg.selectAll("#scatterPlot")
+		let circles = svg.selectAll(".scatterPlot")
 			.data(data)
 			.enter()
 			.append("circle")
 			.attr("cx", function(d) {
-					return d.DamageRatio*1000;
+					return d.DamageRatio*(width-2*padding)+padding;
 			})
 			.attr("cy", function(d) {
-				return d.RepairCost/100;
+				return d['Area(m2)']/80;
 			})
-			// .attr("transform", "translate(" + padding + "," + (h - padding) + ")")
+			.attr("transform", "translate(0,"+(width-2*padding)+"),scale(1,-1)")
 			.attr("r", 5)
-			.attr("fill", "green")
+			.attr("fill", "green");
 			circles.on('click', (function (d) {
 				console.log(d)
-			}))
+			}));
 
 		// x axis
 		svg.append("g")

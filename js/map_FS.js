@@ -131,7 +131,7 @@ function mapoverlay(data) {
                     function precise(x) {
                         return Number.parseFloat(x).toPrecision(2);
                     }
-                    function heatmap_plot_zoom (filtered_data){
+                    function tooltip_plot_zoom (filtered_data){
                         let tooltip = layer2.selectAll('svg')
                             .data(filtered_data);
 
@@ -179,36 +179,36 @@ function mapoverlay(data) {
 
                     if (map.zoom>17.5) {
 
-                        let max_lat=map.getBounds().pa.h
-                        let min_lat=map.getBounds().pa.g
-                        let max_lng=map.getBounds().ka.h
-                        let min_lng=map.getBounds().ka.g
+                        let max_lat=map.getBounds().pa.h;
+                        let min_lat=map.getBounds().pa.g;
+                        let max_lng=map.getBounds().ka.h;
+                        let min_lng=map.getBounds().ka.g;
                         let filtered_data=usDataSample.filter(function(d){
                             return (d.Longitude>min_lng && d.Longitude<max_lng && d.Latitude>min_lat && d.Latitude<max_lat);
                         })
 
-                        heatmap_plot_zoom(filtered_data)
+                        tooltip_plot_zoom(filtered_data);
                         marker_plot_zoom(filtered_data)
                     }
 
                     else if (map.zoom>15.5){
 
-                        let max_lat=map.getBounds().pa.h
-                        let min_lat=map.getBounds().pa.g
-                        let max_lng=map.getBounds().ka.h
-                        let min_lng=map.getBounds().ka.g
+                        let max_lat=map.getBounds().pa.h;
+                        let min_lat=map.getBounds().pa.g;
+                        let max_lng=map.getBounds().ka.h;
+                        let min_lng=map.getBounds().ka.g;
                         let filtered_data=usDataSample.filter(function(d){
                             return (d.Longitude>min_lng && d.Longitude<max_lng && d.Latitude>min_lat && d.Latitude<max_lat);
                         })
 
-                        marker_plot_zoom(filtered_data)
+                        marker_plot_zoom(filtered_data);
 
 
                         d3.selectAll('.tooltip').remove()
                     }
                     else {
-                        d3.selectAll('.marker').remove()
-                        d3.selectAll('.tooltip').remove()
+                        d3.selectAll('.marker').remove();
+                        d3.selectAll('.tooltip').remove();
                     }
 
 
@@ -235,14 +235,14 @@ function mapoverlay(data) {
         }
         heatmap_plot();
         document.getElementById("defView").addEventListener("click", function(){
-            map.setZoom(12)
+            map.setZoom(12);
             map.setCenter({
                 lat: 37.76,
                 lng: -122.6,
             },);
         });
         document.getElementById("zoomView").addEventListener("click", function(){
-            map.setZoom(18)
+            map.setZoom(18);
             map.setCenter({
                 lat: 37.788065,
                 lng: -122.403921,
