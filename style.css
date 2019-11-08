@@ -1,8 +1,57 @@
+body {
+    margin: 0
+}
+
+.header-wrap {
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #333;
+    /* padding: 5rem; */
+}
+
+.project-header {    
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    font-size: 4rem;
+    padding: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    text-rendering: optimizeLegibility;
+    color: #e0dfdc;
+    letter-spacing: .1em;
+    text-shadow: 
+      0 -1px 0 #fff, 
+      0 1px 0 #2e2e2e, 
+      0 2px 0 #2c2c2c, 
+      0 3px 0 #2a2a2a, 
+      0 4px 0 #282828, 
+      0 5px 0 #262626, 
+      0 6px 0 #242424, 
+      0 7px 0 #222, 
+      0 8px 0 #202020, 
+      0 9px 0 #1e1e1e, 
+      0 10px 0 #1c1c1c, 
+      0 11px 0 #1a1a1a, 
+      0 12px 0 #181818, 
+      0 13px 0 #161616, 
+      0 14px 0 #141414, 
+      0 15px 0 #121212, 
+      0 22px 30px rgba(0, 0, 0, 0.9);
+}
+
+.our-names {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    color: white
+}
+
 html,
 body,
 #mapDiv {
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: 100%;
     /*margin: 10px;*/
     /*padding: 10px;*/
 }
@@ -24,8 +73,23 @@ body,
 
 
 .marker_div svg {
-    width: 60px;
-    height: 20px;
     font: 10px sans-serif;
     position: absolute;
+}
+
+
+#overlay {
+    position: absolute;
+    display: block;
+    width: 50%;
+    height: 100%;
+    top: 15rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2;
+    backdrop-filter: blur(20px);
+    /*background-image: url("photographer.jpg");*/
+    /*opacity: 0.6;*/
 }

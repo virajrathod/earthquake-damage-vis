@@ -1,0 +1,57 @@
+.links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #666;
+    z-index: 1;
+  }
+  
+  .links a {
+    display: block;
+    width: 33%;
+    float: left;
+    text-align: center;
+    background-color: #555;
+    height: 100%;
+    color: #fff;
+    text-shadow: 1px 1px 0px rgba(0,0,0,.5);
+    line-height: 40px;
+    font-family: sans-serif;
+    text-decoration: none;
+    transition: all .3s ease;
+    font-size: 20px;
+    box-sizing: border-box;
+    border-right: solid 1px #666;
+  }
+  
+  .links a + a {
+    border-left: solid 1px #333;
+  }
+  
+  .links a:hover,
+  .links a:focus { background-color: #444; }
+  
+  .dataviz-elements {
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    scroll-behavior: smooth;
+    scroll-snap-type: mandatory;
+    scroll-snap-points-y: repeat(100vh);
+    height: 100vh;
+  }
+  
+  .dataviz-element {
+    height: 100vh;
+    text-align: center;
+    color: #FFF;
+    position: relative;
+    padding-top: 40px;
+    color: black
+  }
+  
+  .element-1 { background-color: rgb(218, 218, 218); }
+  .element-2 { background-color: rgb(218, 218, 218); }
+  .element-3 { background-color: rgb(218, 218, 218); }

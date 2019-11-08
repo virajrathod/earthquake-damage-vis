@@ -13,16 +13,19 @@ function mapoverlay(data) {
             lats.push(minlat+i*(maxlat-minlat)/20);
         }
 
+
+
+
         let googleMapStyles = await d3.json("js/mapStyle.json");
         let options = {
             zoom: 7,
             center: {
                 lat: 37.76,
-                lng: -122.45,
+                lng: -122.52,
             },
             mapTypeId: 'roadmap',
-            minFTZoomLevel: 10,
-            styles: googleMapStyles
+            styles: googleMapStyles,
+            gestureHandling: 'greedy'
         };
 
 
@@ -32,7 +35,7 @@ function mapoverlay(data) {
 
         function fixMyPageOnce(){
             console.log('load')
-            let cnt=12;
+            let cnt=13.5;
             function chng(map,cnt) {
                 if (cnt>7){
                     console.log(cnt)
@@ -66,6 +69,10 @@ function mapoverlay(data) {
         }
 
         let overlay = await new google.maps.OverlayView();
+
+
+
+
 
         function marker_plot(){
             overlay.onAdd = function () {
@@ -191,8 +198,8 @@ function mapoverlay(data) {
 
                     if (map.zoom>17.5) {
 
-                        let max_lat=map.getBounds().oa.h
-                        let min_lat=map.getBounds().oa.g
+                        let max_lat=map.getBounds().pa.h
+                        let min_lat=map.getBounds().pa.g
                         let max_lng=map.getBounds().ka.h
                         let min_lng=map.getBounds().ka.g
                         let filtered_data=usDataSample.filter(function(d){
@@ -205,8 +212,8 @@ function mapoverlay(data) {
 
                     else if (map.zoom>15.5){
 
-                        let max_lat=map.getBounds().oa.h
-                        let min_lat=map.getBounds().oa.g
+                        let max_lat=map.getBounds().pa.h
+                        let min_lat=map.getBounds().pa.g
                         let max_lng=map.getBounds().ka.h
                         let min_lng=map.getBounds().ka.g
                         let filtered_data=usDataSample.filter(function(d){
