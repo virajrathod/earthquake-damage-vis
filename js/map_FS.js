@@ -82,8 +82,8 @@ function mapoverlay(data) {
                             d3.max(usDataSample, d => +d.Stories)])
                         .range([10, 40]);
                     let widthScale = d3.scaleLinear()
-                        .domain([d3.min(usDataSample, d => +d.Area),
-                            d3.max(usDataSample, d => +d.Area)])
+                        .domain([d3.min(usDataSample, d => +d['Area(m2)']),
+                            d3.max(usDataSample, d => +d['Area(m2)'])])
                         .range([10, 20]);
 
                     function marker_plot_zoom (filtered_data){
@@ -120,7 +120,7 @@ function mapoverlay(data) {
 
                         marker.select("rect")
                             .attr("height", d => heightScale(d.Stories))
-                            .attr("width", d => widthScale(d.Area))
+                            .attr("width", d => widthScale(d['Area(m2)']))
                             .attr("x", padding)
                             .attr("y", padding)
                             .attr("stroke", 'black')
@@ -153,7 +153,7 @@ function mapoverlay(data) {
                         tooltip.select("rect")
                             .attr("width", 150)
                             .attr("height", 50)
-                            .attr("x", padding)
+                            .attr("x", d => widthScale(d['Area(m2)'])+padding)
                             .attr("y", padding)
                             .style('opacity', .8)
                             .attr('fill','white')
@@ -161,19 +161,19 @@ function mapoverlay(data) {
 
 
                         tooltip.select(".line1").classed('text_lines',true)
-                            .attr("x", 20)
+                            .attr("x", d => widthScale(d['Area(m2)'])+20)
                             .attr("y", 23)
 
                             .text(d=> 'DamageRatio: '+precise(d.DamageRatio));
 
                         tooltip.select(".line2").classed('text_lines',true)
-                            .attr("x", 20)
+                            .attr("x", d => widthScale(d['Area(m2)'])+20)
                             .attr("y", 38)
                             .text(d=> 'Stories: '+d.Stories);
                         tooltip.select(".line3").classed('text_lines',true)
-                            .attr("x", 20)
+                            .attr("x", d => widthScale(d['Area(m2)'])+20)
                             .attr("y", 53)
-                            .text(d=> 'Collapsed: '+ (d.Collapsed==1? 'yes':'no'))
+                            .text(d=> 'Safety Tag: '+ (d.SafetyTag))
 
                     }
 
@@ -233,15 +233,21 @@ function mapoverlay(data) {
             });
             heatmap.setMap(map);
         }
-        heatmap_plot()
+        heatmap_plot();
         document.getElementById("defView").addEventListener("click", function(){
-map.setZoom(12)
+            map.setZoom(12)
             map.setCenter({
                 lat: 37.76,
-                lng: -122.52,
+                lng: -122.6,
             },);
         });
-
+        document.getElementById("zoomView").addEventListener("click", function(){
+            map.setZoom(18)
+            map.setCenter({
+                lat: 37.788065,
+                lng: -122.403921,
+            },);
+        });
 
     }
 

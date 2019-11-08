@@ -107,3 +107,17 @@ body,
   20% { transform: skewX(0deg); }
   100% { transform: skewX(0deg); }
 }
+
+#floating-panel {
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 1px;
+    background-color: #fff;
+    border: 1px solid #999;
+    left: 75%;
+    padding: 5px;
+    position: absolute;
+    top: 16rem;
+    z-index: 5;
+}
