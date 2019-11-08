@@ -8,7 +8,7 @@ function drawPlot(data){
 
 			//data.forEach(function(d) {
 			//dataset.push(d.precipitation);
-			return {
+			// return {
 				//max: d.Maximum,
 				//min: d.Minimum,
 				//month: d.Month,
@@ -16,62 +16,69 @@ function drawPlot(data){
 				//speed: d.Speed,
 				//state: d.State,
 				//year: d.Year
-			};
+			// };
 		// }, function(d) {
 		// 	dataset.push(d.precipitation);
 		// });
 
 
 
-		var temp;
-		var string;
-		for(var i = 0; i < numBars; i++) {
-			string = dataset.get(i);
-			state = states.get(i);
-			temp = {state: string};
-			dataset.push(temp);
-		}
+		// var temp;
+		// var string;
+		// for(var i = 0; i < numBars; i++) {
+		// 	string = dataset.get(i);
+		// 	state = states.get(i);
+		// 	temp = {state: string};
+		// 	dataset.push(temp);
+		// }
 
 		//var dataset = data.slice(0, numBars + 1);
 		//max vs min
+		//create svg element
 
-		//scale function
+		const svg = d3.select('#scatterPlot')
+					.attr("width", w)
+					.attr("height", h);
+
+		// scale function
 		var xScale = d3.scaleLinear()
-			//.domain(["Alabama","Alaska","Arizona","Arkansas","California"])
-			.domain([0, d3.max(dataset, function(d) { return d[0]; })])
-			//.range([padding, w-padding * 2]);
-			.range([padding, w - padding * 2]);
+					//.domain(["Alabama","Alaska","Arizona","Arkansas","California"])
+					.domain([0, d3.max(data, function(d) { return d[0]; })])
+					//.range([padding, w-padding * 2]);
+					.range([padding, w - padding * 2]);
 
 		var yScale = d3.scaleLinear()
-			.domain([0, d3.max(dataset, function(d) { return d[1]; })])
-			//.range([padding, w-padding * 2]);
-			.range([h - padding, padding]);
+					.domain([0, d3.max(data, function(d) { return d[1]; })])
+					//.range([padding, w-padding * 2]);
+					.range([h - padding, padding]);
 
 		var xAxis = d3.axisBottom().scale(xScale).ticks(5);
 
 		var yAxis = d3.axisLeft().scale(yScale).ticks(5);
 
-		//create svg element
-		var svg = d3.select(".scatterplot")
-					.append("svg")
-					.attr("width", w)
-					.attr("height", h)
 
-		// svg.selectAll(".scatterplot")
-		// 	.data(data)
-		// 	.enter()
-		// 	.append("circle")
-		// 	.attr("cx", function(d) {
-		// 		return xScale(d[0]);
-		// 	})
-		// 	.attr("cy", function(d) {
-		// 		return h - yScale(d[1]);
-		// 	})
-		// 	.attr("r", 5)
-		// 	.attr("fill", "green");
 
-		//x axis
+
+		let circles = svg.selectAll("#scatterPlot")
+			.data(data)
+			.enter()
+			.append("circle")
+			.attr("cx", function(d) {
+					return d.DamageRatio*1000;
+			})
+			.attr("cy", function(d) {
+				return d.RepairCost/100;
+			})
+			// .attr("transform", "translate(" + padding + "," + (h - padding) + ")")
+			.attr("r", 5)
+			.attr("fill", "green")
+			circles.on('click', (function (d) {
+				console.log(d)
+			}))
+
+		// x axis
 		svg.append("g")
+			// console.log("TTT")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + (h - padding) + ")")
 			.call(xAxis);
