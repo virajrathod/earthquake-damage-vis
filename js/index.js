@@ -1,3 +1,4 @@
+
 d3.csv("data/EQ_data_updated.csv").then( data => {
 
     // Create hierarchy dataset for Sunburst Zoom (Natalia)
@@ -13,3 +14,6 @@ d3.csv("data/EQ_data_updated.csv").then( data => {
     mapoverlay(data)
 
 })
+
+
+
