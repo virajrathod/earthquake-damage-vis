@@ -5,32 +5,38 @@
     <meta charset="UTF-8">
     <title> Earthquake Damage Visualization </title>
     <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="other-styles/dataviz-nav.css">
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3.v5.js"></script>
 </head>
 <body>
-<!--<div id="overlay">-->
-    <div class="scatterplot">
-    <svg id="scatterPlot">
-        Scatterplot
-    </svg>
-        <button type="button">Earthquake</button>
+<div class="header-wrap">
+    <div class="project-header">Earthquake Visualization</div>
+    <div class="our-names">
+        <div>Reza Sheibani; E-mail: m.sheibani@utah.edu; UID: u1138100 </div>
+        <div>Natalia Soto; Email: n.soto@utah.edu; UID: u1058711 </div>
+        <div>Viraj Rathod; Email: viraj.rathod@utah.edu; UID: u1269659 </div>
+    </div>
 </div>
-<!--</div>-->
-<div id="header-wrap">
-    <header>
-        <div>Name: Reza Sheibani; E-mail: m.sheibani@utah.edu; UID: u1138100 </div>
-        <div>Name: Natalia Soto; Email: n.soto@utah.edu; UID: u1058711 </div>
-        <div>Name: Viraj Rathod; Email: viraj.rathod@utah.edu; UID: u1269659</div>
-    </header>
-
+<div id="overlay">
+    <nav class="links">
+        <a href="#dataviz-sunburst">Sunburst</a>
+        <a href="#dataviz-scatterplot">Scatterplot</a>
+        <a href="#dataviz-other">Other</a>
+    </nav>
+        
+    <div class="dataviz-elements">
+        <div id="dataviz-sunburst" class="dataviz-element element-1">Sunburst</div>
+        <div id="dataviz-scatterplot" class="dataviz-element element-2">Scatterplot</div>
+        <div id="dataviz-other" class="dataviz-element element-3">Other</div>
+    </div>
 </div>
-
+<div class="scatterplot"></div>
 <div id="mapDiv"></div>
-
-<script src="js/index.js"></script>
+<script src="js/sunburst.js"></script>
 <script src="js/map_FS.js"></script>
 <script src="js/plot.js"></script>
+<script src="js/index.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeuqYAoD2lUBNikOZng7QsNOXhZ9-mH5o&libraries=visualization"></script>
 </body>

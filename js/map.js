@@ -13,9 +13,6 @@ function mapoverlay(data) {
             lats.push(minlat+i*(maxlat-minlat)/20);
         }
 
-
-
-
         let googleMapStyles = await d3.json("js/mapStyle.json");
         let options = {
             zoom: 7,
@@ -69,10 +66,6 @@ function mapoverlay(data) {
         }
 
         let overlay = await new google.maps.OverlayView();
-
-
-
-
 
         function marker_plot(){
             overlay.onAdd = function () {
