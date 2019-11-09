@@ -6,11 +6,11 @@ class Sunburst {
             return data.map(item => (
                 {
                     Id: item.Id,
-                    TypeID: item.TypeID,
+                    StructType: item.StructType,
                     Occupancy: item.Occupancy,
                     Stories: item.Stories,
                     YearBuilt: item.YearBuilt,
-                    Collapsed: item.Collapsed,
+                    SafetyTag: item.SafetyTag,
                     RepairCost: item.RepairCost,
                     Downtime: item.Downtime,
                 }
@@ -22,26 +22,27 @@ class Sunburst {
 
         let hierarchy =
         {
-            name: "TypeID", 
+            name: "StructType", 
             children:[]
         };
 
         let currRoot = hierarchy;
         
         // Assign Type ID children
-        const typeIdChildren = filter(this.data, "TypeID");
-        hierarchy.children = typeIdChildren;
+        const structTypeChildren = filter(this.data, "StructType");
+        hierarchy.children = structTypeChildren;
 
+        console.log(structTypeChildren);
         // Assign Occupancy children (6)
         currRoot = hierarchy.children;
-        for (let typeIdChild of currRoot) {
-            const temp = filter(typeIdChild.children, "Occupancy");
-            typeIdChild.children = temp;
+        for (let structTypeChild of currRoot) {
+            const temp = filter(structTypeChild.children, "Occupancy");
+            structTypeChild.children = temp;
         }
 
         // Assign # of Stories
-        for (let typeIdChild of currRoot) {
-            let currOccupancyArray = typeIdChild.children;
+        for (let structTypeChild of currRoot) {
+            let currOccupancyArray = structTypeChild.children;
             for (let occupancyChild of currOccupancyArray) {
                 const temp = filter(occupancyChild.children, "Stories");
                 occupancyChild.children = temp;
@@ -49,8 +50,8 @@ class Sunburst {
         }
 
         // TODO Assign Years Built
-        for (let typeIdChild of currRoot) {
-            let currOccupancyArray = typeIdChild.children;
+        for (let structTypeChild of currRoot) {
+            let currOccupancyArray = structTypeChild.children;
             for (let occupancyChild of currOccupancyArray) {
                 let currStoriesArray = occupancyChild.children;
                 for (let storiesChild of currStoriesArray) {
@@ -66,8 +67,8 @@ class Sunburst {
         }
 
         // Get Repair Cost Value
-        // for (let typeIdChild of currRoot) {
-        //     let currOccupancyArray = typeIdChild.children;
+        // for (let structTypeChild of currRoot) {
+        //     let currOccupancyArray = structTypeChild.children;
         //     for (let occupancyChild of currOccupancyArray) {
         //         let currStoriesArray = occupancyChild.children;
         //         for (let storiesChild of currStoriesArray) {
@@ -272,7 +273,7 @@ class Sunburst {
         return svg.node();
     }
 
-    // const data = ({name: "one",
+    // const dummydata = ({name: "one",
     //         children: [
     //         {name: "two-1", children: [
     //                             {name:"three-1-1", children: [{name: "four-1-1", value: 20
@@ -291,7 +292,3 @@ class Sunburst {
     //     });
 
 }
-
-// d3 = require("d3@5")
-
-// chart();

@@ -1,5 +1,5 @@
 
-d3.csv("data/EQ_data_updated(2nd).csv").then( data => {
+d3.csv("data/EQ_data_updated-2.csv").then( data => {
 
     // Create hierarchy dataset for Sunburst Zoom (Natalia)
     const sunburst = new Sunburst(data);
