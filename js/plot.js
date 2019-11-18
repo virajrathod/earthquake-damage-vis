@@ -1,66 +1,34 @@
 function drawPlot(data){
 
     console.log("Test");
+
    //width and height
 	const width = 932;
-	var padding = 40;
-		var w = width-padding;
-		var h = width-padding;
+	let padding = 40;
+		let w = width-padding;
+		let h = width-padding;
 
 
 	const svg = d3.select("#dataviz-scatterplot").append("svg");
 		svg.attr("viewBox", [0, 0, width, width])
 		.style("margin", "2rem")
 		.style("font", "10px sans-serif");
-			//data.forEach(function(d) {
-			//dataset.push(d.precipitation);
-			// return {
-				//max: d.Maximum,
-				//min: d.Minimum,
-				//month: d.Month,
-				// precipitation: d.Precipitation
-				//speed: d.Speed,
-				//state: d.State,
-				//year: d.Year
-			// };
-		// }, function(d) {
-		// 	dataset.push(d.precipitation);
-		// });
-
-
-
-		// var temp;
-		// var string;
-		// for(var i = 0; i < numBars; i++) {
-		// 	string = dataset.get(i);
-		// 	state = states.get(i);
-		// 	temp = {state: string};
-		// 	dataset.push(temp);
-		// }
-
-		//var dataset = data.slice(0, numBars + 1);
-		//max vs min
-		//create svg element
-
-		// const svg = d3.select('#scatterPlot')
-		// 			.attr("width", w)
-		// 			.attr("height", h);
 
 		// scale function
-		var xScale = d3.scaleLinear()
+		let xScale = d3.scaleLinear()
 					//.domain(["Alabama","Alaska","Arizona","Arkansas","California"])
 					.domain([0, d3.max(data, function(d) { return d.DamageRatio; })])
 					//.range([padding, w-padding * 2]);
 					.range([padding, w  ]);
 
-		var yScale = d3.scaleLinear()
+		let yScale = d3.scaleLinear()
 					.domain([0, d3.max(data, function(d) { return d['Area(m2)']; })])
 					//.range([padding, w-padding * 2]);
 					.range([h - padding, padding]);
 
-		var xAxis = d3.axisBottom().scale(xScale).ticks(5);
+		let xAxis = d3.axisBottom().scale(xScale).ticks(5);
 
-		var yAxis = d3.axisLeft().scale(yScale).ticks(5);
+		let yAxis = d3.axisLeft().scale(yScale).ticks(5);
 
 
 
@@ -94,5 +62,45 @@ function drawPlot(data){
 			.attr("class", "y axis")
 			.attr("transform", "translate(" + padding + ", 0)")
 			.call(yAxis);
+
+
+
+		     /* This is the setup for the dropdown menu- no need to change this */
+
+        let dropdownWrap = d3.select('#dataviz-scatterplot').append('div').classed('dropdown-wrapper', true);
+
+        let cWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
+
+        cWrap.append('div').classed('c-label', true)
+            .append('text')
+            .text('Circle Size');
+
+        cWrap.append('div').attr('id', 'dropdown_c').classed('dropdown', true).append('div').classed('dropdown-content', true)
+            .append('select');
+
+        let xWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
+
+        xWrap.append('div').classed('x-label', true)
+            .append('text')
+            .text('X Axis Data');
+
+        xWrap.append('div').attr('id', 'dropdown_x').classed('dropdown', true).append('div').classed('dropdown-content', true)
+            .append('select');
+
+        let yWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
+
+        yWrap.append('div').classed('y-label', true)
+            .append('text')
+            .text('Y Axis Data');
+
+        yWrap.append('div').attr('id', 'dropdown_y').classed('dropdown', true).append('div').classed('dropdown-content', true)
+            .append('select');
+
+        d3.select('#chart-view')
+            .append('div')
+            .classed('circle-legend', true)
+            .append('svg')
+            .append('g')
+            .attr('transform', 'translate(10, 0)');
 
 };
