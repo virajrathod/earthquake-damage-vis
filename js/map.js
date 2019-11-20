@@ -35,7 +35,7 @@ function mapoverlay(data) {
             let cnt=12;
             function chng(map,cnt) {
                 if (cnt>7){
-                    console.log(cnt)
+                    // console.log(cnt)
                     chng(map,cnt-1)
                 };
                 setTimeout(map.setZoom(cnt-1), 100)
