@@ -104,3 +104,40 @@ function drawPlot(data){
             .attr('transform', 'translate(10, 0)');
 
 };
+
+updatePlot(activeYear, xIndicator, yIndicator, circleSizeIndicator) {
+
+        console.log(xIndicator, yIndicator)
+
+
+
+
+	   /**
+         * Finds the max for the specified data
+         * @param dataOb
+         * @returns {*|number}
+         */
+        function findMax(dataOb) {
+            let totalMax = d3.max(dataOb.map(m => {
+                let val = Object.values(m).filter(v => typeof v === 'number');
+                let max = d3.max(val);
+                return max;
+
+
+            }));
+            return totalMax;
+        }
+
+        /**
+         * Finds the min for the specified data
+         * @param dataOb
+         * @returns {number | *}
+         */
+        function findMin(dataOb) {
+            let totalMin = d3.min(dataOb.map(m => {
+                let val = Object.values(m).filter(v => typeof v === 'number');
+                let min = d3.min(val);
+                return min;
+            }));
+            return totalMin;
+        }
