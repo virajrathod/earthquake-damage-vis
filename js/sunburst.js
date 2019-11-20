@@ -1,3 +1,13 @@
+const numStoriesNames = {
+    '1': '1 Story',
+    '2': '2 Story',
+    '3': '3 Story',
+    '4-9': '4-9 Stories',
+    '10-29': '10-29 Stories',
+    '30-49': '30-49 Stories',
+    '50Plus': '50+ Stories',
+}
+
 class Sunburst {
     constructor(data) {
         this.data = cleanup(data);
@@ -5,14 +15,14 @@ class Sunburst {
         function cleanup(data) {
             return data.map(item => (
                 {
-                    Id: item.Id,
+                    BuildingId: item.BuildingId,
                     StructType: item.StructType,
                     Occupancy: item.Occupancy,
                     Stories: item.Stories,
                     YearBuilt: item.YearBuilt,
                     SafetyTag: item.SafetyTag,
-                    RepairCost: item.RepairCost,
-                    Downtime: item.Downtime,
+                    RepairCost: item["RepairCost($)"],
+                    Downtime: item["Downtime(day)"],
                 }
             ));
         }
@@ -20,6 +30,7 @@ class Sunburst {
 
     createHierarchy() {
 
+        // console.log(this.data)
         let hierarchy =
         {
             name: "StructType", 
@@ -28,11 +39,10 @@ class Sunburst {
 
         let currRoot = hierarchy;
         
-        // Assign Type ID children
+        // Assign Struct Type children
         const structTypeChildren = filter(this.data, "StructType");
         hierarchy.children = structTypeChildren;
 
-        console.log(structTypeChildren);
         // Assign Occupancy children (6)
         currRoot = hierarchy.children;
         for (let structTypeChild of currRoot) {
@@ -45,15 +55,20 @@ class Sunburst {
             let currOccupancyArray = structTypeChild.children;
             for (let occupancyChild of currOccupancyArray) {
                 const temp = filter(occupancyChild.children, "Stories");
+                // console.log(temp)
+                temp.value = 2; // delete later
                 occupancyChild.children = temp;
             }
         }
+
+        console.log('hierarchy before structtype', hierarchy);
 
         // TODO Assign Years Built
         for (let structTypeChild of currRoot) {
             let currOccupancyArray = structTypeChild.children;
             for (let occupancyChild of currOccupancyArray) {
                 let currStoriesArray = occupancyChild.children;
+                // console.log(currStoriesArray, occupancyChild.children)
                 for (let storiesChild of currStoriesArray) {
                     const temp = filterYearBuilt(storiesChild.children, this);
                     // const temp = filter(storiesChild.children);
@@ -93,7 +108,7 @@ class Sunburst {
                 return acc;
             }, []);
 
-            console.log(costSums)
+            // console.log(costSums)
         }
 
         // function filterByStories(that, dataset) {
@@ -115,19 +130,37 @@ class Sunburst {
         // }
 
         function filter(dataset, newFilter) {
-            // console.log("Filtering for: ", newFilter)
             return dataset.reduce((acc, item) => {
-                if (acc.filter(obj => obj.name === item[newFilter]).length === 0) {
-                    // TODO Replace with actual value of repair costs 
-                    if (newFilter !== 'Stories')acc.push({name: item[newFilter], children: [item]});
-                    else acc.push({name: item[newFilter], value: 4, children: [item]});
+                let name = newFilter === 'Stories' ? getStoriesName(item[newFilter]) : item[newFilter];
+                if (acc.filter(obj => obj.name === name).length === 0) {
+                    // TODO Replace with actual value of repair costs (stories is second to last hierarchy)
+                    // if (newFilter !== 'Stories') 
+                    acc.push({name: name, value: 1, children: [item]});
+                    // else {
+                    //     // console.log(item, newFilter, getStoriesName(item[newFilter]))
+                    //     acc.push({name: name, children: [item]})
+                    // };
                 }
                 else {
-                    const idx = acc.findIndex(val => val.name === item[newFilter]);
+                    // let idx;
+                    // if (newFilter === 'Stories') idx = acc.findIndex(val => val.name === name);
+                    // else 
+                    let idx = acc.findIndex(val => val.name === name);
+                    // if (newFilter === 'Stories') console.log(acc, name)
                     acc[idx].children.push(item);
                 }
                 return acc;
             }, []);
+        }
+  
+        function getStoriesName(numStories) {
+            if (numStories === 1) return numStoriesNames['1']
+            else if (numStories === 2) return numStoriesNames['2']
+            else if (numStories === 3) return numStoriesNames['3']
+            else if (numStories >= 4 && numStories < 10) return numStoriesNames['4-9']; 
+            else if (numStories >= 10 && numStories < 30) return numStoriesNames['10-29'];
+            else if (numStories >= 30 && numStories < 50) return numStoriesNames['30-49'];
+            else return numStoriesNames['50Plus'];
         }
 
         console.log('final hierarchy', hierarchy);
