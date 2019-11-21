@@ -12,7 +12,9 @@ d3.csv("data/EQ_data_updated-2.csv").then( data => {
 
     // Setup data for Map (Reza)
 
-    mapoverlay(data)
+    const map=new mapClass(data);
+    // const mapPlot=map.mapoverlay();
+
 
 })
 
