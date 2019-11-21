@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="style.css"/>
     <link rel="stylesheet" href="other-styles/dataviz-nav.css">
     <link rel="stylesheet" type="text/css" href="https://csshake.surge.sh/csshake.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3.v5.js"></script>
 </head>
@@ -34,16 +42,22 @@
     </div>
 </div>
 <!--<div class="scatterplot"></div>-->
-<div id="mapDiv"></div>
-<div id="floating-panel">
-    <button id="defView">Overview</button>
-    <button id="zoomView">Detailed view</button>
+<div id="mapDiv">
+    <div id="mapLegend"></div>
+    <div id="floating-panel">
+<!--        <svg id="floatSvg"></svg>-->
+        <button id="defView">Overview</button>
+        <button id="zoomView">Detailed view</button>
+    </div>
 </div>
+
 <script src="js/sunburst.js"></script>
 <script src="js/map_FS.js"></script>
 <script src="js/plot.js"></script>
 <script src="js/index.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeuqYAoD2lUBNikOZng7QsNOXhZ9-mH5o&libraries=visualization"></script>
+<script src="js/leaflet-svg-shape-markers.min.js"></script>
+<script src="js/leaflet.rotatedMarker.js"></script>
 </body>
 </html>
