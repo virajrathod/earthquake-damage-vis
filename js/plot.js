@@ -71,6 +71,13 @@ function drawPlot(data){
 
         let cWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
 
+         cWrap.append('div').classed('c-label', true)
+            .append('text')
+            .text('Circle Color');
+
+         cWrap.append('div').attr('id', 'dropdown_c').classed('dropdown', true).append('div').classed('dropdown-content', true)
+            .append('select');
+
         cWrap.append('div').classed('c-label', true)
             .append('text')
             .text('Circle Size');
@@ -105,8 +112,7 @@ function drawPlot(data){
 
 };
 
-updatePlot(activeYear, xIndicator, yIndicator, circleSizeIndicator)
-{
+function updatePlot(activeYear, xIndicator, yIndicator, circleSizeIndicator) {
 
 	console.log(xIndicator, yIndicator)
 
@@ -140,4 +146,4 @@ updatePlot(activeYear, xIndicator, yIndicator, circleSizeIndicator)
 		}));
 		return totalMin;
 	}
-}
+};

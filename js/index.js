@@ -9,6 +9,7 @@ d3.csv("data/EQ_data_updated-2.csv").then( data => {
     // Setup data for Scatterplot (Viraj)
 
     drawPlot(data)
+    updatePlot()
 
     // Setup data for Map (Reza)
 
