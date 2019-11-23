@@ -8,6 +8,15 @@ const numStoriesNames = {
     '50Plus': '50+ Stories',
 }
 
+const yearBuiltName = {
+    '-1874': 'Built On/Before: 1848-1874',
+    '1875-1901': 'Built Between: 1875-1901',
+    '1902-1928': 'Built Between: 1902-1928',
+    '1929-1955': 'Built Between: 1929-1955',
+    '1956-1982': 'Built Between: 1956-1982',
+    '1983-': 'Built On/After: 1983-2010',
+}
+
 class Sunburst {
     constructor(data) {
         this.data = cleanup(data);
@@ -30,7 +39,6 @@ class Sunburst {
 
     createHierarchy() {
 
-        // console.log(this.data)
         let hierarchy =
         {
             name: "StructType", 
@@ -56,97 +64,51 @@ class Sunburst {
             for (let occupancyChild of currOccupancyArray) {
                 const temp = filter(occupancyChild.children, "Stories");
                 // console.log(temp)
-                temp.value = 2; // delete later
+                // temp.value = 2; // delete later
                 occupancyChild.children = temp;
             }
         }
 
-        console.log('hierarchy before structtype', hierarchy);
-
-        // TODO Assign Years Built
+        // Assign Years Built & Get Repair Costs
         for (let structTypeChild of currRoot) {
             let currOccupancyArray = structTypeChild.children;
             for (let occupancyChild of currOccupancyArray) {
                 let currStoriesArray = occupancyChild.children;
-                // console.log(currStoriesArray, occupancyChild.children)
                 for (let storiesChild of currStoriesArray) {
-                    const temp = filterYearBuilt(storiesChild.children, this);
-                    // const temp = filter(storiesChild.children);
-                    // storiesChild.children = temp;
+                    const tempChildren = filter(storiesChild.children, 'YearBuilt');
+                    // const avg = d3.sum(tempChildren, d => d["RepairCost"]) / tempChildren.length;
+                    // const avgValue = sum / yearBuiltChild.children.length;
+                    storiesChild.children = tempChildren;
+                    // storiesChild.value = avg;
+                    for (let child of storiesChild.children) {
+                        const yearBuiltChildren = child.children;
+                        const avg = d3.sum(yearBuiltChildren, d => d["RepairCost"]) / yearBuiltChildren.length;
+                        // console.log(avg)
+                        child.value = avg;
+                        child.children = undefined;
+                    }
                 }
             }
         }
 
-        function filterYearBuilt(dataset, that) {
-            const intervalObj = that.getYearBuiltInterval();
-        }
-
-        // Get Repair Cost Value
-        // for (let structTypeChild of currRoot) {
-        //     let currOccupancyArray = structTypeChild.children;
-        //     for (let occupancyChild of currOccupancyArray) {
-        //         let currStoriesArray = occupancyChild.children;
-        //         for (let storiesChild of currStoriesArray) {
-        //             let currYearBuiltArray = storiesChild.children;
-        //             for (let yearBuiltChild of currYearBuiltArray) {
-        //                 const temp = getRepairCosts(yearBuiltChild.children, "RepairCost");
-        //                 yearBuiltChild.children = temp;
-        //             }
-        //         }
-        //     }
-        // }
-
-        function getRepairCosts(dataset, newFilter) {
-            const costSums = dataset.reduce((acc, item) => {
-                if (acc.filter(obj => obj.name === item[newFilter]).length === 0) {
-                    acc.push({name: item[newFilter], value: item.RepairCost});
-                }
-                else {
-                    const idx = acc.findIndex(val => val.name == item[newFilter]);
-                    acc[idx].value += item.RepairCost;
-                }
-                return acc;
-            }, []);
-
-            // console.log(costSums)
-        }
-
-        // function filterByStories(that, dataset) {
-            // const storyIntervals = {1: [], 2: [], 3: [], 4: [], 5:[], 6: []}
-            // for (let currMin = 1; currMin <= d3.max(dataset, (row) => row.Stories); i++) {
-                // for (currMin 
-            // }
-            // console.log("Filtering for: Stories");
-            // console.log(d3.max(that.data, (row) => row.Stories));
-            // return dataset.reduce((acc, item) => {
-            //     if (acc.filter(obj => obj.name === item[newFilter]).length === 0)
-            //         acc.push({name: item[newFilter], children: [item]});
-            //     else {
-            //         const idx = acc.findIndex(val => val.name == item[newFilter]);
-            //         acc[idx].children.push(item);
-            //     }
-            //     return acc;
-            // }, []);
-        // }
-
         function filter(dataset, newFilter) {
             return dataset.reduce((acc, item) => {
-                let name = newFilter === 'Stories' ? getStoriesName(item[newFilter]) : item[newFilter];
+                let name;
+                if (newFilter === 'Stories') {
+                    name = getStoriesName(item[newFilter]);
+                }
+                else if (newFilter === 'YearBuilt') {
+                    name = getYearBuiltName(item[newFilter]);
+                }  
+                else {
+                    name = item[newFilter];
+                }
+
                 if (acc.filter(obj => obj.name === name).length === 0) {
-                    // TODO Replace with actual value of repair costs (stories is second to last hierarchy)
-                    // if (newFilter !== 'Stories') 
-                    acc.push({name: name, value: 1, children: [item]});
-                    // else {
-                    //     // console.log(item, newFilter, getStoriesName(item[newFilter]))
-                    //     acc.push({name: name, children: [item]})
-                    // };
+                    acc.push({name: name, children: [item]});
                 }
                 else {
-                    // let idx;
-                    // if (newFilter === 'Stories') idx = acc.findIndex(val => val.name === name);
-                    // else 
                     let idx = acc.findIndex(val => val.name === name);
-                    // if (newFilter === 'Stories') console.log(acc, name)
                     acc[idx].children.push(item);
                 }
                 return acc;
@@ -163,6 +125,15 @@ class Sunburst {
             else return numStoriesNames['50Plus'];
         }
 
+        function getYearBuiltName(yearBuilt) {
+            if (yearBuilt <= 1874) return yearBuiltName['1848-1874'];
+            else if (yearBuilt >= 1875 && yearBuilt <= 1901) return yearBuiltName['1875-1901'];
+            else if (yearBuilt >= 1902 && yearBuilt <= 1928) return yearBuiltName['1902-1928'];
+            else if (yearBuilt >= 1929 && yearBuilt <= 1955) return yearBuiltName['1929-1955'];
+            else if (yearBuilt >= 1956 && yearBuilt <= 1982) return yearBuiltName['1956-1982'];
+            else if (yearBuilt >= 1983) return yearBuiltName['1983-'];
+        }
+        
         console.log('final hierarchy', hierarchy);
         return hierarchy;
     }
@@ -174,19 +145,6 @@ class Sunburst {
         const difference = this.maxYear - this.minYear;
         this.yearInterval = difference / NUM_YEAR_NODES;
     }
-
-    getYearBuiltName(num) {
-        if (num >= this.minYear && num < this.minYear+this.yearInterval) {
-            // beg to beg+27
-        }
-        else if (num >= this.minYear+this.yearInterval && num < this.minYear+(2*this.yearInterval)) {
-            // beg+27 to beg+27*2
-        }
-        else if (num >= this.minYear+(2*this.yearInterval) && num < this.minYear+(3*this.yearInterval)) {
-
-        }
-    }
-
         
     // Sunburst Chart 
 
@@ -201,7 +159,7 @@ class Sunburst {
                 (root);
         }
     
-        const color = d3.scaleOrdinal(d3.quantize(d3.interpolateInferno, data.children.length + 1))
+        const color = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1))
         const format = d3.format(",d")
         const width = 932;
         const radius = width / 6
@@ -221,7 +179,7 @@ class Sunburst {
             .style("margin", "2rem")
             .style("font", "10px sans-serif");
         const g = svg.append("g")
-            .attr("transform", `translate(${width / 2},${width / 2})`);
+            .attr("transform", `translate(${width / 2},${width / 2}) rotate(-50)`);
         const path = g.append("g")
         .selectAll("path")
         .data(root.descendants().slice(1))
@@ -305,23 +263,4 @@ class Sunburst {
 
         return svg.node();
     }
-
-    // const dummydata = ({name: "one",
-    //         children: [
-    //         {name: "two-1", children: [
-    //                             {name:"three-1-1", children: [{name: "four-1-1", value: 20
-    //                         }]}, 
-    //                             {name: "three-1-2", children: [{name: "four-1-2", value: 2}]}
-    //                         ]
-    //         },
-    //         {name: "two-2", children: [{name: "three-2-1", value: 66}, {name: "four-2-1", value: 1},
-    //                                     {name: "three-2-1", value: 100}
-    //                                     ]
-    //         },
-    //         {name: "two-3", value: 23, children: [{name: "three-3-1", value: 50}]},
-    //         {name: "two-4", children: [{name: "three-4-1", value: 5}]},
-    //         {name: "two-5", children: [{name: "three-5-1", value: 60}]},
-    //         ]
-    //     });
-
 }
