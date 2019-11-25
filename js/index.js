@@ -10,6 +10,8 @@ d3.csv("data/EQ_data_updated-2.csv").then( data => {
 
     drawPlot(data)
     updatePlot()
+    drawDropDown()
+    tooltipRender()
 
     // Setup data for Map (Reza)
 
