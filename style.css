@@ -167,7 +167,7 @@ body {
 }
 
 .circleClass {
-     transition: all 0.4s ;
+     /*transition: all 0.4s ;*/
      /*transform: translateY(-33px);*/
     /*transform: rotateZ(20deg);*/
     /*transform-origin: center;*/
@@ -181,6 +181,30 @@ body {
     /*transform: translateY(20px);*/
 }
 
+.c-label{
+    /*font-weight: bold;*/
+    font-family: sans-serif;
+    text-transform: uppercase;
+    overflow: hidden;
+    background:linear-gradient(-45deg,#000,#fff,#000);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    animation: animate 2s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(0,0,0,0.1);
+
+}
+@keyframes animate
+{ 0%
+{
+    background-position: -500%;
+}
+    100%
+    {
+        background-position: 500%;
+    }
+
+}
 /*.leaflet-popup-content {*/
 /*    opacity: 1;*/
 /*}*/

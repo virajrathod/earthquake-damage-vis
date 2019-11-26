@@ -1,11 +1,10 @@
 class mapClass {
     constructor(data) {
         let usDataSample = data.filter(function (d, i) {
-            return i < 1000;
+            return i < 20000;
         });
         this.dropdown(data,usDataSample);
         this.mapoverlay(usDataSample);
-        // this.map=null;
     }
 
 
@@ -38,19 +37,13 @@ class mapClass {
             .append('select');
 
         let that = this;
-        // let dropDownWrapper = d3.select('#floating-panel');
 
-        // let  = [];
         for (let key in data) {
-            // console.log(data[key])
             if (key === 'length' || !data.hasOwnProperty(key)) continue;
             var dropData = data[key];
-            // let dropData=data[key]
-            // console.log(dropData)
+
         }
-// console.log(dropData.filter((d,i)=>[0,1,2,3,6,8,9,10,11,12].includes(i)))
-//         console.log(dropData)
-        /* CIRCLE DROPDOWN */
+
         let dropC = dropdownWrap.select('#dropdown_c').select('.dropdown-content').select('select');
 
         let optionsC = dropC.selectAll('option')
@@ -78,10 +71,6 @@ class mapClass {
 
     }
 
-
-
-
-
     mapoverlay(data) {
         let that = this;
         let layer1 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -96,22 +85,13 @@ class mapClass {
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
         });
 
-
-        // var marker = L.marker([37.76, -122.45]).addTo(mymap);
-//     let circle=Array();
-//     for (let i = 0; i < data.length; ++i) {
-//     L.circle([data[i].Latitude, data[i].Longitude], {
-//
-//     color: 'red',
-//     fillColor: '#f03',
-//     fillOpacity: 0.5,
-//     // radius: 500
-// }).addTo(mymap);
-//     }
-
-
-let code='DamageRatio';
-        let pointsGroup = L.layerGroup();
+        let code='DamageRatio';
+        let pointsGroup = L.markerClusterGroup({
+            disableClusteringAtZoom:16,
+            spiderfyOnMaxZoom: false}).on('clustermouseover', function (a) {
+            // a.layer is actually a cluster
+            // console.log(a);
+        });
         data.forEach(function (d) {
 
             let circle=L.shapeMarker([d.Latitude, d.Longitude], {
@@ -129,8 +109,6 @@ let code='DamageRatio';
                     weight: 2,
                     radius: 20,
                 });
-                // circle.setLatLng(circle.getLatLng+0.2)
-                // console.log(circle.getLatLng)
                 ev.target.openPopup();
             })
 
@@ -140,32 +118,41 @@ let code='DamageRatio';
                         radius: 8
                     });
                     ev.target.closePopup();
-                }).addTo(pointsGroup);
-
-            // binding data to marker object's option
-            // L.marker([d.Latitude, d.Longitude], { achieve: d.DamageRatio })
-            //     .on("mouseover", onMouseOver)
-            //     .on("mouseout", onMouseOut)
-            //     .addTo(pointsGroup);
+                })
+                .addTo(pointsGroup);
         });
-        // let map = L.map('mapDiv').setView(, 12);
-
-        var baseLayers = {
-            "USGS": layer1,
-            "Satellite": googleSat
-            // "thunderforest": layer2
+        let heatPoints=Array();
+        for (let i = 0; i < data.length; ++i) {
+            heatPoints.push([data[i].Latitude, data[i].Longitude, data[i][code]])
         }
-        let subLayers = {"Points": pointsGroup};
+        var heat = L.heatLayer(
+            heatPoints
+
+            , {radius: 20,
+                max: 1
+                // minOpacity: 0.2
+            });
+
+        let layerLabels = L.esri.basemapLayer('DarkGray');
+
 
         this.map = L.map("mapDiv", {
             center: [37.76, -122.45],
             zoom: 12,
-            layers: [layer1, pointsGroup]
+            layers: [layerLabels, pointsGroup,heat]
         });
 
+        var baseLayers = {
+            "Dark Gray": layerLabels,
+            "USGS": layer1,
+            "Satellite": googleSat,
+        }
+        let subLayers = {"Points": pointsGroup,
+            'Heatmap': heat
+        };
+
+
         let layerControl=L.control.layers(baseLayers, subLayers, {position: "topright"}).addTo(this.map);
-        // layers.remove();
-        // layers.removeLayer(layer1)
 
         document.getElementById("defView").addEventListener("click", function () {
             that.map.setView([37.76, -122.45], 12);
@@ -186,6 +173,7 @@ let code='DamageRatio';
         legSvg.append('circle').attr('cx',0).attr('cy',0).attr('r',5)
             .attr('fill','#' + that.fullColorHex(255, 255, 0)).attr('transform','translate(20,50)');
         this.pointsGroup=pointsGroup;
+        this.heat=heat;
         this.layerControl=layerControl;
 
     }
@@ -245,21 +233,13 @@ let code='DamageRatio';
 
     updateMap(data,code){
         this.map.removeLayer(this.pointsGroup);
+        this.map.removeLayer(this.heat);
         this.layerControl.removeLayer(this.pointsGroup);
+        this.layerControl.removeLayer(this.heat);
         let that=this;
-        let layer1 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 20,
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibXJzaGVpIiwiYSI6ImNrMndybnJxNDA0NzAzZG8zdW16bWZuNjEifQ.MvgZUZVOBhLpdLg3-NtSyQ'
-        });
-
-        let googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        });
-
-        var pointsGroup = L.layerGroup();
+        let pointsGroup = L.markerClusterGroup({
+            disableClusteringAtZoom:16,
+            spiderfyOnMaxZoom: false});
         let code_min=(d3.min(data, d => +d[code]));
         let code_max=(d3.max(data, d => +d[code]));
 
@@ -269,7 +249,7 @@ let code='DamageRatio';
                     shape:'triangle-down',
                     color: 'black',
                     fillColor: ('#' + that.fullColorHex(255, Math.round(255 -
-                    (d[code]=='Safe' ? 0 :1) * 255), 0)),
+                        (d[code]=='Safe' ? 0 :1) * 255), 0)),
                     fillOpacity: 0.9,
                     achieve: d[code],
                     radius: 8,
@@ -281,8 +261,6 @@ let code='DamageRatio';
                         weight: 2,
                         radius: 20,
                     });
-                    // circle.setLatLng(circle.getLatLng+0.2)
-                    // console.log(circle.getLatLng)
                     ev.target.openPopup();
                 })
 
@@ -295,69 +273,64 @@ let code='DamageRatio';
                     }).addTo(pointsGroup);
 
             } else {
-                    let circle=L.shapeMarker([d.Latitude, d.Longitude], {
-                        shape:'triangle-down',
-                        color: 'black',
-                        fillColor: ('#' + that.fullColorHex(255, Math.round(255 -
-                            (d[code]-code_min)/
-                            (code_max-code_min)
-                            * 255), 0)),
-                        fillOpacity: 0.9,
-                        achieve: d[code],
-                        radius: 8,
-                        className: 'circleClass',
-                        weight: 0,
-                        rotationAngle: 45
-                    }).bindPopup(code+': '+d[code]).on("mouseover" ,function(ev) {
-                        circle.setStyle({
-                            weight: 2,
-                            radius: 20,
-                        });
-                        // circle.setLatLng(circle.getLatLng+0.2)
-                        // console.log(circle.getLatLng)
-                        ev.target.openPopup();
-                    })
+                let circle=L.shapeMarker([d.Latitude, d.Longitude], {
+                    shape:'triangle-down',
+                    color: 'black',
+                    fillColor: ('#' + that.fullColorHex(255, Math.round(255 -
+                        (d[code]-code_min)/
+                        (code_max-code_min)
+                        * 255), 0)),
+                    fillOpacity: 0.9,
+                    achieve: d[code],
+                    radius: 8,
+                    className: 'circleClass',
+                    weight: 0,
+                    rotationAngle: 45
+                }).bindPopup(code+': '+d[code]).on("mouseover" ,function(ev) {
+                    circle.setStyle({
+                        weight: 2,
+                        radius: 20,
+                    });
+                    ev.target.openPopup();
+                })
 
-                        .on("mouseout",function(ev) {
-                            circle.setStyle({
-                                weight: 0,
-                                radius: 8
-                            });
-                            ev.target.closePopup();
-                        }).addTo(pointsGroup);
+                    .on("mouseout",function(ev) {
+                        circle.setStyle({
+                            weight: 0,
+                            radius: 8
+                        });
+                        ev.target.closePopup();
+                    }).addTo(pointsGroup);
             }
         });
-
-        var baseLayers = {
-            "USGS": layer1,
-            "Satellite": googleSat
-            // "thunderforest": layer2
+        let heatPoints=Array();
+        for (let i = 0; i < data.length; ++i) {
+            heatPoints.push([data[i].Latitude, data[i].Longitude, data[i][code]])
         }
-        let subLayers = {"Points": pointsGroup};
 
-        // L.map("mapDiv", {
-        //     center: [37.76, -122.45],
-        //     zoom: 12,
-        //     layers: [layer1, pointsGroup]
-        // });
-// //     console.log(this.layers)
-// // this.layers.remove();
+        var heat = L.heatLayer(
+            heatPoints
 
-if (code=='SafetyTag'){
-    d3.select('#legText1').text(code+': Unsafe');
-    d3.select('#legText2').text(code+': Safe');
-} else{
-    d3.select('#legText1').text(code+': '+d3.max(data, d => +d[code]));
-    d3.select('#legText2').text(code+': '+d3.min(data, d => +d[code]));
-}
+            , {radius: 20,
+                max: 1*code_max
+            });
+
+        if (code=='SafetyTag'){
+            d3.select('#legText1').text(code+': Unsafe');
+            d3.select('#legText2').text(code+': Safe');
+        } else{
+            d3.select('#legText1').text(code+': '+d3.max(data, d => +d[code]));
+            d3.select('#legText2').text(code+': '+d3.min(data, d => +d[code]));
+        }
 
 
-        // let that=this;
         pointsGroup.addTo(this.map);
+        heat.addTo(this.map);
 
         this.pointsGroup=pointsGroup;
-        // this.layerControl.addLayer(subLayers);
+        this.heat=heat;
         this.layerControl.addOverlay(pointsGroup , "Points");
+        this.layerControl.addOverlay(heat , "Heatmap");
     }
 
 }
