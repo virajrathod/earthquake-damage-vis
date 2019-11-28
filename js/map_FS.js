@@ -26,14 +26,14 @@ class mapClass {
 
 
     dropdown(data,usDataSample) {
-        let dropdownWrap = d3.select('#floating-panel'); //.append('div').classed('dropdown-wrapper', true);
+        let dropdownWrap = d3.select('#floating-panelM'); //.append('div').classed('dropdown-wrapper', true);
         let yWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
 
-        yWrap.append('div').classed('c-label', true)
+        yWrap.append('div').classed('c-labelM', true)
             .append('text')
             .text('Color coding by:');
 
-        yWrap.append('div').attr('id', 'dropdown_c').classed('dropdown', true).append('div').classed('dropdown-content', true)
+        yWrap.append('div').attr('id', 'dropdown_m').classed('dropdownM', true).append('div').classed('dropdown-content', true)
             .append('select');
 
         let that = this;
@@ -44,7 +44,7 @@ class mapClass {
 
         }
 
-        let dropC = dropdownWrap.select('#dropdown_c').select('.dropdown-content').select('select');
+        let dropC = dropdownWrap.select('#dropdown_m').select('.dropdown-content').select('select');
 
         let optionsC = dropC.selectAll('option')
             .data(dropData.filter((d,i)=>[0,1,2,8,9,10,11,12].includes(i)));

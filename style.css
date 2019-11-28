@@ -111,7 +111,7 @@ body {
   100% { transform: skewX(0deg); }
 }
 
-#floating-panel {
+#floating-panelM {
     text-align: center;
     font-family: 'Roboto','sans-serif';
     line-height: 30px;
@@ -181,7 +181,7 @@ body {
     /*transform: translateY(20px);*/
 }
 
-.c-label{
+.c-labelM{
     /*font-weight: bold;*/
     font-family: sans-serif;
     text-transform: uppercase;
@@ -216,3 +216,148 @@ body {
 /*.leaflet-popup-tip-container {*/
 /*    opacity: 0.5;*/
 /*}*/
+
+#axesXlabel{
+
+    text-anchor: middle;
+}
+#axesYlabel{
+
+    text-anchor: middle;
+}
+
+
+div.dropdown-wrapper {
+    display: inline-block;
+    margin-left: 75px;
+    width: 320px;
+    height: 130px;
+    padding: 2px;
+}
+
+.dropdown {
+    float: right;
+}
+
+.y-label,
+.x-label,
+.c-label {
+    width: 1%7;
+    display: inline-block;
+    float: left;
+    padding-right: 5px;
+}
+
+
+/*dropdown menu*/
+
+.select-selected {
+    background-color: DodgerBlue;
+}
+
+
+/*style the arrow inside the select element:*/
+
+.select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+}
+
+
+/*point the arrow upwards when the select box is open (active):*/
+
+.select-selected.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+}
+
+
+/*style the items (options), including the selected item:*/
+
+.select-items div,
+.select-selected {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+}
+
+
+/*style items (options):*/
+
+.select-items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.circle-legend {
+    width: 235px;
+    height: 120px;
+    padding-right: 20px;
+    margin: auto;
+    display: inline-block;
+    float: right;
+}
+
+.circle-legend svg {
+    width: 100%;
+    height: 100%;
+}
+
+.circle-legend text {
+    font-size: 11px;
+}
+
+.circle-legend .label {
+    font-size: 12px;
+    font-weight: bold;
+    text-anchor: middle;
+}
+
+.circle-legend .subLabel {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.Steel {
+    fill:  #009cff;
+    opacity: 0.5;
+    stroke: #2e2e2e;
+}
+.Concrete {
+    fill: #ff1888;
+    opacity: 0.5;
+    stroke: #2e2e2e;
+}
+.Masonry_Type_1 {
+    fill: #5dff00;
+    opacity: 0.5;
+    stroke: #2e2e2e;
+}
+.Masonry_Type_2 {
+    fill: #19ffb7;
+    opacity: 0.5;
+    stroke: #2e2e2e;
+}
+.Timber {
+    fill: #793128;
+    opacity: 0.5;
+    stroke: #2e2e2e;
+}
+
+.neutral {
+    fill: #d9d9d9;
+    stroke: gray;
+    opacity: 1;
+}
