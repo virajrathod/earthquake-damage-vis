@@ -1,8 +1,7 @@
 class GapPlot {
 
 
-    constructor(data) {
-        console.log(data);
+    constructor(data,updateHighlight,filterMap) {
         this.margin = { top: 20, right: 20, bottom: 60, left: 80 };
         this.width = 600 - this.margin.left - this.margin.right;
         this.height = 550 - this.margin.top - this.margin.bottom;
@@ -11,7 +10,6 @@ class GapPlot {
         for (let key in data) {
             if (key === 'length' || !data.hasOwnProperty(key)) continue;
             var dropData = data[key];
-
         }
         this.dropData=dropData;
         console.log(dropData);
@@ -23,7 +21,8 @@ class GapPlot {
         for (let i = 0; i < dropData.length; ++i) {
             minvals0[dropData[i]]=( d3.min(data, d => +d[dropData[i]]))
         }
-
+        this.updateHighlight=updateHighlight;
+        this.filterMap=filterMap;
         this.data=data;
         this.maxvals0 = maxvals0;
         this.minvals0 = minvals0;
@@ -37,6 +36,11 @@ class GapPlot {
             .append('svg').classed('plot-svg', true)
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom);
+
+        d3.select('#chart-view')
+            .append('div')
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
         let svgGroup = d3.select('#chart-view').select('.plot-svg').append('g').classed('wrapper-group', true);
 
@@ -103,13 +107,13 @@ class GapPlot {
 
         let xScale = d3.scaleLinear()
             .domain([0, maxvals[1]])
-            .range([0, this.width]);
+            .range([this.margin.left, this.width+this.margin.left]);
 
 
         let xAxis = d3.axisBottom();
         xAxis.scale(xScale);
 
-        let svg9 = d3.select('#axesX').attr("transform", "translate("+this.margin.left+","+(this.height+this.margin.top)+") scale(1,1)");
+        let svg9 = d3.select('#axesX').attr("transform", "translate(0,"+(this.height+this.margin.top)+") scale(1,1)");
         svg9.exit().remove();
         svg9 = svg9.enter().merge(svg9);
         svg9.call(xAxis);
@@ -120,13 +124,13 @@ class GapPlot {
 
         let yScale = d3.scaleLinear()
             .domain([0, maxvals[2]])
-            .range([this.height, 0]);
+            .range([this.height+this.margin.top, this.margin.top]);
 
 
         let yAxis = d3.axisLeft();
         yAxis.scale(yScale);
 
-        let svg10 = d3.select('#axesY').attr("transform", "translate("+this.margin.left+","+this.margin.top+") scale(1,1)");
+        let svg10 = d3.select('#axesY').attr("transform", "translate("+this.margin.left+",0) scale(1,1)");
         svg10.exit().remove();
         svg10 = svg10.enter().merge(svg10);
         svg10.call(yAxis);
@@ -135,18 +139,107 @@ class GapPlot {
 
         let svgcircle = d3.select('#chart-view').select('.plot-svg').select('.wrapper-group');
         let svgcircle2 = svgcircle.selectAll('circle').data(this.data);
+        svgcircle2.exit().remove();
+
+        let svgcircle2Enter = svgcircle2
+            .enter().append('circle');
+
+        svgcircle2 = svgcircle2Enter.merge(svgcircle2);
+
         svgcircle2
-            .attr("cx", d => +d[xIndicator] / maxvals[1] * this.width).attr('class',d=>d.StructType)
-            .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height)
-            .on('mouseover',console.log('c'))
+            .attr("cx", d => +d[xIndicator] / maxvals[1] * this.width)
+            .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height).attr('class',d=>('SC_circles '+d.StructType))
+            .attr('id',d=>'SC'+d['BuildingId'])
             .attr("r", d => circleSizer(+d[circleSizeIndicator])).attr("transform", "translate("+this.margin.left+","+(this.height+this.margin.top)+") scale(1,-1)");
+        let tooltip = d3.select('.tooltip');
+        svgcircle2.on('mouseover', function(d, i) {
+            //show tooltip
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9);
+            tooltip.html(that.tooltipRender(d,circleSizeIndicator) + "<br/>")
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 238) + "px");
 
-        svgcircle2.enter().append('circle')
-            .attr("cx", d => +d[xIndicator] / maxvals[1] * this.width).attr('class',d=>d.StructType)
-            .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height)
-            .on('mouseover',console.log('c'))
-            .attr("r", d => circleSizer(+d[circleSizeIndicator])).attr("transform", "translate("+this.margin.left+","+(this.height+this.margin.top)+") scale(1,-1)");
+        });
+        //hover function for country selection
+        svgcircle2.on("mouseout", function(d) {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
+        svgcircle2.on('click', (d) => {
+            that.updateHighlight(d)
+        });
 
+        const brushGroup = d3.select('.plot-svg').append("g").classed("brush", true);
+
+        const brush = d3
+            .brush()
+            .extent([[this.margin.left, this.margin.top], [this.width+this.margin.left , this.height+this.margin.top]])
+            .on("start", () => {
+                console.log("Brushing started");
+            })
+            .on("end", function () {
+                const selection = d3.brushSelection(this);
+                const selectedIndices = [];
+                if (selection) {
+                    const [[left, top], [right, bottom]] = selection;
+                    that.data.forEach((d, i) => {
+
+                        if (
+                            xScale(d[xIndicator]) >= left &&
+                            xScale(d[xIndicator]) <= right &&
+                            yScale(d[yIndicator]) >= top &&
+                            yScale(d[yIndicator]) <= bottom
+                        ) {
+                            selectedIndices.push(i);
+                        }
+                    });
+                }
+                svgcircle2.classed("highlight", false);
+
+                if (selectedIndices.length > 0) {
+                    svgcircle2
+                        .filter((_, i) => {
+                            return selectedIndices.includes(i);
+                        })
+                        .classed("highlight", true);
+                    that.filterMap(that.data.filter((_, i) => {
+                        return selectedIndices.includes(i);
+                    }))
+                } else {
+                    that.filterMap(that.data)
+                }
+            })
+            .on("brush", function () {
+                const selection = d3.brushSelection(this);
+                const selectedIndices = [];
+                if (selection) {
+                    const [[left, top], [right, bottom]] = selection;
+                    that.data.forEach((d, i) => {
+
+                        if (
+                            xScale(d[xIndicator]) >= left &&
+                            xScale(d[xIndicator]) <= right &&
+                            yScale(d[yIndicator]) >= top &&
+                            yScale(d[yIndicator]) <= bottom
+                        ) {
+                            selectedIndices.push(i);
+                        }
+                    });
+                }
+                svgcircle2.classed("highlight", false);
+
+                if (selectedIndices.length > 0) {
+                    svgcircle2
+                        .filter((_, i) => {
+                            return selectedIndices.includes(i);
+                        })
+                        .classed("highlight", true);
+                }
+            });
+        brushGroup.call(brush);
 
     }
 
@@ -268,5 +361,8 @@ class GapPlot {
 
         numText.attr('transform', (d) => 'translate(' + ((scale(d)) + 10) + ', 0)');
     }
-
+        tooltipRender(data,txt) {
+            let text = "<h2>" + txt+":"+data[txt] + "</h2>";
+            return text;
+        }
 }

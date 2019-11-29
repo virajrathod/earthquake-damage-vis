@@ -329,35 +329,94 @@ div.dropdown-wrapper {
     font-size: 11px;
     font-weight: bold;
 }
-
-.Steel {
-    fill:  #009cff;
+.SC_circles{
     opacity: 0.5;
     stroke: #2e2e2e;
+}
+.SC_selected{
+    opacity:1;
+}
+.Steel {
+    fill:  #009cff;
 }
 .Concrete {
     fill: #ff1888;
-    opacity: 0.5;
-    stroke: #2e2e2e;
 }
 .Masonry_Type_1 {
     fill: #5dff00;
-    opacity: 0.5;
-    stroke: #2e2e2e;
 }
 .Masonry_Type_2 {
     fill: #19ffb7;
-    opacity: 0.5;
-    stroke: #2e2e2e;
 }
 .Timber {
     fill: #793128;
-    opacity: 0.5;
-    stroke: #2e2e2e;
 }
 
 .neutral {
     fill: #d9d9d9;
     stroke: gray;
     opacity: 1;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    min-width: 60px;
+    height: 28px;
+    padding: 2px;
+    background: white;
+    stroke: gray;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.tooltip h2 {
+    margin: auto;
+    font: 14px sans-serif;
+}
+@keyframes up-right {
+    0% {
+    opacity: .2
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: .2;
+    }
+}
+.SClass{
+    stroke-width:2px;
+    /*animation: 1.2s shake infinite alternate;*/
+    /*animation-iteration-count: 6;*/
+    /*transform: scale(2.7);*/
+    -webkit-animation: up-right 1s infinite;
+    -moz-animation: up-right 1s infinite;
+    -o-animation: up-right 1s infinite;
+    animation: up-right 1s infinite;
+
+    /*box-shadow: 10px 10px grey;*/
+/*-webkit-animation: pulsate 1s ease-out;*/
+/*-webkit-animation-iteration-count: infinite;*/
+/*opacity: 0.0*/
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.999, 0.9999); opacity: 0.2;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: scale(1.0001, 1.0001); opacity: 0.2;}
+}
+
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }
+    to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+}
+
+.highlight{
+    stroke: black;
+    opacity:1;
 }
