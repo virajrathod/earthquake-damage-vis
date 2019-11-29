@@ -172,7 +172,7 @@ class GapPlot {
             that.updateHighlight(d)
         });
 
-        const brushGroup = d3.select('.plot-svg').append("g").classed("brush", true);
+        const brushGroup = d3.select('.plot-svg').insert('g',":first-child").classed("brush", true);
 
         const brush = d3
             .brush()
