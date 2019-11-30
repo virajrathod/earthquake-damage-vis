@@ -226,7 +226,7 @@ class Sunburst {
 
         var tooltip = d3.select("body")
             .append("div")
-            .attr("class", "tooltip")
+            .attr("class", "sunburst-tooltip")
             // .style("position", "absolute")
             // .style("z-index", "999")
             .style("visibility", "hidden")
