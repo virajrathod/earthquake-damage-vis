@@ -34,13 +34,14 @@ class GapPlot {
         d3.select('#dataviz-scatterplot').append('div').attr('id', 'chart-view');
         d3.select('#chart-view')
             .append('svg').classed('plot-svg', true)
+            .style("margin", "2rem")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
-        d3.select('#chart-view')
-            .append('div')
-            .attr("class", "tooltip")
-            .style("opacity", 0);
+        // d3.select('#chart-view')
+        //     .append('div')
+        //     .attr("class", "tooltip")
+        //     .style("opacity", 0);
 
         let svgGroup = d3.select('#chart-view').select('.plot-svg').append('g').classed('wrapper-group', true);
 
@@ -146,28 +147,48 @@ class GapPlot {
 
         svgcircle2 = svgcircle2Enter.merge(svgcircle2);
 
+        var plotTooltip = d3.select("body")
+        .append("div")
+        .attr("class", "sunburst-tooltip")
+        .style("visibility", "hidden")
+        
         svgcircle2
             .attr("cx", d => +d[xIndicator] / maxvals[1] * this.width)
             .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height).attr('class',d=>('SC_circles '+d.StructType))
             .attr('id',d=>'SC'+d['BuildingId'])
             .attr("r", d => circleSizer(+d[circleSizeIndicator])).attr("transform", "translate("+this.margin.left+","+(this.height+this.margin.top)+") scale(1,-1)");
-        let tooltip = d3.select('.tooltip');
-        svgcircle2.on('mouseover', function(d, i) {
-            //show tooltip
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", .9);
-            tooltip.html(that.tooltipRender(d,circleSizeIndicator) + "<br/>")
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 238) + "px");
+        // let tooltip = d3.select('.tooltip');
+        svgcircle2.on("mouseover", function(d){
+            return plotTooltip.style("visibility", "visible")
+                .style("width", "fit-content")
+                .style("height", "fit-content")
+                .style("border-radius", "10px")
+                .style("display", "flex")
+                .style("flex-direction", "column")
+                .style("justify-content", "center")
+                .html(that.tooltipRender(d,circleSizeIndicator) + "<br/>")
+            })
+            .on("mousemove", function(d){return plotTooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+            .on("mouseout", function(){return plotTooltip.style("visibility", "hidden");});
+        
+        
+        // .on('mouseover', function(d, i) {
+        //     //show tooltip
+        //     tooltip.transition()
+        //         .duration(200)
+        //         .style("opacity", .9);
+        //     tooltip.html(that.tooltipRender(d,circleSizeIndicator) + "<br/>")
+        //         .style("left", (d3.event.pageX) + "px")
+        //         .style("top", (d3.event.pageY - 238) + "px");
 
-        });
+        // });
+
         //hover function for country selection
-        svgcircle2.on("mouseout", function(d) {
-            tooltip.transition()
-                .duration(500)
-                .style("opacity", 0);
-        });
+        // svgcircle2.on("mouseout", function(d) {
+        //     tooltip.transition()
+        //         .duration(500)
+        //         .style("opacity", 0);
+        // });
         svgcircle2.on('click', (d) => {
             that.updateHighlight(d)
         });
@@ -362,7 +383,7 @@ class GapPlot {
         numText.attr('transform', (d) => 'translate(' + ((scale(d)) + 10) + ', 0)');
     }
         tooltipRender(data,txt) {
-            let text = "<h2>" + txt+":"+data[txt] + "</h2>";
+            let text = "<h3>" + txt+":"+data[txt] + "</h3>";
             return text;
         }
 }

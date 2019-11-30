@@ -29,7 +29,7 @@ class mapClass {
 
     dropdown(data,usDataSample) {
         let dropdownWrap = d3.select('#floating-panelM'); //.append('div').classed('dropdown-wrapper', true);
-        let yWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
+        let yWrap = dropdownWrap.append('div').classed('dropdown-block', true);
 
         yWrap.append('div').classed('c-labelM', true)
             .append('text')
@@ -196,6 +196,7 @@ class mapClass {
     }
 
     updateMap(data){
+        console.log("updating map", data)
         let e = document.getElementById("DropDownMap");
         let code=e.options[e.selectedIndex].value;
         this.map.removeLayer(this.pointsGroup);

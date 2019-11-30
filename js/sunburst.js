@@ -28,17 +28,18 @@ const dataCols = {
 }
 
 const wedgeTypes = [
-    {name: "Number of Buildings", value: "Number of Buildings"},
-    {name: "Repair Cost", id : dataCols.RepairCost},
-    {name: "Downtime", id : dataCols.Downtime }, 
+    {name: "Total Number of Buildings", value: "Number of Buildings"},
+    {name: "Repair Cost ($)", id : dataCols.RepairCost},
+    {name: "Downtime (days)", id : dataCols.Downtime }, 
     {name: "Ground Acceleration (m/s2)", id : dataCols.GroundAcceleration}
 ];
 
 class Sunburst {
-    constructor(data) {
+    constructor(data, map) {
         this.data = data;
         this.valueType = "Number of Buildings";
         this.index = 0;
+        this.map = map;
         this.createDropdown();
         const hierarchy = this.createHierarchy(this);
         this.drawChart(hierarchy, this);
@@ -115,7 +116,7 @@ class Sunburst {
                         let avg;
                         if (that.valueType === "Number of Buildings") avg = d3.sum(yearBuiltChildren, d => 1)
                         else avg = d3.sum(yearBuiltChildren, d => d[that.valueType]) / yearBuiltChildren.length;
-                        if (that.valueType === dataCols.GroundAcceleration) console.log(avg)
+                        // if (that.valueType === dataCols.GroundAcceleration) console.log(avg)
                         child.value = avg;
                         child.children = undefined;
                     }
@@ -123,8 +124,10 @@ class Sunburst {
             }
         }
 
+        // Filter the items by the parent category
         function filter(dataset, newFilter) {
             return dataset.reduce((acc, item) => {
+                // Format name if necessary
                 let name;
                 if (newFilter === dataCols.Stories) {
                     name = getStoriesName(item[newFilter]);
@@ -136,6 +139,7 @@ class Sunburst {
                     name = item[newFilter];
                 }
 
+                // If name already exists, push new item into existing array. Otherwise create a new object
                 if (acc.filter(obj => obj.name === name).length === 0) {
                     acc.push({name: name, children: [item]});
                 }
@@ -148,13 +152,16 @@ class Sunburst {
         }
   
         function getStoriesName(numStories) {
-            if (numStories === 1) return numStoriesNames['1']
-            else if (numStories === 2) return numStoriesNames['2']
-            else if (numStories === 3) return numStoriesNames['3']
+            if (numStories == 1) return numStoriesNames['1']
+            else if (numStories == 2) return numStoriesNames['2']
+            else if (numStories == 3) return numStoriesNames['3']
             else if (numStories >= 4 && numStories < 10) return numStoriesNames['4-9']; 
             else if (numStories >= 10 && numStories < 30) return numStoriesNames['10-29'];
             else if (numStories >= 30 && numStories < 50) return numStoriesNames['30-49'];
-            else return numStoriesNames['50Plus'];
+            else if (numStories >= 50) return numStoriesNames['50Plus'];
+            else {
+                console.debug("FAILED TO GET NUM STORIES NAME for : ", numStories)
+            }
         }
 
         function getYearBuiltName(yearBuilt) {
@@ -170,14 +177,6 @@ class Sunburst {
         return hierarchy;
     }
 
-    // getYearBuiltInterval() {
-    //     const NUM_YEAR_NODES = 6;
-    //     this.minYear = d3.min(this.data, d => d.YearBuilt);
-    //     this.maxYear = d3.max(this.data, d => d.YearBuilt);
-    //     const difference = this.maxYear - this.minYear;
-    //     this.yearInterval = difference / NUM_YEAR_NODES;
-    // }
-        
     // Sunburst Chart 
 
     drawChart = (data, that) => {
@@ -191,7 +190,7 @@ class Sunburst {
         }
     
         const color = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1))
-        const format = d3.format(".3f")
+        const format = d3.format(",.3f")
         const width = 932;
         const radius = width / 6
     
@@ -227,12 +226,8 @@ class Sunburst {
         var tooltip = d3.select("body")
             .append("div")
             .attr("class", "sunburst-tooltip")
-            // .style("position", "absolute")
-            // .style("z-index", "999")
             .style("visibility", "hidden")
 
-        // path.append("title")
-        //     .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
         path.on("mouseover", function(d){
             let valueLabel = that.valueType === "Number of Buildings" ? that.valueType : `Avg. ${that.valueType}`;
             return tooltip.style("visibility", "visible")
@@ -271,7 +266,8 @@ class Sunburst {
         function clicked(p) {
         parent.datum(p.parent || root);
     
-        // console.log(p.data) // Call MAP function to filter map here
+        that.map.updateMap(p.parent ? that.formatMapData(p) : that.formatMapData(null))
+        // console.log('formatMapData', p.parent ? that.formatMapData(p) : that.formatMapData(null)) // Call MAP function to filter map here
         root.each(d => d.target = {
             x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
             x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
@@ -318,4 +314,72 @@ class Sunburst {
 
         return svg.node();
     }
+
+    // Formats a hierarchical structure of the data from the sunburst back into 
+    // an array of objects (like when reading from the csv originally)
+    formatMapData(hData) {
+        if (hData === null) {
+            return this.data;
+        }
+        else {
+            const filters = hData.ancestors().map(d => d.data.name).reverse()
+            if (filters.length === 2) {
+
+                return this.data.filter(d => {
+                    return d[dataCols.StructType] === filters[1]
+                })
+            }
+            else if (filters.length === 3) {
+
+                return this.data.filter(d => {
+                    return d[dataCols.StructType] === filters[1]
+                        && d[dataCols.Occupancy] === filters[2]
+                })
+            }
+            else if (filters.length === 4) {
+
+                return this.data.filter(o => {
+                    function hasNumStories(str) {
+                        if (str === numStoriesNames["50Plus"]) {
+                            return o[dataCols.Stories] >= 50;
+                        }
+                        else if (str === numStoriesNames["30-49"])
+                            return o[dataCols.Stories] >= 30 && o[dataCols.Stories] < 50;
+                        else if (str === numStoriesNames["10-29"])
+                            return o[dataCols.Stories] >= 10 && o[dataCols.Stories] < 30;
+                        else if (str === numStoriesNames["4-9"])
+                            return o[dataCols.Stories] >= 4 && o[dataCols.Stories] < 10;
+                        else if (str === numStoriesNames["3"])
+                            return o[dataCols.Stories] == 3;
+                        else if (str === numStoriesNames["2"])
+                            return o[dataCols.Stories] == 2;
+                        else if (str === numStoriesNames["1"])
+                            return o[dataCols.Stories] == 1;
+                        else {
+                            console.log('fail')
+                        }
+                    }
+                    return o[dataCols.StructType] === filters[1]
+                        && o[dataCols.Occupancy] === filters[2]
+                        && hasNumStories(filters[3])
+                })
+            }
+            else {
+                throw Error();
+            }
+        }
+    }
 }
+
+// root, 0
+// struct type, 1
+// occupancy, 2
+// stories, 3
+
+// '1': '1 Story',
+// '2': '2 Story',
+// '3': '3 Story',
+// '4-9': '4-9 Stories',
+// '10-29': '10-29 Stories',
+// '30-49': '30-49 Stories',
+// '50Plus': '50+ Stories',

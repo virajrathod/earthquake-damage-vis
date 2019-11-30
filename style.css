@@ -21,7 +21,7 @@ body {
     padding: .5rem;
 }
 
-.sunburst-header {
+.viz-header {
     display: flex;
     /* flex-direction: column; */
     justify-content: space-between; 
@@ -29,13 +29,12 @@ body {
     margin: auto;
     position: relative;
     top: 1rem;
-    z-index: 500;
     height: fit-content;
     backdrop-filter: blur(25px);
     border-radius: 5px;
 }
 
-.sunburst-header__text {
+.viz-header__text {
     font-family: sans-serif;
     text-transform: uppercase;
     overflow: hidden;
@@ -45,6 +44,10 @@ body {
     animation: animate 3s linear 2;
     -webkit-background-clip: text;
     -webkit-text-fill-color: rgba(0,0,0,0.1);
+}
+
+.viz-header__text .large {
+    font-size: 2rem;
 }
 
 .dropdown {
@@ -62,7 +65,7 @@ body {
     -webkit-text-fill-color: rgba(0,0,0,0.1);
 }
 
-.dropbtn {
+select {
     display: flex;
     justify-content: space-around;
     width: 12rem;
@@ -312,9 +315,12 @@ body {
 div.dropdown-wrapper {
     display: inline-block;
     margin-left: 75px;
-    width: 320px;
+    width: 400px;
     height: 130px;
     padding: 2px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .dropdown {
@@ -324,7 +330,7 @@ div.dropdown-wrapper {
 .y-label,
 .x-label,
 .c-label {
-    width: 1%7;
+    width: -webkit-fill-available;
     display: inline-block;
     float: left;
     padding-right: 5px;
@@ -456,6 +462,7 @@ div.tooltip {
     margin: auto;
     font: 14px sans-serif;
 }
+
 @keyframes up-right {
     0% {
     opacity: .2
@@ -501,4 +508,18 @@ div.tooltip {
 .highlight{
     stroke: black;
     opacity:1;
+}
+
+.dropdown-contentM {
+    display: flex;
+    justify-content: center;
+}
+
+.dropdown-panel {
+    display: flex;
+    flex-direction: row;
+}
+
+.dropdown-block {
+    flex-direction: column;
 }
