@@ -227,10 +227,6 @@ class mapClass {
         // d3.select(".tooltip").remove();
     }
 
-
-
-
-
     updateMap(data,code){
         this.map.removeLayer(this.pointsGroup);
         this.map.removeLayer(this.heat);

@@ -10,7 +10,8 @@
   
   .links a {
     display: block;
-    width: 33.333%;
+    /* width: 33.333%; */
+    width: 50%;
     float: left;
     text-align: center;
     background-color: #555;

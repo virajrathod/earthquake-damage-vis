@@ -1,6 +1,6 @@
 function drawPlot(data){
 
-    console.log("Test");
+    // console.log("Test");
 
    //width and height
 	const width = 932;
@@ -114,7 +114,7 @@ function drawPlot(data){
 
 function updatePlot(activeYear, xIndicator, yIndicator, circleSizeIndicator) {
 
-	console.log(xIndicator, yIndicator)
+	// console.log(xIndicator, yIndicator)
 
     /**
          *  Function to determine the circle radius by circle size
@@ -143,7 +143,7 @@ function updatePlot(activeYear, xIndicator, yIndicator, circleSizeIndicator) {
         let sizeData = this.data[circleSizeIndicator];
 
         let plotData = xData.map(d => {
-            console.log(xData);
+            // console.log(xData);
             //gets the y value
             //  let yvalue = yData.filter((val) => d.country === val.country)[0][this.activeYear];
             let yValue = yData.find((val) => d.country === val.country) ? yData.find((val) => d.country === val.country)[this.activeYear] : null;

@@ -1,4 +1,4 @@
-Area(m2),Stories,YearBuilt,StructType,Latitude,Longitude,Occupancy,BuildingId,RepairCost($),Downtime(day),SafetyTag,GroundAcceleration(m/s2),DamageRatio
+Area(m2),Stories,YearBuilt,StructType,Latitude,Longitude,Occupancy,BuildingId,RepairCost($),Downtime(days),SafetyTag,GroundAcceleration(m/s2),DamageRatio
 123.1,1,1946,Timber,37.74938695,-122.4773802,Residential,20745,11294.18,11.6,Safe,0.236,0.132
 106.84,1,1930,Timber,37.74110186,-122.4511604,Residential,38738,4024.9,4.6,Safe,0.159,0.094
 162.58,2,1907,Timber,37.77392102,-122.4516378,Residential,111439,24263.3,19.7,Safe,0.176,0.101

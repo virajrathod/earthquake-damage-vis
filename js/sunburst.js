@@ -17,27 +17,57 @@ const yearBuiltName = {
     '1983-': 'Built On/After: 1983-2010',
 }
 
+const dataCols = {
+    "StructType" : "StructType",
+    "RepairCost" : "RepairCost($)",
+    "Occupancy" : "Occupancy",
+    "Stories" : "Stories",
+    "YearBuilt" : "YearBuilt", 
+    "Downtime" : "Downtime(days)",
+    "GroundAcceleration" : "GroundAcceleration(m/s2)"
+}
+
+const wedgeTypes = [
+    {name: "Number of Buildings", value: "Number of Buildings"},
+    {name: "Repair Cost", id : dataCols.RepairCost},
+    {name: "Downtime", id : dataCols.Downtime }, 
+    {name: "Ground Acceleration (m/s2)", id : dataCols.GroundAcceleration}
+];
+
 class Sunburst {
     constructor(data) {
-        this.data = cleanup(data);
-
-        function cleanup(data) {
-            return data.map(item => (
-                {
-                    BuildingId: item.BuildingId,
-                    StructType: item.StructType,
-                    Occupancy: item.Occupancy,
-                    Stories: item.Stories,
-                    YearBuilt: item.YearBuilt,
-                    SafetyTag: item.SafetyTag,
-                    RepairCost: item["RepairCost($)"],
-                    Downtime: item["Downtime(day)"],
-                }
-            ));
-        }
+        this.data = data;
+        this.valueType = "Number of Buildings";
+        this.index = 0;
+        this.createDropdown();
+        const hierarchy = this.createHierarchy(this);
+        this.drawChart(hierarchy, this);
     }
 
-    createHierarchy() {
+    // Creates dropdown that controls the wedge size
+    createDropdown() {
+        const that = this;
+        const createHierarchy = this.createHierarchy;
+        const drawChart = this.drawChart;
+        const dropdownDiv = d3.select(".dropdown");
+        dropdownDiv.append("span").attr("id", "selector-text").text("Node Size: ")
+        const dropBtn = dropdownDiv.append("select").attr("class", "dropbtn");
+        dropBtn.attr("id", "wedgeSelector").selectAll("option")
+            .data(wedgeTypes)
+            .join("option")
+            .text(d => d.name)
+            .attr("class", "selector-option")
+            .attr("value", (d,i) => d.id)
+
+        d3.select("#wedgeSelector")
+            .on("change", function() {
+                that.valueType = this.value;
+                const newHierarchy = createHierarchy(that);
+                drawChart(newHierarchy, that);
+            });
+    }
+
+    createHierarchy(that) {
 
         let hierarchy =
         {
@@ -48,13 +78,13 @@ class Sunburst {
         let currRoot = hierarchy;
         
         // Assign Struct Type children
-        const structTypeChildren = filter(this.data, "StructType");
+        const structTypeChildren = filter(that.data, dataCols.StructType);
         hierarchy.children = structTypeChildren;
 
         // Assign Occupancy children (6)
         currRoot = hierarchy.children;
         for (let structTypeChild of currRoot) {
-            const temp = filter(structTypeChild.children, "Occupancy");
+            const temp = filter(structTypeChild.children, dataCols.Occupancy);
             structTypeChild.children = temp;
         }
 
@@ -62,7 +92,7 @@ class Sunburst {
         for (let structTypeChild of currRoot) {
             let currOccupancyArray = structTypeChild.children;
             for (let occupancyChild of currOccupancyArray) {
-                const temp = filter(occupancyChild.children, "Stories");
+                const temp = filter(occupancyChild.children, dataCols.Stories);
                 // console.log(temp)
                 // temp.value = 2; // delete later
                 occupancyChild.children = temp;
@@ -75,15 +105,17 @@ class Sunburst {
             for (let occupancyChild of currOccupancyArray) {
                 let currStoriesArray = occupancyChild.children;
                 for (let storiesChild of currStoriesArray) {
-                    const tempChildren = filter(storiesChild.children, 'YearBuilt');
+                    const tempChildren = filter(storiesChild.children, dataCols.YearBuilt);
                     // const avg = d3.sum(tempChildren, d => d["RepairCost"]) / tempChildren.length;
                     // const avgValue = sum / yearBuiltChild.children.length;
                     storiesChild.children = tempChildren;
                     // storiesChild.value = avg;
                     for (let child of storiesChild.children) {
                         const yearBuiltChildren = child.children;
-                        const avg = d3.sum(yearBuiltChildren, d => d["RepairCost"]) / yearBuiltChildren.length;
-                        // console.log(avg)
+                        let avg;
+                        if (that.valueType === "Number of Buildings") avg = d3.sum(yearBuiltChildren, d => 1)
+                        else avg = d3.sum(yearBuiltChildren, d => d[that.valueType]) / yearBuiltChildren.length;
+                        if (that.valueType === dataCols.GroundAcceleration) console.log(avg)
                         child.value = avg;
                         child.children = undefined;
                     }
@@ -94,10 +126,10 @@ class Sunburst {
         function filter(dataset, newFilter) {
             return dataset.reduce((acc, item) => {
                 let name;
-                if (newFilter === 'Stories') {
+                if (newFilter === dataCols.Stories) {
                     name = getStoriesName(item[newFilter]);
                 }
-                else if (newFilter === 'YearBuilt') {
+                else if (newFilter === dataCols.YearBuilt) {
                     name = getYearBuiltName(item[newFilter]);
                 }  
                 else {
@@ -138,18 +170,17 @@ class Sunburst {
         return hierarchy;
     }
 
-    getYearBuiltInterval() {
-        const NUM_YEAR_NODES = 6;
-        this.minYear = d3.min(this.data, d => d.YearBuilt);
-        this.maxYear = d3.max(this.data, d => d.YearBuilt);
-        const difference = this.maxYear - this.minYear;
-        this.yearInterval = difference / NUM_YEAR_NODES;
-    }
+    // getYearBuiltInterval() {
+    //     const NUM_YEAR_NODES = 6;
+    //     this.minYear = d3.min(this.data, d => d.YearBuilt);
+    //     this.maxYear = d3.max(this.data, d => d.YearBuilt);
+    //     const difference = this.maxYear - this.minYear;
+    //     this.yearInterval = difference / NUM_YEAR_NODES;
+    // }
         
     // Sunburst Chart 
 
-    drawChart = (data) => {
-
+    drawChart = (data, that) => {
         const partition = data => {
             const root = d3.hierarchy(data)
                 .sum(d => d.value)
@@ -160,21 +191,22 @@ class Sunburst {
         }
     
         const color = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1))
-        const format = d3.format(",d")
+        const format = d3.format(".3f")
         const width = 932;
         const radius = width / 6
     
         const arc = d3.arc()
-        .startAngle(d => d.x0)
-        .endAngle(d => d.x1)
-        .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
-        .padRadius(radius * 1.5)
-        .innerRadius(d => d.y0 * radius)
-        .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1))
+            .startAngle(d => d.x0)
+            .endAngle(d => d.x1)
+            .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+            .padRadius(radius * 1.5)
+            .innerRadius(d => d.y0 * radius)
+            .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1));
 
         const root = partition(data);
         root.each(d => d.current = d);
-        const svg = d3.select("#dataviz-sunburst").append("svg");
+        d3.select("#sunburst").remove(); // remove old sunburst
+        const svg = d3.select("#dataviz-sunburst").append("svg").attr("id", "sunburst");
         svg.attr("viewBox", [0, 0, width, width])
             .style("margin", "2rem")
             .style("font", "10px sans-serif");
@@ -191,9 +223,31 @@ class Sunburst {
         path.filter(d => d.children)
             .style("cursor", "pointer")
             .on("click", clicked);
-    
-        path.append("title")
-            .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
+
+        var tooltip = d3.select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            // .style("position", "absolute")
+            // .style("z-index", "999")
+            .style("visibility", "hidden")
+
+        // path.append("title")
+        //     .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
+        path.on("mouseover", function(d){
+            let valueLabel = that.valueType === "Number of Buildings" ? that.valueType : `Avg. ${that.valueType}`;
+            return tooltip.style("visibility", "visible")
+                .style("width", "10rem")
+                .style("height", "fit-content")
+                .style("border-radius", "10px")
+                .style("display", "flex")
+                .style("flex-direction", "column")
+                .style("justify-content", "center")
+                .text(`${d.ancestors().map(d => d.data.name).reverse().join(",\n")}`)
+                .append("text")
+                .text(`${valueLabel}: ${format(d.value)}`);
+            })
+            .on("mousemove", function(d){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+            .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
     
         const label = g.append("g")
             .attr("pointer-events", "none")
@@ -217,6 +271,7 @@ class Sunburst {
         function clicked(p) {
         parent.datum(p.parent || root);
     
+        // console.log(p.data) // Call MAP function to filter map here
         root.each(d => d.target = {
             x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
             x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,

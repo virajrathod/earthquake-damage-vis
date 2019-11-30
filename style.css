@@ -2,6 +2,92 @@ body {
     margin: 0
 }
 
+.down-arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.tooltip {
+    height: fit-content;
+    background-color: lightgray;
+    /* text-transform: uppercase; */
+    font-size: 11px;
+    position: absolute;
+    z-index: 999;
+    background: rgba(141, 141, 141, 0.5);
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-content: center; */
+}
+
+.sunburst-header {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between; 
+    width: fit-content;
+    margin: auto;
+    position: relative;
+    top: 1rem;
+    z-index: 500;
+    height: fit-content;
+    backdrop-filter: blur(25px);
+    border-radius: 5px;
+}
+
+.sunburst-header__text {
+    font-family: sans-serif;
+    text-transform: uppercase;
+    overflow: hidden;
+    background:linear-gradient(-45deg,rgb(190, 190, 190),#cecdcd,#8d8c8c);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    animation: animate 3s linear 2;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(0,0,0,0.1);
+}
+
+.dropdown {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.dropdown #selector-text {
+    margin: auto;
+    margin-right: 1rem;
+    text-transform: uppercase;
+    background:linear-gradient(-45deg,rgb(165, 164, 164),#838282,#918f8f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(0,0,0,0.1);
+}
+
+.dropbtn {
+    display: flex;
+    justify-content: space-around;
+    width: 12rem;
+    height: 2rem;
+    background-color: rgb(202, 202, 202);
+    border: none;
+    filter: drop-shadow(0 0 0.1rem gray);
+}
+
+.dropdown-option {
+    width: 10rem;
+    background-color: rgb(202, 202, 202);
+}
+
+.dropbtn:hover {
+    background-color: rgb(196, 196, 196);
+}
+
+.selector-option:hover {
+    background-color: rgb(216, 214, 214);
+}
+
 .header-wrap {
     height: 15rem;
     display: flex;
@@ -126,7 +212,6 @@ body {
     z-index: 500;
     width: 35%;
     height: 100px;
-
     display: block;
     margin-left: auto;
     margin-right: auto;

@@ -31,7 +31,7 @@ function mapoverlay(data) {
         let   tileListener = google.maps.event.addListener(map,'tilesloaded',fixMyPageOnce);
 
         function fixMyPageOnce(){
-            console.log('load')
+            // console.log('load')
             let cnt=12;
             function chng(map,cnt) {
                 if (cnt>7){

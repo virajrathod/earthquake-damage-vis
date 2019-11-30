@@ -2,7 +2,7 @@ class GapPlot {
 
 
     constructor(data) {
-        console.log(data);
+        // console.log(data);
         this.margin = { top: 20, right: 20, bottom: 60, left: 80 };
         this.width = 600 - this.margin.left - this.margin.right;
         this.height = 550 - this.margin.top - this.margin.bottom;
@@ -14,7 +14,7 @@ class GapPlot {
 
         }
         this.dropData=dropData;
-        console.log(dropData);
+        // console.log(dropData);
         let maxvals0 = Array();
         for (let i = 0; i < dropData.length; ++i) {
             maxvals0[dropData[i]]=((d3.max(data, d => +d[dropData[i]])))
@@ -180,7 +180,7 @@ class GapPlot {
             let cValue = this.options[this.selectedIndex].value;
             let xValue = dropX.node().value;
             let yValue = dropY.node().value;
-            console.log( xValue, yValue, cValue)
+            // console.log( xValue, yValue, cValue)
 
             that.updatePlot(xValue, yValue, cValue);
         });
@@ -208,7 +208,7 @@ class GapPlot {
             let xValue = this.options[this.selectedIndex].value;
             let yValue = dropY.node().value;
             let cValue = dropC.node().value;
-            console.log( xValue, yValue, cValue)
+            // console.log( xValue, yValue, cValue)
             that.updatePlot( xValue, yValue, cValue);
         });
 
@@ -235,7 +235,7 @@ class GapPlot {
             let yValue = this.options[this.selectedIndex].value;
             let xValue = dropX.node().value;
             let cValue = dropC.node().value;
-            console.log( xValue, yValue, cValue)
+            // console.log( xValue, yValue, cValue)
 
             that.updatePlot(xValue, yValue, cValue);
         });
