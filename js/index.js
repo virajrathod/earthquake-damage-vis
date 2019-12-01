@@ -22,7 +22,7 @@ d3.csv("data/EQ_data_updated-2.csv").then( data => {
     const map=new mapClass(data,updateHighlight);
 
     document.addEventListener("click", function() {
-        map.updateMap(data)
+        // map.updateMap(data)
         updateHighlight(null)
     }, true);
 

@@ -83,8 +83,12 @@ class GapPlot {
             .append('div')
             .classed('circle-legend', true)
             .append('svg')
-            .append('g')
+            .append('g').classed('sizeLegend',true)
             .attr('transform', 'translate(0, 0)');
+        d3.select('#chart-view')
+            .select('.circle-legend').select('svg')
+            .append('g').classed('typeLegend',true);
+
         this.updatePlot('DamageRatio', 'GroundAcceleration(m/s2)', 'Stories')
 
         this.drawDropDown('DamageRatio', 'GroundAcceleration(m/s2)', 'Stories')
@@ -119,8 +123,8 @@ class GapPlot {
         svg9 = svg9.enter().merge(svg9);
         svg9.call(xAxis);
 
-        d3.select('#axesXlabel').text(xIndicator.toUpperCase()).attr("transform", "translate("+(this.margin.left+this.width/2)+","+(this.height+this.margin.top+40)+") scale(1,1)");
-        d3.select('#axesYlabel').text(yIndicator.toUpperCase()).attr("transform", "translate(20,"+(this.height/2) +") rotate(-90)");
+        d3.select('#axesXlabel').text(xIndicator).attr("transform", "translate("+(this.margin.left+this.width/2)+","+(this.height+this.margin.top+40)+") scale(1,1)");
+        d3.select('#axesYlabel').text(yIndicator).attr("transform", "translate(20,"+(this.height/2) +") rotate(-90)");
 
 
         let yScale = d3.scaleLinear()
@@ -138,6 +142,55 @@ class GapPlot {
 
         let that = this;
 
+
+        // function chunkArray(ar,chunksize) {
+        //     var R = [];
+        //     if (chunksize <= 0) return ar;
+        //     for (var i = 0; i < ar.length; i+=chunksize) {
+        //         R.push(ar.slice(i,i+chunksize));
+        //     }
+        //     return R;
+        // }
+
+//         var dataPool = chunkArray(this.data,100);
+//         console.log(dataPool)
+//         var canvas = d3.select('#chart-view').select('.plot-svg').select('.wrapper-group');
+//         var poolPosition = 0;
+//         var iterator;
+//         var group = [];
+//
+//         function updateVisualization() {
+//             group = canvas.append("g").selectAll("circle")
+//                 .data(dataPool[poolPosition])
+//
+//             group.exit().remove();
+//
+//             let groupEnter = group
+//                 .enter().append('circle');
+//             group = groupEnter.merge(group);
+// console.log(that.width )
+//             group
+//                 .attr("cx", d => +d[xIndicator] / maxvals[1] * that.width)
+//                 .attr("cy", d => +d[yIndicator] / maxvals[2] * that.height).attr('class',d=>('SC_circles '+d.StructType))
+//                 .attr('id',d=>'SC'+d['BuildingId'])
+//                 .attr("r", d => circleSizer(+d[circleSizeIndicator])).attr("transform", "translate("+that.margin.left+","+(that.height+that.margin.top)+") scale(1,-1)");
+//
+//             poolPosition += 1;
+//             if (poolPosition >= dataPool.length) {
+//                 clearInterval(iterator);
+//             }
+//         }
+//
+//         iterator = setInterval(updateVisualization,100);
+//
+
+
+
+
+
+
+
+
         let svgcircle = d3.select('#chart-view').select('.plot-svg').select('.wrapper-group');
         let svgcircle2 = svgcircle.selectAll('circle').data(this.data);
         svgcircle2.exit().remove();
@@ -151,7 +204,7 @@ class GapPlot {
         .append("div")
         .attr("class", "sunburst-tooltip")
         .style("visibility", "hidden")
-        
+
         svgcircle2
             .attr("cx", d => +d[xIndicator] / maxvals[1] * this.width)
             .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height).attr('class',d=>('SC_circles '+d.StructType))
@@ -170,8 +223,8 @@ class GapPlot {
             })
             .on("mousemove", function(d){return plotTooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
             .on("mouseout", function(){return plotTooltip.style("visibility", "hidden");});
-        
-        
+
+
         // .on('mouseover', function(d, i) {
         //     //show tooltip
         //     tooltip.transition()
@@ -362,7 +415,7 @@ class GapPlot {
 
         let circleData = [min, max];
 
-        let svg = d3.select('.circle-legend').select('svg').attr('width', 250).select('g');
+        let svg = d3.select('.circle-legend').select('svg').attr('width', 250).select('.sizeLegend');
 
         let circleGroup = svg.selectAll('g').data(circleData);
         circleGroup.exit().remove();
@@ -381,6 +434,31 @@ class GapPlot {
         let numText = circleGroup.select('text').text(d => new Intl.NumberFormat().format(d));
 
         numText.attr('transform', (d) => 'translate(' + ((scale(d)) + 10) + ', 0)');
+
+let typeData=[
+    'Steel',
+    'Concrete',
+    'Masonry_Type_1',
+    'Masonry_Type_2',
+    'Timber'
+];
+        let svgType = d3.select('.circle-legend').select('svg').attr('width', 250).select('.typeLegend');
+        let circleGroupType = svgType.selectAll('g').data(typeData);
+        circleGroupType.exit().remove();
+
+        let circleEnterType = circleGroupType.enter().append('g');
+        circleEnterType.append('circle').attr('class',d=>d);
+        circleEnterType.append('text').classed('circle-size-text', true);
+        circleGroupType = circleEnterType.merge(circleGroupType);
+
+        circleGroupType.attr('transform', (d, i) => 'translate(20,' + ((i * (18)) + 50) + ')');
+        circleGroupType.select('circle').attr('r', 5);
+        circleGroupType.select('circle').attr('cx', '0');
+        circleGroupType.select('circle').attr('cy', '0');
+        let numTextType = circleGroupType.select('text').text(d => d);
+
+        numTextType.attr('transform', (d,i) => 'translate(20,5)');
+
     }
         tooltipRender(data,txt) {
             let text = "<h3>" + txt+":"+data[txt] + "</h3>";
