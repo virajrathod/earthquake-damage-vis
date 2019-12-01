@@ -1,3 +1,8 @@
+/**
+ * Reads data from CSV file.
+ * The file contains 20,000 entries of individual building data that tells information about 
+ * the structural damages and costs of a 7.0 magnitude earthquake in San Francisco
+ */
 d3.csv("data/EQ_data_updated-2.csv").then( data => {
 
     let currVisualization = "sunburst";

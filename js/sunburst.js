@@ -1,3 +1,4 @@
+/**----CONSTANTS---- */
 const numStoriesNames = {
     '1': '1 Story',
     '2': '2 Story',
@@ -7,6 +8,7 @@ const numStoriesNames = {
     '30-49': '30-49 Stories',
     '50Plus': '50+ Stories',
 }
+/**-------- */
 
 const yearBuiltName = {
     '-1874': 'Built On/Before: 1848-1874',
@@ -16,6 +18,7 @@ const yearBuiltName = {
     '1956-1982': 'Built Between: 1956-1982',
     '1983-': 'Built On/After: 1983-2010',
 }
+/**-------- */
 
 const dataCols = {
     "StructType" : "StructType",
@@ -26,6 +29,7 @@ const dataCols = {
     "Downtime" : "Downtime(days)",
     "GroundAcceleration" : "GroundAcceleration(m/s2)"
 }
+/**-------- */
 
 const wedgeTypes = [
     {name: "Total Number of Buildings", id: "Number of Buildings"},
@@ -34,19 +38,33 @@ const wedgeTypes = [
     {name: "Ground Acceleration (m/s2)", id : dataCols.GroundAcceleration}
 ];
 
+/**
+ * Controls the Sunburst data visualization
+ */
 class Sunburst {
+    /**
+     * Stores the earthquake damage data and the original sunburst wedge/node size type
+     * as well as a reference to the map.
+     * Creates an initial hierarchy of data based on the number of buildings and draws
+     * the sunburst.
+     */ 
+
     constructor(data, map) {
         this.data = data;
         this.valueType = wedgeTypes[0].id;
-        this.index = 0;
         this.map = map;
         this.hierarchy = this.createHierarchy(this);
         this.drawSunburst();
     }
 
+    /**
+     * Updates HTML DOM elements to refresh the sunburst visual
+     */
     drawSunburst() {
+        // Remove old elements
+        d3.select(".viz-header").remove(); // remove old header
+        d3.select(".dataviz-element").remove(); // remove old header
          // Insert HTML elements
-         d3.select(".viz-header").remove(); // remove old header
          const container = d3.select(".dataviz-elements");
          const header = container.append("div")
              .attr("class", "dataviz-element")
@@ -62,7 +80,9 @@ class Sunburst {
         this.createDropdown();
     }
     
-    // Creates dropdown that controls the wedge size
+    /**
+     * Creates dropdown that controls the wedge size
+     */
     createDropdown() {
         const that = this;
         const createHierarchy = this.createHierarchy;
@@ -85,6 +105,10 @@ class Sunburst {
             });
     }
 
+    /**
+     * Creates a hierarchy of children nodes based on the dropdown selector (current valueType) 
+     * @param {*} that : Holds a reference to the Sunburst class object 
+     */
     createHierarchy(that) {
 
         let hierarchy =
@@ -188,7 +212,9 @@ class Sunburst {
         return hierarchy;
     }
 
-    // Draws Sunburst Chart 
+    /**
+     * Draws Sunburst Chart given a data hierarchy and a reference to the Sunburst class object 
+     */ 
     drawChart = (data, that) => {
         const partition = data => {
             const root = d3.hierarchy(data)
@@ -324,20 +350,28 @@ class Sunburst {
         return svg.node();
     }
 
-    // Formats a hierarchical structure of the data from the sunburst back into 
-    // an array of objects (like when reading from the csv originally)
+    /**
+     * Formats a hierarchical structure of the data from the current sunburst back into 
+     * an array of objects (like when reading from the csv originally) 
+     * 
+     * This is necessary because the transformation of data to a sunburst-readable one
+     * is not compatible with the data read by the map.
+     * @param {*} hData : the hierarchical data to be transformed 
+     */ 
     formatMapData(hData) {
+        // If the sunburst is currently at the root
         if (hData === null) {
             return this.data;
         }
         else {
             const filters = hData.ancestors().map(d => d.data.name).reverse()
+             // sunburst has been filtered by a StructType
             if (filters.length === 2) {
-
                 return this.data.filter(d => {
                     return d[dataCols.StructType] === filters[1]
                 })
             }
+            // sunburst has been filtered by StructType and Occupancy
             else if (filters.length === 3) {
 
                 return this.data.filter(d => {
@@ -345,6 +379,7 @@ class Sunburst {
                         && d[dataCols.Occupancy] === filters[2]
                 })
             }
+            // sunburst has been filtered by StructType, Occupancy, and number of stories
             else if (filters.length === 4) {
 
                 return this.data.filter(o => {

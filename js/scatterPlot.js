@@ -1,6 +1,16 @@
+/**
+ * Controls the Scatterplot data visualization
+ */
 class GapPlot {
 
-
+    /**
+     * Stores earthquake csv data and stores all the keys to use as dropdown 
+     * filter options.
+     * 
+     * @param {*} data 
+     * @param {*} updateHighlight 
+     * @param {*} filterMap 
+     */
     constructor(data,updateHighlight,filterMap) {
         this.margin = { top: 20, right: 20, bottom: 50, left: 80 };
         this.width = 700 - this.margin.left - this.margin.right;
@@ -26,13 +36,17 @@ class GapPlot {
         this.data=data;
         this.maxvals0 = maxvals0;
         this.minvals0 = minvals0;
-
-        // this.drawPlot()
-
     }
+
+    /**
+     * Updates the DOM to refresh and/or draw the Scatterplot 
+     * along with the dropdown menus to select axes 
+     * and the legend showing the color and circle size meaning
+     */
     drawPlot(){
 
         // Insert HTML elements
+
         d3.select(".dataviz-element").remove(); // remove old element
         d3.select(".viz-header").remove(); // remove old header
         const container = d3.select(".dataviz-elements");
@@ -47,54 +61,47 @@ class GapPlot {
             .append("text")
             .text("Plot data against each other");
 
+        // Create svg
+
         d3.select('#dataviz-scatterplot').append('div').attr('id', 'chart-view');
         d3.select('#chart-view')
             .append('svg').classed('plot-svg', true)
-            // .style("margin", "2rem")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
-        // d3.select('#chart-view')
-        //     .append('div')
-        //     .attr("class", "tooltip")
-        //     .style("opacity", 0);
-
         let svgGroup = d3.select('#chart-view').select('.plot-svg').append('g').classed('wrapper-group', true);
+
+        // Add axes
 
         svgGroup.append('g').attr('id', 'axesX');
         svgGroup.append('g').attr('id', 'axesY');
         svgGroup.append('text').attr('id', 'axesXlabel').attr('x',0).attr('y',0)
         svgGroup.append('text').attr('id', 'axesYlabel').attr('x',0).attr('y',0)
 
-        let dropdownWrap = d3.select('#chart-view').append('div').classed('dropdown-wrapper', true);
+        // Create dropdown panel
 
+        let dropdownWrap = d3.select('#chart-view').append('div').classed('dropdown-wrapper', true);
         let cWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
+
+        // Add legend and axis labels
 
         cWrap.append('div').classed('c-label', true)
             .append('text')
             .text('Circle Size');
-
         cWrap.append('div').attr('id', 'dropdown_c').classed('dropdown', true).append('div').classed('dropdown-content', true)
             .append('select');
-
         let xWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
-
         xWrap.append('div').classed('x-label', true)
             .append('text')
             .text('X Axis Data');
-
         xWrap.append('div').attr('id', 'dropdown_x').classed('dropdown', true).append('div').classed('dropdown-content', true)
             .append('select');
-
         let yWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
-
         yWrap.append('div').classed('y-label', true)
             .append('text')
             .text('Y Axis Data');
-
         yWrap.append('div').attr('id', 'dropdown_y').classed('dropdown', true).append('div').classed('dropdown-content', true)
             .append('select');
-
         d3.select('#chart-view')
             .append('div')
             .classed('circle-legend', true)
@@ -105,13 +112,20 @@ class GapPlot {
             .select('.circle-legend').select('svg')
             .append('g').classed('typeLegend',true);
 
-        this.updatePlot('DamageRatio', 'GroundAcceleration(m/s2)', 'Stories')
 
+        // Draws default scatterplot and dropdown behavior
+        this.updatePlot('DamageRatio', 'GroundAcceleration(m/s2)', 'Stories')
         this.drawDropDown('DamageRatio', 'GroundAcceleration(m/s2)', 'Stories')
         this.lineRender()
 
     }
 
+    /**
+     * Updates scatterplot axes and circle sizes based on passed in parameters
+     * @param {*} xIndicator - current x axis type
+     * @param {*} yIndicator - current y axis type
+     * @param {*} circleSizeIndicator - current circle size type
+     */
     updatePlot(xIndicator, yIndicator, circleSizeIndicator){
         let circleSizer = function (d) {
             let cScale = d3.scaleSqrt().range([3, 20]).domain([minSize, maxSize]);
@@ -124,6 +138,7 @@ class GapPlot {
         let minSize = minvals[0];
         let maxSize = maxvals[0];
 
+        // Updates the legend with circle size min and max
         this.drawLegend(minSize, maxSize);
 
         let xScale = d3.scaleLinear()
@@ -131,6 +146,7 @@ class GapPlot {
             .range([this.margin.left, this.width+this.margin.left]);
 
 
+        // Update plot axes and scale
         let xAxis = d3.axisBottom();
         xAxis.scale(xScale);
 
@@ -158,55 +174,7 @@ class GapPlot {
 
         let that = this;
 
-
-        // function chunkArray(ar,chunksize) {
-        //     var R = [];
-        //     if (chunksize <= 0) return ar;
-        //     for (var i = 0; i < ar.length; i+=chunksize) {
-        //         R.push(ar.slice(i,i+chunksize));
-        //     }
-        //     return R;
-        // }
-
-//         var dataPool = chunkArray(this.data,100);
-//         console.log(dataPool)
-//         var canvas = d3.select('#chart-view').select('.plot-svg').select('.wrapper-group');
-//         var poolPosition = 0;
-//         var iterator;
-//         var group = [];
-//
-//         function updateVisualization() {
-//             group = canvas.append("g").selectAll("circle")
-//                 .data(dataPool[poolPosition])
-//
-//             group.exit().remove();
-//
-//             let groupEnter = group
-//                 .enter().append('circle');
-//             group = groupEnter.merge(group);
-// console.log(that.width )
-//             group
-//                 .attr("cx", d => +d[xIndicator] / maxvals[1] * that.width)
-//                 .attr("cy", d => +d[yIndicator] / maxvals[2] * that.height).attr('class',d=>('SC_circles '+d.StructType))
-//                 .attr('id',d=>'SC'+d['BuildingId'])
-//                 .attr("r", d => circleSizer(+d[circleSizeIndicator])).attr("transform", "translate("+that.margin.left+","+(that.height+that.margin.top)+") scale(1,-1)");
-//
-//             poolPosition += 1;
-//             if (poolPosition >= dataPool.length) {
-//                 clearInterval(iterator);
-//             }
-//         }
-//
-//         iterator = setInterval(updateVisualization,100);
-//
-
-
-
-
-
-
-
-
+        // Update circle sizes
         let svgcircle = d3.select('#chart-view').select('.plot-svg').select('.wrapper-group');
         let svgcircle2 = svgcircle.selectAll('circle').data(this.data);
         svgcircle2.exit().remove();
@@ -244,30 +212,12 @@ class GapPlot {
             .on("mousemove", function(d){return plotTooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
             .on("mouseout", function(){return plotTooltip.style("visibility", "hidden");});
 
-
-        // .on('mouseover', function(d, i) {
-        //     //show tooltip
-        //     tooltip.transition()
-        //         .duration(200)
-        //         .style("opacity", .9);
-        //     tooltip.html(that.tooltipRender(d,circleSizeIndicator) + "<br/>")
-        //         .style("left", (d3.event.pageX) + "px")
-        //         .style("top", (d3.event.pageY - 238) + "px");
-
-        // });
-
-        //hover function for country selection
-        // svgcircle2.on("mouseout", function(d) {
-        //     tooltip.transition()
-        //         .duration(500)
-        //         .style("opacity", 0);
-        // });
         svgcircle2.on('click', (d) => {
             that.updateHighlight(d)
         });
 
+        // Add brushing functionality
         const brushGroup = d3.select('.plot-svg').insert('g',":first-child").classed("brush", true);
-
         const brush = d3
             .brush()
             .extent([[this.margin.left, this.margin.top], [this.width+this.margin.left , this.height+this.margin.top]])
@@ -337,6 +287,12 @@ class GapPlot {
 
     }
 
+    /**
+     * Draws the menu dropdown given selected x, y, and size defaults
+     * @param {*} xIndicator 
+     * @param {*} yIndicator 
+     * @param {*} circleSizeIndicator 
+     */
     drawDropDown(xIndicator, yIndicator, circleSizeIndicator) {
 
         let that = this;
@@ -429,6 +385,13 @@ class GapPlot {
 
     }
 
+    /**
+     * Draws the legend for the scatterplot circle size given the min and max of current 
+     * selected data
+     * Creates an axis for the circle's size and uses that to draw size
+     * @param {*} min 
+     * @param {*} max 
+     */
     drawLegend(min, max) {
 
         let scale = d3.scaleSqrt().range([3, 20]).domain([min, max]);
@@ -457,17 +420,17 @@ class GapPlot {
 
         numText.attr('transform', (d) => 'translate(' + ((scale(d)) + 10) + ', 0)');
 
-let typeData=[
-    {tex:'Steel',
-    clss:'Steel'},
-    {tex:'Concrete',
-        clss:'Concrete'},
-    {tex:'Masonry 1',
-        clss:'Masonry_Type_1'},
-    {tex:'Masonry 2',
-        clss:'Masonry_Type_2'},
-    {tex:'Timber',
-        clss:'Timber'}];
+    let typeData=[
+        {tex:'Steel',
+        clss:'Steel'},
+        {tex:'Concrete',
+            clss:'Concrete'},
+        {tex:'Masonry 1',
+            clss:'Masonry_Type_1'},
+        {tex:'Masonry 2',
+            clss:'Masonry_Type_2'},
+        {tex:'Timber',
+            clss:'Timber'}];
 
         let svgType = d3.select('.circle-legend').select('svg').attr('width', 250).select('.typeLegend');
         let circleGroupType = svgType.selectAll('g').data(typeData);
@@ -490,13 +453,22 @@ let typeData=[
 
     }
 
+    /**
+     * Draws dividing line between circle size legend and the color legend
+     */
     lineRender(){
         d3.select('.circle-legend').select('svg').append('line').attr('x1',0).attr('x2',180).attr('y1',0).attr('y2',0)
             .attr('transform','translate(0,55)').classed('legendLine',true)
-}
+    }
 
-        tooltipRender(data,txt) {
-            let text = "<h3>" + txt+":"+data[txt] + "</h3>";
-            return text;
-        }
+
+    /**
+     * Returns html element styling for tooltip text
+     * @param {*} data 
+     * @param {*} txt 
+     */
+    tooltipRender(data,txt) {
+        let text = "<h3>" + txt+":"+data[txt] + "</h3>";
+        return text;
+    }
 }

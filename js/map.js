@@ -1,4 +1,18 @@
+/**
+ * Loads earthquake damage map visualization showing and overview or
+ * specific view of earthquake damage in San Francisco. 
+ * Displays color coded heatmap to show damage severity, labels for specific structural damage data,
+ * and dropdown options to change data displayed by heat map.
+ * Hovering over bubbles shows geographic location indicated by that bubble.
+ * Map APIS used are from Google, OpenStreetMap and MapBox.
+ */
 class mapClass {
+    /**
+     * Stores 20,000 building data objects from file and draws the
+     * dropdown menu option
+     * @param {*} data 
+     * @param {*} updateHighlight 
+     */
     constructor(data,updateHighlight) {
         let usDataSample = data.filter(function (d, i) {
             return i < 20000;
@@ -9,7 +23,10 @@ class mapClass {
         this.data=data;
     }
 
-
+    /**
+     * Transforms RGB to hex value
+     * @param {*} rgb 
+     */
     rgbToHex (rgb) {
         let hex = Number(rgb).toString(16);
         if (hex.length < 2) {
@@ -17,6 +34,13 @@ class mapClass {
         }
         return hex;
     };
+
+    /**
+     * Returns a full color hex value
+     * @param {*} r 
+     * @param {*} g 
+     * @param {*} b 
+     */
     fullColorHex (r, g, b) {
 
         let red = this.rgbToHex(r);
@@ -26,7 +50,11 @@ class mapClass {
 
     };
 
-
+    /**
+     * Draws dropdown menu for map legend
+     * @param {*} data 
+     * @param {*} usDataSample 
+     */
     dropdown(data,usDataSample) {
         let dropdownWrap = d3.select('#floating-panelM'); //.append('div').classed('dropdown-wrapper', true);
         let yWrap = dropdownWrap.append('div').classed('dropdown-block', true);
@@ -73,6 +101,10 @@ class mapClass {
 
     }
 
+    /**
+     * Draws the map by making API calls for geographical data
+     * @param {*} data 
+     */
     mapoverlay(data) {
         let that = this;
         let layer1 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -195,6 +227,11 @@ class mapClass {
 
     }
 
+    /**
+     * Updates labels and heat points of the map to only display for the 
+     * passed in building data
+     * @param {*} data 
+     */
     updateMap(data){
         console.log("updating map", data)
         let e = document.getElementById("DropDownMap");
@@ -316,6 +353,10 @@ class mapClass {
         this.layerControl.addOverlay(heat , "Heatmap");
     }
 
+    /**
+     * Focuses view on map to a specific latitude and longitude location
+     * @param {*} point 
+     */
     Map_focus(point){
         let that=this;
         that.map.setView([point.Latitude, point.Longitude], 16);
