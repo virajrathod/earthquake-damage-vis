@@ -205,9 +205,13 @@ class GapPlot {
         .attr("class", "sunburst-tooltip")
         .style("visibility", "hidden")
 
+        var colorScale = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, 5))
+
         svgcircle2
             .attr("cx", d => +d[xIndicator] / maxvals[1] * this.width)
-            .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height).attr('class',d=>('SC_circles '+d.StructType))
+            .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height)
+            .attr('class',d=>('SC_circles'))
+            .style("fill", d => colorScale(d.StructType))
             .attr('id',d=>'SC'+d['BuildingId'])
             .attr("r", d => circleSizer(+d[circleSizeIndicator])).attr("transform", "translate("+this.margin.left+","+(this.height+this.margin.top)+") scale(1,-1)");
         // let tooltip = d3.select('.tooltip');
@@ -433,6 +437,8 @@ class GapPlot {
         circleGroup.select('circle').attr('cy', '0');
         let numText = circleGroup.select('text').text(d => new Intl.NumberFormat().format(d));
 
+        var colorScale = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, 5))
+
         numText.attr('transform', (d) => 'translate(' + ((scale(d)) + 10) + ', 0)');
 
 let typeData=[
@@ -452,8 +458,10 @@ let typeData=[
         circleGroupType.exit().remove();
 
         let circleEnterType = circleGroupType.enter().append('g');
-        circleEnterType.append('circle').attr('class',d=>d.clss);
-        circleEnterType.append('text').classed('circle-type-text', true);
+        circleEnterType.append('circle')
+            .style('fill',d=> colorScale(d))
+            .classed("SC_circles", true);
+        circleEnterType.append('text').classed('circle-size-text', true);
         circleGroupType = circleEnterType.merge(circleGroupType);
 
         circleGroupType.attr('transform', (d, i) => 'translate(' +(i*24+30)+',' + 70 + ')');
