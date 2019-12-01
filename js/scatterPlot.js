@@ -27,10 +27,26 @@ class GapPlot {
         this.maxvals0 = maxvals0;
         this.minvals0 = minvals0;
 
-        this.drawPlot()
+        // this.drawPlot()
 
     }
     drawPlot(){
+
+        // Insert HTML elements
+        d3.select(".dataviz-element").remove(); // remove old element
+        d3.select(".viz-header").remove(); // remove old header
+        const container = d3.select(".dataviz-elements");
+        const header = container.append("div")
+            .attr("class", "dataviz-element")
+            .attr("id", "dataviz-scatterplot")
+            .append("div")
+            .attr("class", "viz-header--scatterplot");
+        header.append("div")
+            .attr("class", "viz-header__text--scatterplot")
+            .html("Scatterplot</br></br>")
+            .append("text")
+            .text("Plot data against each other");
+
         d3.select('#dataviz-scatterplot').append('div').attr('id', 'chart-view');
         d3.select('#chart-view')
             .append('svg').classed('plot-svg', true)

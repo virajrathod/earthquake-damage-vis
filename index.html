@@ -30,56 +30,34 @@
     <script src="js/plugins/L.Icon.Pulse.js"></script>
 </head>
 <body>
-<div class="header-wrap">
-    <div class="website-tabs"></div>
-    <div class="project-header shake-slow">Earthquake Visualization</div>
-    <!-- <div class="project-header project-header--shake">Earthquake Visualization</div> -->
-    <div class="our-names">
-        <div>Reza Sheibani; E-mail: m.sheibani@utah.edu; UID: u1138100 </div>
-        <div>Natalia Soto; Email: n.soto@utah.edu; UID: u1058711 </div>
-        <div>Viraj Rathod; Email: viraj.rathod@utah.edu; UID: u1269659 </div>
-    </div>
-</div>
-<div id="overlay">
-    <nav class="links">
-        <a href="#dataviz-sunburst">Sunburst</a>
-        <a href="#dataviz-scatterplot">Scatterplot</a>
-        <!-- <a href="#dataviz-other">Other</a> -->
-    </nav>
-        
-    <div class="dataviz-elements">
-        <div id="dataviz-sunburst" class="dataviz-element element-1">
-            <div class="viz-header">
-                <div class="viz-header__text">
-                    Click a node to zoom in, or the center to zoom out.<br/>
-                </div>
-                <div class="dropdown"></div>
-            </div>
+    <div class="header-wrap">
+        <!-- <div class="website-tabs"></div> -->
+        <div class="project-header shake-slow">Earthquake Visualization</div>
+        <!-- <div class="project-header project-header--shake">Earthquake Visualization</div> -->
+        <div class="our-names">
+            <div>Reza Sheibani; E-mail: m.sheibani@utah.edu; UID: u1138100 </div>
+            <div>Natalia Soto; Email: n.soto@utah.edu; UID: u1058711 </div>
+            <div>Viraj Rathod; Email: viraj.rathod@utah.edu; UID: u1269659 </div>
         </div>
-        <div id="dataviz-scatterplot" class="dataviz-element element-2">
-            <div class="viz-headerr">
-                <div class="viz-header__text large">
-                        Scatterplot
-                </div>
-            </div>
+    </div>
+    <div id="overlay">
+        <div class="links">
+            <div id="sunburst-link">Sunburst</div>
+            <div id="scatterplot-link">Scatterplot</div>
         </div>
-        <!-- <div id="dataviz-other" class="dataviz-element element-3">Other</div> -->
+        <div class="dataviz-elements"></div>
     </div>
-</div>
-<!--<div class="scatterplot"></div>-->
-<div id="mapDiv">
-    <div id="mapLegend"></div>
-    <div id="floating-panelM">
-<!--        <svg id="floatSvg"></svg>-->
-        <button id="defView">Overview</button>
-        <button id="zoomView">Detailed view</button>
+    <div id="mapDiv">
+        <div id="mapLegend"></div>
+        <div id="floating-panelM">
+            <button id="defView">Overview</button>
+            <button id="zoomView">Detailed view</button>
+        </div>
     </div>
-</div>
 
-<script src="js/sunburst.js"></script>
-<script src="js/map.js"></script>
-<script src="js/scatterPlot.js"></script>
-<script src="js/index.js"></script>
-
+    <script src="js/sunburst.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/scatterPlot.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

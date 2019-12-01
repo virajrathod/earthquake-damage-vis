@@ -23,27 +23,48 @@ body {
 
 .viz-header {
     display: flex;
-    /* flex-direction: column; */
-    justify-content: space-between; 
-    width: fit-content;
-    margin: auto;
+    flex-direction: column;
+    justify-content: space-between;
     position: relative;
-    top: 1rem;
-    height: fit-content;
-    backdrop-filter: blur(25px);
+    background: linear-gradient(to bottom, rgba(58,58,58,1) 0%,rgba(57,57,57,1) 1%,rgba(0,0,0,0.39) 100%);
     border-radius: 5px;
+    padding: 5px;
+    height: 80px;
+    margin: 1rem 0;
+}
+
+.viz-header--scatterplot {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background: linear-gradient(to bottom, rgba(58,58,58,1) 0%,rgba(57,57,57,1) 1%,rgba(0,0,0,0.39) 100%);
+    border-radius: 5px;
+    padding: 5px;
+    height: 60px;
+    margin: 1rem 0;
 }
 
 .viz-header__text {
     font-family: sans-serif;
     text-transform: uppercase;
     overflow: hidden;
-    background:linear-gradient(-45deg,rgb(190, 190, 190),#cecdcd,#8d8c8c);
+    background:linear-gradient(-1deg,#000,#fff,#000);
     background-repeat: no-repeat;
     background-size: 80%;
-    animation: animate 3s linear 2;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: rgba(0,0,0,0.1);
+    -webkit-text-fill-color: rgba(78, 78, 78, 0.1);
+}
+
+.viz-header__text--scatterplot {
+    font-family: sans-serif;
+    text-transform: uppercase;
+    overflow: hidden;
+    background:linear-gradient(-1deg,#6f6f6f,#fff,#252525);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(78, 78, 78, 0.1);
 }
 
 .viz-header__text .large {
@@ -52,12 +73,12 @@ body {
 
 .dropdown {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
 .dropdown #selector-text {
-    margin: auto;
     margin-right: 1rem;
     text-transform: uppercase;
     background:linear-gradient(-45deg,rgb(165, 164, 164),#838282,#918f8f);
@@ -184,8 +205,6 @@ select {
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 2;
     backdrop-filter: blur(20px);
-    /*background-image: url("photographer.jpg");*/
-    /*opacity: 0.6;*/
 }
 
 @keyframes shake {
@@ -322,10 +341,6 @@ div.dropdown-wrapper {
     display: inline-flex;
     flex-direction: column;
     /*justify-content: space-between;*/
-}
-
-.dropdown {
-    float: right;
 }
 
 .y-label,
@@ -534,3 +549,4 @@ div.tooltip {
     stroke: #555555;
     stroke-dasharray: 5,5;
 }
+

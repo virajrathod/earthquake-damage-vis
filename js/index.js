@@ -1,5 +1,7 @@
 d3.csv("data/EQ_data_updated-2.csv").then( data => {
 
+    let currVisualization = "sunburst";
+
     // Setup data for Map (Reza)
 
     function filterMap(data){
@@ -22,12 +24,38 @@ d3.csv("data/EQ_data_updated-2.csv").then( data => {
     const map=new mapClass(data,updateHighlight);
 
     document.addEventListener("click", function() {
-        // map.updateMap(data)
         updateHighlight(null)
     }, true);
 
     // Create hierarchy dataset for Sunburst Zoom (Natalia)
     const sunburst = new Sunburst(data, map);
+
+    // Event listener to switch between data visualizations
+    const sunburstTab = d3.select("#sunburst-link");
+    const scatterplotTab = d3.select("#scatterplot-link");
+    sunburstTab.on("click", drawSunburst);
+    scatterplotTab.on("click", drawScatterplot);
+
+    // Helper function that draws sunburst if it isn't drawn already
+    function drawSunburst() {
+        if (currVisualization === "sunburst") 
+            return;
+        else {
+            sunburst.drawSunburst(); 
+            currVisualization = "sunburst";
+        }
+    }
+
+    // Helper function that draws scaterplot if it isn't drawn already
+    function drawScatterplot() {
+        if (currVisualization === "scatterplot")
+            return;
+        else {
+            scatter.drawPlot();
+            currVisualization = "scatterplot";
+        } 
+    }
+    
 });
 
 

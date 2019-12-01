@@ -8,7 +8,7 @@
     z-index: 1;
   }
   
-  .links a {
+  .links div {
     display: block;
     /* width: 33.333%; */
     width: 50%;
@@ -27,12 +27,15 @@
     border-right: solid 1px #666;
   }
   
-  .links a + a {
+  .links div + div {
     border-left: solid 1px #333;
   }
   
-  .links a:hover,
-  .links a:focus { background-color: #444; }
+  .links div:hover,
+  .links div:focus {
+    cursor: pointer; 
+    background-color: #444; 
+  }
   
   .dataviz-elements {
     overflow-x: hidden;
@@ -50,9 +53,5 @@
     color: #FFF;
     position: relative;
     padding-top: 40px;
-    color: black
+    background-color: rgb(97, 97, 97);
   }
-  
-  .element-1 { background-color: rgb(218, 218, 218); }
-  .element-2 { background-color: rgb(218, 218, 218); }
-  .element-3 { background-color: rgb(218, 218, 218); }

@@ -40,11 +40,28 @@ class Sunburst {
         this.valueType = wedgeTypes[0].id;
         this.index = 0;
         this.map = map;
-        this.createDropdown();
-        const hierarchy = this.createHierarchy(this);
-        this.drawChart(hierarchy, this);
+        this.hierarchy = this.createHierarchy(this);
+        this.drawSunburst();
     }
 
+    drawSunburst() {
+         // Insert HTML elements
+         d3.select(".viz-header").remove(); // remove old header
+         const container = d3.select(".dataviz-elements");
+         const header = container.append("div")
+             .attr("class", "dataviz-element")
+             .attr("id", "dataviz-sunburst")
+             .append("div")
+             .attr("class", "viz-header");
+         header.append("div")
+             .attr("class", "viz-header__text")
+             .text("Click a node to zoom in, or the center to zoom out.");
+         header.append("div").attr("class", "dropdown");
+
+        this.drawChart(this.hierarchy, this);
+        this.createDropdown();
+    }
+    
     // Creates dropdown that controls the wedge size
     createDropdown() {
         const that = this;
@@ -171,8 +188,7 @@ class Sunburst {
         return hierarchy;
     }
 
-    // Sunburst Chart 
-
+    // Draws Sunburst Chart 
     drawChart = (data, that) => {
         const partition = data => {
             const root = d3.hierarchy(data)
@@ -198,7 +214,7 @@ class Sunburst {
 
         const root = partition(data);
         root.each(d => d.current = d);
-        d3.select("#sunburst").remove(); // remove old sunburst
+        d3.select("#sunburst").remove(); // remove old element
         const svg = d3.select("#dataviz-sunburst").append("svg").attr("id", "sunburst");
         svg.attr("viewBox", [0, 0, width*1.2, width*1.2])
             .style("margin", "2rem")
