@@ -235,36 +235,18 @@ select {
     left: 80vh;
     opacity: 1;
     backdrop-filter: blur(10px);
-    /*filter:blur(20px)*/
 }
 
 .legRect {
     border-radius: 44px;
-
     opacity: 0.5;
-    /*filter="url(#blurMe)"}*/
 }
 .legText {
-    /*font-weight: bold;*/
     font-size: 1em;
     font-family: Arial, Helvetica, sans-serif;
     fill: white;
 }
 
-.circleClass {
-     /*transition: all 0.4s ;*/
-     /*transform: translateY(-33px);*/
-    /*transform: rotateZ(20deg);*/
-    /*transform-origin: center;*/
-}
-
-.circleClass:hover {
-    /*transition: all 0.4s ;*/
-    /*-webkit-transform: rotateZ(-30deg);*/
-    /*-ms-transform: rotateZ(-30deg);*/
-    /*transform: translateY(20px);*/
-    /*transform: translateY(20px);*/
-}
 
 .c-labelM{
     /*font-weight: bold;*/
@@ -288,19 +270,7 @@ select {
     {
         background-position: 500%;
     }
-
 }
-/*.leaflet-popup-content {*/
-/*    opacity: 1;*/
-/*}*/
-/*.leaflet-popup-content-wrapper{*/
-/*    !*background-color: gray;*!*/
-/*    opacity: 0.5;*/
-/*}*/
-
-/*.leaflet-popup-tip-container {*/
-/*    opacity: 0.5;*/
-/*}*/
 
 #axesXlabel{
 
@@ -425,21 +395,6 @@ div.dropdown-wrapper {
 .SC_selected{
     opacity:1;
 }
-/* .Steel {
-    fill:  #009cff;
-}
-.Concrete {
-    fill: #ff1888;
-}
-.Masonry_Type_1 {
-    fill: #5dff00;
-}
-.Masonry_Type_2 {
-    fill: #19ffb7;
-}
-.Timber {
-    fill: #793128;
-} */
 
 .neutral {
     fill: #d9d9d9;
@@ -477,18 +432,10 @@ div.tooltip {
 }
 .SClass{
     stroke-width:2px;
-    /*animation: 1.2s shake infinite alternate;*/
-    /*animation-iteration-count: 6;*/
-    /*transform: scale(2.7);*/
     -webkit-animation: up-right 1s infinite;
     -moz-animation: up-right 1s infinite;
     -o-animation: up-right 1s infinite;
     animation: up-right 1s infinite;
-
-    /*box-shadow: 10px 10px grey;*/
-/*-webkit-animation: pulsate 1s ease-out;*/
-/*-webkit-animation-iteration-count: infinite;*/
-/*opacity: 0.0*/
 }
 
 @-webkit-keyframes pulsate {
@@ -525,7 +472,7 @@ div.tooltip {
     flex-direction: column;
 }
 
-.circle-type-text{
+.circle-type-text {
     font-family: sans-serif;
     text-anchor: end;
 }
@@ -533,4 +480,12 @@ div.tooltip {
     stroke-width: 1;
     stroke: #555555;
     stroke-dasharray: 5,5;
+}
+.SP_DD_text{
+    font-family: sans-serif;
+    text-anchor: end;
+}
+
+.BG_rect{
+
 }
