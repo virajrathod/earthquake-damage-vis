@@ -152,9 +152,13 @@ class GapPlot {
         .attr("class", "sunburst-tooltip")
         .style("visibility", "hidden")
         
+        var colorScale = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, 5))
+
         svgcircle2
             .attr("cx", d => +d[xIndicator] / maxvals[1] * this.width)
-            .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height).attr('class',d=>('SC_circles '+d.StructType))
+            .attr("cy", d => +d[yIndicator] / maxvals[2] * this.height)
+            // .attr('class',d=>('SC_circles '+d.StructType))
+            .style("fill", d => colorScale(d.StructType))
             .attr('id',d=>'SC'+d['BuildingId'])
             .attr("r", d => circleSizer(+d[circleSizeIndicator])).attr("transform", "translate("+this.margin.left+","+(this.height+this.margin.top)+") scale(1,-1)");
         // let tooltip = d3.select('.tooltip');

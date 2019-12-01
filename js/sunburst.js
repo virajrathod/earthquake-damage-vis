@@ -28,7 +28,7 @@ const dataCols = {
 }
 
 const wedgeTypes = [
-    {name: "Total Number of Buildings", value: "Number of Buildings"},
+    {name: "Total Number of Buildings", id: "Number of Buildings"},
     {name: "Repair Cost ($)", id : dataCols.RepairCost},
     {name: "Downtime (days)", id : dataCols.Downtime }, 
     {name: "Ground Acceleration (m/s2)", id : dataCols.GroundAcceleration}
@@ -37,7 +37,7 @@ const wedgeTypes = [
 class Sunburst {
     constructor(data, map) {
         this.data = data;
-        this.valueType = "Number of Buildings";
+        this.valueType = wedgeTypes[0].id;
         this.index = 0;
         this.map = map;
         this.createDropdown();
@@ -94,8 +94,6 @@ class Sunburst {
             let currOccupancyArray = structTypeChild.children;
             for (let occupancyChild of currOccupancyArray) {
                 const temp = filter(occupancyChild.children, dataCols.Stories);
-                // console.log(temp)
-                // temp.value = 2; // delete later
                 occupancyChild.children = temp;
             }
         }
@@ -107,16 +105,12 @@ class Sunburst {
                 let currStoriesArray = occupancyChild.children;
                 for (let storiesChild of currStoriesArray) {
                     const tempChildren = filter(storiesChild.children, dataCols.YearBuilt);
-                    // const avg = d3.sum(tempChildren, d => d["RepairCost"]) / tempChildren.length;
-                    // const avgValue = sum / yearBuiltChild.children.length;
                     storiesChild.children = tempChildren;
-                    // storiesChild.value = avg;
                     for (let child of storiesChild.children) {
                         const yearBuiltChildren = child.children;
                         let avg;
-                        if (that.valueType === "Number of Buildings") avg = d3.sum(yearBuiltChildren, d => 1)
+                        if (that.valueType === wedgeTypes[0].id) avg = d3.sum(yearBuiltChildren, d => 1);
                         else avg = d3.sum(yearBuiltChildren, d => d[that.valueType]) / yearBuiltChildren.length;
-                        // if (that.valueType === dataCols.GroundAcceleration) console.log(avg)
                         child.value = avg;
                         child.children = undefined;
                     }
@@ -173,7 +167,7 @@ class Sunburst {
             else if (yearBuilt >= 1983) return yearBuiltName['1983-'];
         }
         
-        console.log('final hierarchy', hierarchy);
+        // console.log('final hierarchy', hierarchy);
         return hierarchy;
     }
 
@@ -267,7 +261,6 @@ class Sunburst {
         parent.datum(p.parent || root);
     
         that.map.updateMap(p.parent ? that.formatMapData(p) : that.formatMapData(null))
-        // console.log('formatMapData', p.parent ? that.formatMapData(p) : that.formatMapData(null)) // Call MAP function to filter map here
         root.each(d => d.target = {
             x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
             x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
@@ -370,16 +363,3 @@ class Sunburst {
         }
     }
 }
-
-// root, 0
-// struct type, 1
-// occupancy, 2
-// stories, 3
-
-// '1': '1 Story',
-// '2': '2 Story',
-// '3': '3 Story',
-// '4-9': '4-9 Stories',
-// '10-29': '10-29 Stories',
-// '30-49': '30-49 Stories',
-// '50Plus': '50+ Stories',
