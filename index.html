@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title> Earthquake Damage Visualization </title>
-    <link rel="stylesheet" href="style.css"/>
-    <link rel="stylesheet" href="other-styles/dataviz-nav.css">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="stylesheet" href="styles/dataviz-nav.css">
     <link rel="stylesheet" type="text/css" href="https://csshake.surge.sh/csshake.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -13,11 +13,21 @@
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
             integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
             crossorigin=""></script>
-
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3.v5.js"></script>
-
+<!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeuqYAoD2lUBNikOZng7QsNOXhZ9-mH5o&libraries=visualization"></script>-->
+    <script src="js/plugins/leaflet-svg-shape-markers.min.js"></script>
+    <script src="js/plugins/leaflet.rotatedMarker.js"></script>
+    <script src="js/plugins/leaflet.markercluster.js"></script>
+    <script src="js/plugins/leaflet-heat.js"></script>
+    <link rel="stylesheet" href="styles/MarkerCluster.css"/>
+    <link rel="stylesheet" href="styles/MarkerCluster.Default.css"/>
+    <script src="https://unpkg.com/esri-leaflet@2.3.2/dist/esri-leaflet.js"
+            integrity="sha512-6LVib9wGnqVKIClCduEwsCub7iauLXpwrd5njR2J507m3A2a4HXJDLMiSZzjcksag3UluIfuW1KzuWVI5n/cuQ=="
+            crossorigin=""></script>
+    <link rel="stylesheet" href="styles/L.Icon.Pulse.css" />
+    <script src="js/plugins/L.Icon.Pulse.js"></script>
 </head>
 <body>
 <div class="header-wrap">
@@ -67,27 +77,9 @@
 </div>
 
 <script src="js/sunburst.js"></script>
-
-<script src="js/map_FS.js"></script>
-<!--<script src="js/plot.js"></script>-->
-<script src="js/scatterP.js"></script>
+<script src="js/map.js"></script>
+<script src="js/scatterPlot.js"></script>
 <script src="js/index.js"></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeuqYAoD2lUBNikOZng7QsNOXhZ9-mH5o&libraries=visualization"></script>
-<script src="js/leaflet-svg-shape-markers.min.js"></script>
-<script src="js/leaflet.rotatedMarker.js"></script>
-<script src="js/leaflet.markercluster.js"></script>
-<script src="js/leaflet-heat.js"></script>
-<link rel="stylesheet" href="js/MarkerCluster.css"/>
-<link rel="stylesheet" href="js/MarkerCluster.Default.css"/>
-
-
-
-<script src="https://unpkg.com/esri-leaflet@2.3.2/dist/esri-leaflet.js"
-        integrity="sha512-6LVib9wGnqVKIClCduEwsCub7iauLXpwrd5njR2J507m3A2a4HXJDLMiSZzjcksag3UluIfuW1KzuWVI5n/cuQ=="
-        crossorigin=""></script>
-<link rel="stylesheet" href="js/L.Icon.Pulse.css" />
-
-<script src="js/L.Icon.Pulse.js"></script>
 </body>
 </html>

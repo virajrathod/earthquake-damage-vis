@@ -1,262 +1,325 @@
-function mapoverlay(data) {
-    async function googleMap(data) {
-        let maxlat=d3.max(data, d => +d.Latitude);
-        let maxlng=d3.max(data, d => +d.Longitude);
-        let minlat=d3.min(data, d => +d.Latitude);
-        let minlng=d3.min(data, d => +d.Longitude);
-
-        let lngs=Array();
-        let lats=Array();
-
-        for (let i = 0; i < 20; ++i) {
-            lngs.push(minlng+i*(maxlng-minlng)/20);
-            lats.push(minlat+i*(maxlat-minlat)/20);
-        }
-
-        let googleMapStyles = await d3.json("js/mapStyle.json");
-        let options = {
-            zoom: 7,
-            center: {
-                lat: 37.76,
-                lng: -122.45,
-            },
-            mapTypeId: 'roadmap',
-            minFTZoomLevel: 10,
-            styles: googleMapStyles
-        };
-
-
-        let map = new google.maps.Map(d3.select("#mapDiv").node(), options);
-
-        let   tileListener = google.maps.event.addListener(map,'tilesloaded',fixMyPageOnce);
-
-        function fixMyPageOnce(){
-            // console.log('load')
-            let cnt=12;
-            function chng(map,cnt) {
-                if (cnt>7){
-                    // console.log(cnt)
-                    chng(map,cnt-1)
-                };
-                setTimeout(map.setZoom(cnt-1), 100)
-            }
-            chng(map,cnt)
-            google.maps.event.removeListener(tileListener);
-        }
-        setTimeout(map.setZoom(7), 1)
-        // var infowindow = new google.maps.InfoWindow({
-        //     content: 'Change the zoom level',
-        //     position: {
-        //         lat: 37.76,
-        //         lng: -122.45,
-        //     }
-        // });
-        // infowindow.open(map);
-
-        map.addListener('zoom_changed', function() {
-            marker_plot()
+class mapClass {
+    constructor(data,updateHighlight) {
+        let usDataSample = data.filter(function (d, i) {
+            return i < 20000;
         });
+        this.dropdown(data,usDataSample);
+        this.mapoverlay(usDataSample);
+        this.updateHighlight=updateHighlight;
+        this.data=data;
+    }
 
 
-        let usDataSample = data;
+    rgbToHex (rgb) {
+        let hex = Number(rgb).toString(16);
+        if (hex.length < 2) {
+            hex = "0" + hex;
+        }
+        return hex;
+    };
+    fullColorHex (r, g, b) {
 
-        let heatMapData=Array();
-        for (let i = 0; i < usDataSample.length; ++i) {
-            heatMapData.push({location: new google.maps.LatLng(usDataSample[i].Latitude, usDataSample[i].Longitude), weight: Math.pow(usDataSample[i].DamageRatio,1)})
+        let red = this.rgbToHex(r);
+        let green = this.rgbToHex(g);
+        let blue = this.rgbToHex(b);
+        return red + green + blue;
+
+    };
+
+
+    dropdown(data,usDataSample) {
+        let dropdownWrap = d3.select('#floating-panelM'); //.append('div').classed('dropdown-wrapper', true);
+        let yWrap = dropdownWrap.append('div').classed('dropdown-block', true);
+
+        yWrap.append('div').classed('c-labelM', true)
+            .append('text')
+            .text('Color coding by:');
+
+        yWrap.append('div').attr('id', 'dropdown_m').classed('dropdownM', true).append('div').classed('dropdown-contentM', true)
+            .append('select').attr('id','DropDownMap');
+
+        let that = this;
+
+        for (let key in data) {
+            if (key === 'length' || !data.hasOwnProperty(key)) continue;
+            var dropData = data[key];
+
         }
 
-        let overlay = await new google.maps.OverlayView();
+        let dropC = dropdownWrap.select('#dropdown_m').select('.dropdown-contentM').select('select');
 
-        function marker_plot(){
-            overlay.onAdd = function () {
-
-                let layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-                    .attr("class", "marker_div");
-
-                let layer2 = d3.select(this.getPanes().overlayMouseTarget).append("div")
-                    .attr("class", "tooltipClass");
-
-                overlay.onRemove = function () {
-                    d3.select('.marker_div').remove();
-                    d3.select('.tooltipClass').remove();
-                };
-                overlay.draw = function () {
-
-                    let projection = this.getProjection(),
-                        padding = 10;
-
-                    // let circleScale = d3.scaleLinear()
-                    //     .domain([d3.min(usDataSample, d => d.Stories),
-                    //         d3.max(usDataSample, d => d.Stories)])
-                    //     .range([3, 13*(Math.pow(map.zoom/12,2))]);
-                    let heightScale = d3.scaleLinear()
-                        .domain([d3.min(usDataSample, d => +d.Stories),
-                            d3.max(usDataSample, d => +d.Stories)])
-                        .range([10, 40]);
-                    let widthScale = d3.scaleLinear()
-                        .domain([d3.min(usDataSample, d => +d.Area),
-                            d3.max(usDataSample, d => +d.Area)])
-                        .range([10, 20]);
-
-                    function marker_plot_zoom (filtered_data){
-
-                        let marker = layer.selectAll('svg')
-                            .data(filtered_data);
-                        let markerEnter = marker.enter().append("svg");
-
-                        markerEnter.append("rect");
-
-                        marker.exit().remove();
-
-                        marker = marker.merge(markerEnter);
-
-                        marker
-                            .each(transform)
-                            .attr("class", "marker");
-
-                        let rgbToHex = function (rgb) {
-                            let hex = Number(rgb).toString(16);
-                            if (hex.length < 2) {
-                                hex = "0" + hex;
-                            }
-                            return hex;
-                        };
-                        let fullColorHex = function (r, g, b) {
-
-                            let red = rgbToHex(r);
-                            let green = rgbToHex(g);
-                            let blue = rgbToHex(b);
-                            return red + green + blue;
-
-                        };
-
-                        marker.select("rect")
-                            .attr("height", d => heightScale(d.Stories))
-                            .attr("width", d => widthScale(d.Area))
-                            .attr("x", padding)
-                            .attr("y", padding)
-                            .attr("stroke", 'black')
-                            .attr("stroke-width", 1)
-                            .style('opacity', .8)
-                            .attr('fill', d => '#' + fullColorHex(255, Math.round(255 - d.DamageRatio * 255), 0))
-                    }
-
-                    function heatmap_plot_zoom (filtered_data){
-                        let tooltip = layer2.selectAll('svg')
-                            .data(filtered_data);
-
-                        let ttEnter = tooltip.enter().append("svg");
-
-                        ttEnter.append("rect").classed('ttrect',true);
-                        ttEnter.append("text").classed('line1',true);
-                        ttEnter.append("text").classed('line2',true);
-                        ttEnter.append("text").classed('line3',true);
-
-                        tooltip.exit().remove();
-
-                        tooltip = tooltip.merge(ttEnter);
-
-                        tooltip
-                            .each(transform)
-                            .attr("class", "tooltip");
-
-                        tooltip.select("rect")
-                            .attr("width", 100)
-                            .attr("height", 50)
-                            .attr("x", padding)
-                            .attr("y", padding)
-                            .style('opacity', .8)
-                            .attr('fill','white')
-                            .attr('stroke','black');
+        let optionsC = dropC.selectAll('option')
+            .data(dropData.filter((d,i)=>[0,1,2,8,9,10,11,12].includes(i)));
 
 
-                        tooltip.select(".line1")
-                            .attr("x", 20)
-                            .attr("y", 20)
-                            .attr('fill','black')
-                            .text(d=> 'DamageRatio: '+d.DamageRatio);
+        optionsC.exit().remove();
 
-                        tooltip.select(".line2")
-                            .attr("x", 20)
-                            .attr("y", 35)
-                            .attr('fill','black')
-                            .text(d=> 'Stories: '+d.Stories);
-                        tooltip.select(".line3")
-                            .attr("x", 20)
-                            .attr("y", 50)
-                            .attr('fill','black')
-                            .text(d=> 'Collapsed: '+ (d.Collapsed==1? 'yes':'no'))
+        let optionsCEnter = optionsC.enter()
+            .append('option')
+            .attr('value', (d, i) => d);
 
-                    }
+        optionsCEnter.append('text')
+            .text((d, i) => d);
 
-                    if (map.zoom>17.5) {
+        optionsC = optionsCEnter.merge(optionsC);
 
-                        let max_lat=map.getBounds().oa.h
-                        let min_lat=map.getBounds().oa.g
-                        let max_lng=map.getBounds().ka.h
-                        let min_lng=map.getBounds().ka.g
-                        let filtered_data=usDataSample.filter(function(d){
-                            return (d.Longitude>min_lng && d.Longitude<max_lng && d.Latitude>min_lat && d.Latitude<max_lat);
-                        })
+        let selectedC = optionsC.filter((d,i) => i==7)
+            .attr('selected', true);
 
-                        heatmap_plot_zoom(filtered_data)
-                        marker_plot_zoom(filtered_data)
-                    }
-
-                    else if (map.zoom>15.5){
-
-                        let max_lat=map.getBounds().oa.h
-                        let min_lat=map.getBounds().oa.g
-                        let max_lng=map.getBounds().ka.h
-                        let min_lng=map.getBounds().ka.g
-                        let filtered_data=usDataSample.filter(function(d){
-                            return (d.Longitude>min_lng && d.Longitude<max_lng && d.Latitude>min_lat && d.Latitude<max_lat);
-                        })
-
-                        marker_plot_zoom(filtered_data)
-                        // var t2 = performance.now();
-                        // console.log("drawing" + (t2 - t1) + " milliseconds.");
-
-                        d3.selectAll('.tooltip').remove()
-                    }
-                    else {
-                        d3.selectAll('.marker').remove()
-                        d3.selectAll('.tooltip').remove()
-                    }
-
-
-                    function transform(d) {
-                        d = new google.maps.LatLng(+d.Latitude, +d.Longitude);
-                        d = projection.fromLatLngToDivPixel(d);
-                        return d3.select(this)
-                            .style("left", (d.x - padding) + "px")
-                            .style("top", (d.y - padding) + "px")
-                        // .style("width", 50 + "px")
-                        // .style("height", 50 + "px");
-                    }
-                };
-            };
-            overlay.setMap(map);}
-
-
-        function heatmap_plot(){
-            let heatmap = new google.maps.visualization.HeatmapLayer({
-                data: heatMapData,
-                dissipating: true,
-                opacity: 0.8,
-                radius:20
-            });
-            heatmap.setMap(map);
-        }
-        heatmap_plot()
-
-
+        dropC.on('change', function (d, i) {
+            let cValue = this.options[this.selectedIndex].value;
+            that.updateMap(usDataSample,cValue);
+        });
 
     }
 
-    googleMap(data);
+    mapoverlay(data) {
+        let that = this;
+        let layer1 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 20,
+            id: 'mapbox.streets',
+            accessToken: 'pk.eyJ1IjoibXJzaGVpIiwiYSI6ImNrMndybnJxNDA0NzAzZG8zdW16bWZuNjEifQ.MvgZUZVOBhLpdLg3-NtSyQ'
+        });
+
+        let googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        });
+
+        let code='DamageRatio';
+        let pointsGroup = L.markerClusterGroup({
+            disableClusteringAtZoom:16,
+            spiderfyOnMaxZoom: false}).on('clustermouseover', function (a) {
+
+        });
+        data.forEach(function (d) {
+
+            let circle=L.shapeMarker([d.Latitude, d.Longitude], {
+                shape:'triangle-down',
+                color: 'black',
+                fillColor: ('#' + that.fullColorHex(255, Math.round(255 - d[code] * 255), 0)),
+                fillOpacity: 0.9,
+                achieve: d[code],
+                radius: 8,
+                className: 'C'+d['BuildingId'],
+                bId:d['BuildingId'],
+                weight: 0,
+                rotationAngle: 45
+            }).bindPopup(code+': '+d[code]).on("mouseover" ,function(ev) {
+                circle.setStyle({
+                    weight: 2,
+                    radius: 20,
+                });
+                ev.target.openPopup();
+            }).on("click" ,function(d) {
+
+                let tmp2=(data.filter(function (d, i) {
+                    return d['BuildingId']==circle.options.bId;
+                }));
+                that.updateHighlight(tmp2[0])
+            })
+
+                .on("mouseout",function(ev) {
+                    circle.setStyle({
+                        weight: 0,
+                        radius: 8
+                    });
+                    ev.target.closePopup();
+                })
+                .addTo(pointsGroup);
+        });
+        let heatPoints=Array();
+        for (let i = 0; i < data.length; ++i) {
+            heatPoints.push([data[i].Latitude, data[i].Longitude, data[i][code]])
+        }
+        let heat = L.heatLayer(
+            heatPoints
+
+            , {radius: 20,
+                max: 1
+                // minOpacity: 0.2
+            });
+
+        let layerLabels = L.esri.basemapLayer('DarkGray');
+
+
+        this.map = L.map("mapDiv", {
+            center: [37.81, -122.45],
+            zoomSnap: 0.5,
+            zoom: 11.5,
+            layers: [layerLabels, pointsGroup,heat]
+        });
+
+        let baseLayers = {
+            "Dark Gray": layerLabels,
+            "USGS": layer1,
+            "Satellite": googleSat,
+        }
+        let subLayers = {"Points": pointsGroup,
+            'Heatmap': heat
+        };
+
+
+        let layerControl=L.control.layers(baseLayers, subLayers, {position: "topright"}).addTo(this.map);
+
+        let pulsingIcon = L.icon.pulse({iconSize:[30,30],color:'red'})
+        let marker = L.marker([37.9055, -122.3194],{icon: pulsingIcon}).addTo(this.map);
+        marker.bindPopup('M7.0 Earthquake <br/>Epicenter')
+        marker.on("mouseover" ,function(ev) {
+            ev.target.openPopup();        })
+        marker.on("mouseout" ,function(ev) {
+            ev.target.closePopup();        })
+
+        document.getElementById("defView").addEventListener("click", function () {
+            that.map.setView([37.81, -122.45], 11.5);
+        });
+
+        document.getElementById("zoomView").addEventListener("click", function () {
+            that.map.setView([37.76, -122.45], 17);
+        });
+
+        let legSvg=d3.select('#mapLegend').append('svg').attr('width','100%').attr('height',"100%")
+        legSvg.append('rect')
+            .attr('width','100%').attr('height',"100%").attr('fill','black').attr('stroke-width',3)
+            .attr('stroke','black').classed('legRect',true);
+        legSvg.append('text').text('DamageRatio: '+1.0).attr('transform','translate(30,30)').classed('legText',true).attr('id','legText1');
+        legSvg.append('text').text('DamageRatio: '+0.0).attr('transform','translate(30,55)').classed('legText',true).attr('id','legText2');
+        legSvg.append('circle').attr('cx',0).attr('cy',0).attr('r',5)
+            .attr('fill','#' + that.fullColorHex(255, 0, 0)).attr('transform','translate(20,25)');
+        legSvg.append('circle').attr('cx',0).attr('cy',0).attr('r',5)
+            .attr('fill','#' + that.fullColorHex(255, 255, 0)).attr('transform','translate(20,50)');
+        this.pointsGroup=pointsGroup;
+        this.heat=heat;
+        this.layerControl=layerControl;
+
+    }
+
+    updateMap(data){
+        console.log("updating map", data)
+        let e = document.getElementById("DropDownMap");
+        let code=e.options[e.selectedIndex].value;
+        this.map.removeLayer(this.pointsGroup);
+        this.map.removeLayer(this.heat);
+        this.layerControl.removeLayer(this.pointsGroup);
+        this.layerControl.removeLayer(this.heat);
+        let that=this;
+        let pointsGroup = L.markerClusterGroup({
+            disableClusteringAtZoom:16,
+            spiderfyOnMaxZoom: false});
+        let code_min=(d3.min(data, d => +d[code]));
+        let code_max=(d3.max(data, d => +d[code]));
+
+        data.forEach(function (d) {
+            if (code=='SafetyTag'){
+                let circle=L.shapeMarker([d.Latitude, d.Longitude], {
+                    shape:'triangle-down',
+                    color: 'black',
+                    fillColor: ('#' + that.fullColorHex(255, Math.round(255 -
+                        (d[code]=='Safe' ? 0 :1) * 255), 0)),
+                    fillOpacity: 0.9,
+                    achieve: d[code],
+                    radius: 8,
+                    className: 'C'+d['BuildingId'],
+                    weight: 0,
+                    bId:d['BuildingId'],
+
+                    rotationAngle: 45
+                }).bindPopup(code+': '+d[code]).on("mouseover" ,function(ev) {
+                    circle.setStyle({
+                        weight: 2,
+                        radius: 20,
+                    });
+                    ev.target.openPopup();
+                }).on("click" ,function(d) {
+
+                    let tmp2=(data.filter(function (d, i) {
+                        return d['BuildingId']==circle.options.bId;
+                    }));
+                    that.updateHighlight(tmp2[0])
+                })
+
+                    .on("mouseout",function(ev) {
+                        circle.setStyle({
+                            weight: 0,
+                            radius: 8
+                        });
+                        ev.target.closePopup();
+                    }).addTo(pointsGroup);
+
+            } else {
+                let circle=L.shapeMarker([d.Latitude, d.Longitude], {
+                    shape:'triangle-down',
+                    color: 'black',
+                    fillColor: ('#' + that.fullColorHex(255, Math.round(255 -
+                        (d[code]-code_min)/
+                        (code_max-code_min)
+                        * 255), 0)),
+                    fillOpacity: 0.9,
+                    achieve: d[code],
+                    radius: 8,
+                    className: 'C'+d['BuildingId'],
+                    bId:d['BuildingId'],
+
+                    weight: 0,
+                    rotationAngle: 45
+                }).bindPopup(code+': '+d[code]).on("mouseover" ,function(ev) {
+                    circle.setStyle({
+                        weight: 2,
+                        radius: 20,
+                    });
+                    ev.target.openPopup();
+                }).on("click" ,function(d) {
+
+                    let tmp2=(data.filter(function (d, i) {
+                        return d['BuildingId']==circle.options.bId;
+                    }));
+                    that.updateHighlight(tmp2[0])
+                })
+
+                    .on("mouseout",function(ev) {
+                        circle.setStyle({
+                            weight: 0,
+                            radius: 8
+                        });
+                        ev.target.closePopup();
+                    }).addTo(pointsGroup);
+            }
+        });
+        let heatPoints=Array();
+        for (let i = 0; i < data.length; ++i) {
+            heatPoints.push([data[i].Latitude, data[i].Longitude, data[i][code]])
+        }
+
+        let heat = L.heatLayer(
+            heatPoints
+
+            , {radius: 20,
+                max: 1*code_max
+            });
+
+        if (code=='SafetyTag'){
+            d3.select('#legText1').text(code+': Unsafe');
+            d3.select('#legText2').text(code+': Safe');
+        } else{
+            d3.select('#legText1').text(code+': '+d3.max(data, d => +d[code]));
+            d3.select('#legText2').text(code+': '+d3.min(data, d => +d[code]));
+        }
+
+
+        pointsGroup.addTo(this.map);
+        heat.addTo(this.map);
+
+        this.pointsGroup=pointsGroup;
+        this.heat=heat;
+        this.layerControl.addOverlay(pointsGroup , "Points");
+        this.layerControl.addOverlay(heat , "Heatmap");
+    }
+
+    Map_focus(point){
+        let that=this;
+        that.map.setView([point.Latitude, point.Longitude], 16);
+    }
 
 }
-
-
 

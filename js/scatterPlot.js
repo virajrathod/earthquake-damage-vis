@@ -459,7 +459,7 @@ let typeData=[
 
         let circleEnterType = circleGroupType.enter().append('g');
         circleEnterType.append('circle')
-            .style('fill',d=> colorScale(d))
+            .style('fill',d=> colorScale(d.clss))
             .classed("SC_circles", true);
         circleEnterType.append('text').classed('circle-size-text', true);
         circleGroupType = circleEnterType.merge(circleGroupType);
@@ -470,7 +470,7 @@ let typeData=[
         circleGroupType.select('circle').attr('cy', '0');
         let numTextType = circleGroupType.select('text').text(d => d.tex);
 
-        numTextType.attr('transform', (d,i) => 'translate(4,10), rotate(-90)');
+        numTextType.attr('transform', (d,i) => 'translate(4,10), rotate(-90)').classed('circle-type-text', true);;
 
     }
 
