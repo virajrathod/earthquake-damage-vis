@@ -2,9 +2,9 @@ class GapPlot {
 
 
     constructor(data,updateHighlight,filterMap) {
-        this.margin = { top: 20, right: 20, bottom: 60, left: 80 };
-        this.width = 600 - this.margin.left - this.margin.right;
-        this.height = 550 - this.margin.top - this.margin.bottom;
+        this.margin = { top: 20, right: 20, bottom: 50, left: 80 };
+        this.width = 700 - this.margin.left - this.margin.right;
+        this.height = 500 - this.margin.top - this.margin.bottom;
         this.data = data;
 
         for (let key in data) {
@@ -34,7 +34,7 @@ class GapPlot {
         d3.select('#dataviz-scatterplot').append('div').attr('id', 'chart-view');
         d3.select('#chart-view')
             .append('svg').classed('plot-svg', true)
-            .style("margin", "2rem")
+            // .style("margin", "2rem")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
@@ -82,7 +82,7 @@ class GapPlot {
         d3.select('#chart-view')
             .append('div')
             .classed('circle-legend', true)
-            .append('svg')
+            .append('svg').attr('width', 250)
             .append('g').classed('sizeLegend',true)
             .attr('transform', 'translate(0, 0)');
         d3.select('#chart-view')
@@ -92,7 +92,7 @@ class GapPlot {
         this.updatePlot('DamageRatio', 'GroundAcceleration(m/s2)', 'Stories')
 
         this.drawDropDown('DamageRatio', 'GroundAcceleration(m/s2)', 'Stories')
-
+        this.lineRender()
 
     }
 
@@ -415,7 +415,7 @@ class GapPlot {
 
         let circleData = [min, max];
 
-        let svg = d3.select('.circle-legend').select('svg').attr('width', 250).select('.sizeLegend');
+        let svg = d3.select('.circle-legend').select('svg').select('.sizeLegend');
 
         let circleGroup = svg.selectAll('g').data(circleData);
         circleGroup.exit().remove();
@@ -436,30 +436,41 @@ class GapPlot {
         numText.attr('transform', (d) => 'translate(' + ((scale(d)) + 10) + ', 0)');
 
 let typeData=[
-    'Steel',
-    'Concrete',
-    'Masonry_Type_1',
-    'Masonry_Type_2',
-    'Timber'
-];
+    {tex:'Steel',
+    clss:'Steel'},
+    {tex:'Concrete',
+        clss:'Concrete'},
+    {tex:'Masonry 1',
+        clss:'Masonry_Type_1'},
+    {tex:'Masonry 2',
+        clss:'Masonry_Type_2'},
+    {tex:'Timber',
+        clss:'Timber'}];
+
         let svgType = d3.select('.circle-legend').select('svg').attr('width', 250).select('.typeLegend');
         let circleGroupType = svgType.selectAll('g').data(typeData);
         circleGroupType.exit().remove();
 
         let circleEnterType = circleGroupType.enter().append('g');
-        circleEnterType.append('circle').attr('class',d=>d);
-        circleEnterType.append('text').classed('circle-size-text', true);
+        circleEnterType.append('circle').attr('class',d=>d.clss);
+        circleEnterType.append('text').classed('circle-type-text', true);
         circleGroupType = circleEnterType.merge(circleGroupType);
 
-        circleGroupType.attr('transform', (d, i) => 'translate(20,' + ((i * (18)) + 50) + ')');
+        circleGroupType.attr('transform', (d, i) => 'translate(' +(i*24+30)+',' + 70 + ')');
         circleGroupType.select('circle').attr('r', 5);
         circleGroupType.select('circle').attr('cx', '0');
         circleGroupType.select('circle').attr('cy', '0');
-        let numTextType = circleGroupType.select('text').text(d => d);
+        let numTextType = circleGroupType.select('text').text(d => d.tex);
 
-        numTextType.attr('transform', (d,i) => 'translate(20,5)');
+        numTextType.attr('transform', (d,i) => 'translate(4,10), rotate(-90)');
 
     }
+
+    lineRender(){
+        d3.select('.circle-legend').select('svg').append('line').attr('x1',0).attr('x2',180).attr('y1',0).attr('y2',0)
+            .attr('transform','translate(0,55)').classed('legendLine',true)
+}
+
         tooltipRender(data,txt) {
             let text = "<h3>" + txt+":"+data[txt] + "</h3>";
             return text;

@@ -191,7 +191,7 @@ class Sunburst {
     
         const color = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1))
         const format = d3.format(",.3f")
-        const width = 932;
+        const width = 600;
         const radius = width / 6
     
         const arc = d3.arc()
@@ -206,11 +206,11 @@ class Sunburst {
         root.each(d => d.current = d);
         d3.select("#sunburst").remove(); // remove old sunburst
         const svg = d3.select("#dataviz-sunburst").append("svg").attr("id", "sunburst");
-        svg.attr("viewBox", [0, 0, width, width])
+        svg.attr("viewBox", [0, 0, width*1.2, width*1.2])
             .style("margin", "2rem")
             .style("font", "10px sans-serif");
         const g = svg.append("g")
-            .attr("transform", `translate(${width / 2},${width / 2}) rotate(-50)`);
+            .attr("transform", `translate(${width / 1.6},${width / 2}) rotate(-50)`);
         const path = g.append("g")
         .selectAll("path")
         .data(root.descendants().slice(1))

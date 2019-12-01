@@ -314,13 +314,14 @@ select {
 
 div.dropdown-wrapper {
     display: inline-block;
-    margin-left: 75px;
+    margin-left: 40px;
+    margin-top: 25px;
     width: 400px;
     height: 130px;
     padding: 2px;
     display: inline-flex;
     flex-direction: column;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 
 .dropdown {
@@ -522,4 +523,14 @@ div.tooltip {
 
 .dropdown-block {
     flex-direction: column;
+}
+
+.circle-type-text{
+    font-family: sans-serif;
+    text-anchor: end;
+}
+.legendLine{
+    stroke-width: 1;
+    stroke: #555555;
+    stroke-dasharray: 5,5;
 }
