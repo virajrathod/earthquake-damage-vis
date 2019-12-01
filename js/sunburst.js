@@ -224,11 +224,24 @@ class Sunburst {
                 .size([2 * Math.PI, root.height + 1])
                 (root);
         }
-    
-        const color = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1))
+
+        function colorScale(d){
+            if (d=='Steel'){
+                return '#ff12d0';}
+            else if (d=='Concrete'){
+                return '#ff5c00';
+            }else if (d=='Masonry_Type_1'){
+                return '#0fc300';
+            }else if (d=='Masonry_Type_2'){
+                return '#00e7ff';
+            }else if (d=='Timber'){
+                return '#9300ff';
+            }
+        }
+        const color = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1));
         const format = d3.format(",.3f")
         const width = 600;
-        const radius = width / 6
+        const radius = width / 6;
     
         const arc = d3.arc()
             .startAngle(d => d.x0)
@@ -251,7 +264,7 @@ class Sunburst {
         .selectAll("path")
         .data(root.descendants().slice(1))
         .join("path")
-            .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.name); })
+            .attr("fill", d => { while (d.depth > 1) d = d.parent; return colorScale(d.data.name); })
             .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
             .attr("d", d => arc(d.current));
     
