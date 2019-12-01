@@ -30,6 +30,22 @@ class GapPlot {
         this.drawPlot()
 
     }
+
+    colorScale(d){
+        if (d=='Steel'){
+            return '#ff12d0';}
+        else if (d=='Concrete'){
+            return '#ff5c00';
+        }else if (d=='Masonry_Type_1'){
+            return '#0fc300';
+        }else if (d=='Masonry_Type_2'){
+            return '#00e7ff';
+        }else if (d=='Timber'){
+            return '#9300ff';
+        }
+    }
+
+
     drawPlot(){
         d3.select('#dataviz-scatterplot').append('div').attr('id', 'chart-view');
     let mainSvg=d3.select('#chart-view')
@@ -275,15 +291,15 @@ class GapPlot {
         .attr("class", "sunburst-tooltip")
         .style("visibility", "hidden")
 
-        var colorScale = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, 6))
+        // var colorScale = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, 6))
 
         svgcircle2
             .attr("cx", d => xScale(+d[xIndicator] ))
             .attr("cy", d => yScale(+d[yIndicator] ) )
             .attr('class',d=>('SC_circles'))
-            .style("fill", d => colorScale(d.StructType))
+            .style("fill", d => this.colorScale(d.StructType))
             .attr('id',d=>'SC'+d['BuildingId'])
-            .attr("r", d => circleSizer(+d[circleSizeIndicator]))//.attr("transform", "translate("+this.margin.left+","+(this.height+this.margin.top)+") scale(1,-1)");
+            .attr("r", d => circleSizer(+d[circleSizeIndicator]))
         // let tooltip = d3.select('.tooltip');
         svgcircle2.on("mouseover", function(d){
             return plotTooltip.style("visibility", "visible")
@@ -422,7 +438,7 @@ class GapPlot {
         circleGroup.select('circle').attr('cy', '0');
         let numText = circleGroup.select('text').text(d => new Intl.NumberFormat().format(d));
 
-        var colorScale = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, 6))
+        // var colorScale = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, 6))
 
         numText.attr('transform', (d) => 'translate(' + ((scale(d)) + 10) + ', 0)');
 
@@ -444,7 +460,7 @@ let typeData=[
 
         let circleEnterType = circleGroupType.enter().append('g');
         circleEnterType.append('circle')
-            .style('fill',d=> colorScale(d.clss))
+            .style('fill',d=> this.colorScale(d.clss))
             .classed("SC_circles", true);
         circleEnterType.append('text').classed('circle-size-text', true);
         circleGroupType = circleEnterType.merge(circleGroupType);
