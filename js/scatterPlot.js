@@ -80,7 +80,7 @@ class GapPlot {
             .attr("class", "viz-header__text--scatterplot")
             .html("Scatterplot</br></br>")
             .append("text")
-            .text("Plot data against each other");
+            .text("Click to view building on map.");
 
         // Create svg
 
