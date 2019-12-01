@@ -424,7 +424,7 @@ div.dropdown-wrapper {
 .SC_selected{
     opacity:1;
 }
-.Steel {
+/* .Steel {
     fill:  #009cff;
 }
 .Concrete {
@@ -438,7 +438,7 @@ div.dropdown-wrapper {
 }
 .Timber {
     fill: #793128;
-}
+} */
 
 .neutral {
     fill: #d9d9d9;
