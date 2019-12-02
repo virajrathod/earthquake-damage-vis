@@ -17,6 +17,7 @@ An overview of what we are handing in: which parts are our code, which parts are
     
 * **Libraries, Stylesheets, Plugins**
 Here we go give credit for stylesheets used and briefly explain the libaries used.
+  - All external libraries, plugins, or stylesheets are already included as links in the index.html file. No further work or download is necessary.
   - External stylesheets:
     - For text shaking in our Home page: https://csshake.surge.sh/csshake.min.css
     - For positioning of items on our landing page and About, Background, Help sections: https://www.w3schools.com/w3css/4/w3.css
