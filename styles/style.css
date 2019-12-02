@@ -2,6 +2,10 @@ body {
     margin: 0
 }
 
+.navigation {
+    display: inline-flex;
+}
+
 .down-arrow {
     border: solid black;
     border-width: 0 2px 2px 0;

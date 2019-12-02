@@ -1,0 +1,31 @@
+body,h1 {
+    font-family: "Raleway", sans-serif
+}
+
+body, html {
+    height: 100%
+}
+
+.background-img {
+    background-image: url('/figs/home-sanfran.jpg');
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+.jumbo {
+    font-size: 54px;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.small-line-size {
+    margin: auto;
+    width: 10%
+}
+
+#project-portal {
+    cursor: pointer;
+}
