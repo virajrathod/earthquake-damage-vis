@@ -1,5 +1,7 @@
 body {
-    margin: 0
+    margin: 0;
+    --dark: rgb(34, 34, 34);
+    --white: rgb(189, 189, 189);
 }
 
 .navigation {
@@ -118,7 +120,7 @@ select {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #333;
+    background-color: var(--dark);
     /* padding: 5rem; */
 }
 
@@ -144,18 +146,14 @@ select {
       0 7px 0 #222, 
       0 8px 0 #202020, 
       0 9px 0 #1e1e1e, 
-      0 10px 0 #1c1c1c, 
-      0 11px 0 #1a1a1a, 
-      0 12px 0 #181818, 
-      0 13px 0 #161616, 
       0 14px 0 #141414, 
       0 15px 0 #121212, 
       0 22px 30px rgba(0, 0, 0, 0.9);
 }
 
 .project-header--shake:hover {
-    animation: 1.2s shake infinite alternate;
-    animation-iteration-count: 6;
+    animation: 1.2s shake infinite;
+    animation-iteration-count: 2;
 }
 
 .our-names {
@@ -212,10 +210,10 @@ select {
 }
 
 @keyframes shake {
-  0% { transform: skewX(-15deg); }
-  5% { transform: skewX(15deg); }
-  10% { transform: skewX(-15deg); }
-  15% { transform: skewX(15deg); }
+  0% { transform: skewX(-5deg); }
+  5% { transform: skewX(5deg); }
+  10% { transform: skewX(-5deg); }
+  15% { transform: skewX(5deg); }
   20% { transform: skewX(0deg); }
   100% { transform: skewX(0deg); }
 }

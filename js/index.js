@@ -39,17 +39,12 @@ function onLoadHomePage() {
     portal.text("Click to View");
     portal.on("click", onLoadVisualizationPage);
 
-    middle.append("hr")
-        .attr("class", "small-line-size w3-border-grey");
-
     // portal to data viz project
     body.append("div")
         .attr("class", "w3-display-bottomleft w3-padding-large")
         .text("Created by Reza Sheibani, Natalia Soto, and Viraj Rathod");
 }
 
-
-// onLoadVisualizationPage();
 
  /**
  * Reads data from CSV file.
