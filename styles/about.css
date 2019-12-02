@@ -1,0 +1,12 @@
+.title-header {
+    display: flex;
+    justify-content: center;
+}
+
+.body-header {
+    padding: 2rem;
+}
+
+.body-text {
+    padding: 0 1rem;
+}

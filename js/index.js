@@ -68,34 +68,58 @@ function onLoadAboutPage() {
 
     // Title text
     const title = body.append("div")
-        .classed("w3-display-topmiddle", true);
+        .classed("title-header", true);
     title.append("h1")
         .attr("class", "jumbo w3-animate-top")
         .text("Meet the Developers");
-    title.append("p")
-        .attr("class", "w3-large w3-center uppercase")
-        .text("Reza Sheiban");
+    // title.append("p")
+    //     .attr("class", "w3-large w3-center uppercase")
+    //     .text("Reza Sheiban");
 
-    title.append("p")
-        .attr("class", "w3-large w3-center uppercase")
-        .text("Natalia Soto");
+    // title.append("p")
+    //     .attr("class", "w3-large w3-center uppercase")
+    //     .text("Natalia Soto");
 
-    title.append("p")
-        .attr("class", "w3-large w3-center uppercase")
-        .text("Viraj Rathod");
+    // title.append("p")
+    //     .attr("class", "w3-large w3-center uppercase")
+    //     .text("Viraj Rathod");
 
     // Reza
     const reza = body.append("div")
-        .classed("w3-display-left", true);
+        .classed("body-header", true);
     reza.append("h2")
         .attr("class", "jumbo w3-animate-left")
-        .text("");
+        .text("Reza Sheiban");
+    reza.append("p")
+        .attr("class", "body-text w3-large")
+        .text("Reza is a research assistant at the department of Civil and Environmental Engineering at the University of Utah. His research is focused on regional damage assessment of structures subjected to natural hazards. He is interested in the applications of data science in community resilience.")
+
+    //Natalia
+
+    const nat = body.append("div")
+        .classed("body-header", true);
+    nat.append("h2")
+        .attr("class", "jumbo w3-animate-left")
+        .text("Natalia Soto");
+    nat.append("p")
+        .attr("class", "body-text w3-large")
+        .text("Natalia is a junior studying Computer Science." +
+        "She has experience teaching high school students Python Game Development after being hired to work" +
+        "for the University of Utah's Summer G.R.E.A.T Camp in 2018. Natalia also runs her own online business"
+        + "as the Owner and Designer of Charm Bits Design, a printable party kit shop on Etsy. Through hard work" 
+        + " and education in search engine optimization, providing customer support, and using Adobe products,"
+        + "her shop has provided her with income to help her pay college expenses. Separately, Natalia works " +
+        "as a Software Engineering Intern at Proofpoint and looks forward to gaining more experience and opportunities" 
+       + " in the rest of her college experience." );
 
     // Viraj
     const vir = body.append("div")
-        .classed("w3-display-left", true);
+        .classed("body-header", true);
     vir.append("h2")
         .attr("class","jumbo w3-animate-left")
+        .text("Viraj Rathod")
+    vir.append("p")
+        .attr("class", "body-text w3-large")
         .text("Hi, I'm Viraj Rathod, an MSIS grad student here at the David Eccles Business School." +
             "I'm from Mumbai, India the bollywood capital of India." +
             "Looking to make a career in Analytics and Data managment.")
