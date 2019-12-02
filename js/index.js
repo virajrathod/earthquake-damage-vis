@@ -78,7 +78,7 @@ function onLoadAboutPage() {
         .classed("body-header", true);
     reza.append("h2")
         .attr("class", "jumbo w3-animate-left")
-        .text("Reza Sheiban");
+        .text("Reza Sheibani");
     reza.append("div")
         .attr("class", "img-container")
         .append("img")
@@ -118,7 +118,7 @@ function onLoadAboutPage() {
     vir.append("div")
         .attr("class", "img-container")
         .append("img")
-        .attr("src", "/figs/viraj.jpg");
+        .attr("src", "figs/viraj.jpg");
     vir.append("p")
         .attr("class", "body-text w3-large")
         .text("Hi, I'm Viraj Rathod, an MSIS grad student here at the David Eccles Business School." +
@@ -149,6 +149,7 @@ function onLoadHelpPage() {
     // Title text
     const middle = body.append("div")
         .classed("w3-display-topmiddle", true)
+
 
     // 1st item
     const item = body.append("div")
@@ -206,7 +207,7 @@ function onLoadHelpPage() {
         .text("The sunburst can be used as a filter or way to quantify the number of buildings with specific attributes. "+
         "It can also be used to quantify other values depending on the selected dropdown option. Users can " + 
         "click a node on the sunburst to view all of its children. That filtering will also reflect on the map on the right." + 
-        "From there, the map continues to filter as the user goes furher up or down the sunburst hierarchy.");
+        "From there, the map continues to filter as the user goes further up or down the sunburst hierarchy.");
     let imge4=item.append('img').attr('src','figs/screenshots/13.png').attr('width',"50%");
     item.append("h3")
         .attr("class", "body-header jumbo")
