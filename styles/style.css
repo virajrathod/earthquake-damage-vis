@@ -27,6 +27,10 @@ body {
     padding: .5rem;
 }
 
+.scatterplot-tooltip {
+    font-size: 13px;
+}
+
 .viz-header {
     display: flex;
     flex-direction: column;
@@ -501,4 +505,31 @@ div.tooltip {
 .SP_DD_text{
     font-family: sans-serif;
     text-anchor: end;
+}
+
+#axesX path{
+    stroke: var(--dark);
+
+}
+#axesX line{
+    stroke: var(--dark);
+
+}
+
+#axesX text{
+    stroke: var(--dark);
+
+}
+
+#axesY path{
+    stroke: var(--dark);
+
+}
+#axesY line{
+    stroke: var(--dark);
+
+}
+
+#axesY text{
+    stroke: var(--dark);
 }

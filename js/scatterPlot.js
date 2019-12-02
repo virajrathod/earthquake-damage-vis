@@ -292,9 +292,9 @@ class GapPlot {
         svgcircle2 = svgcircle2Enter.merge(svgcircle2);
 
         var plotTooltip = d3.select("body")
-        .append("div")
-        .attr("class", "sunburst-tooltip")
-        .style("visibility", "hidden")
+            .append("div")
+            .attr("class", "sunburst-tooltip")
+            .style("visibility", "hidden")
 
         svgcircle2
             .attr("cx", d => xScale(+d[xIndicator] ))
@@ -505,7 +505,7 @@ class GapPlot {
      * @param {*} txt 
      */
     tooltipRender(data,txt) {
-        let text = "<h3>" + txt+":"+data[txt] + "</h3>";
+        let text = `<p class="scatterplot-tooltip">` + txt+":"+data[txt] + "</p>";
         return text;
     }
 }

@@ -152,7 +152,6 @@ function onLoadHomePage() {
 
         // Helper function that draws scaterplot if it isn't drawn already
         function drawScatterplot() {
-            alert("click")
             if (currVisualization === "scatterplot")
                 return;
             else {
