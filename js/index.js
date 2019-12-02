@@ -25,10 +25,10 @@ function onLoadHomePage() {
 
     // middle text
     const middle = body.append("div")
-        .classed("w3-display-middle", true)
+        .classed("w3-display-position", true)
     middle.append("h1")
         .attr("class", "jumbo w3-animate-top")
-        .text("Earthquake Visualization");
+        .text("Earthquake Damage Visualization");
     middle.append("p")
         .attr("class", "w3-large w3-center uppercase")
         .text("San Francisco");
@@ -36,12 +36,12 @@ function onLoadHomePage() {
         .attr("id", "project-portal")
         .attr("class", "btn from-left w3-large w3-center w3-animate-left");
 
-    portal.text("Click to View");
+    portal.text("EXPLORE");
     portal.on("click", onLoadVisualizationPage);
 
     // portal to data viz project
     body.append("div")
-        .attr("class", "w3-display-bottomleft w3-padding-large")
+        .attr("class", "homeNames w3-display-bottommiddle w3-padding-large")
         .text("Created by Reza Sheibani, Natalia Soto, and Viraj Rathod");
 }
 
