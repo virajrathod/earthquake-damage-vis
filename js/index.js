@@ -72,6 +72,17 @@ function onLoadAboutPage() {
     title.append("h1")
         .attr("class", "jumbo w3-animate-top")
         .text("Meet the Developers");
+    // title.append("p")
+    //     .attr("class", "w3-large w3-center uppercase")
+    //     .text("Reza Sheiban");
+
+    // title.append("p")
+    //     .attr("class", "w3-large w3-center uppercase")
+    //     .text("Natalia Soto");
+
+    // title.append("p")
+    //     .attr("class", "w3-large w3-center uppercase")
+    //     .text("Viraj Rathod");
 
     // Reza
     const reza = body.append("div")
@@ -104,10 +115,10 @@ function onLoadAboutPage() {
         .text("Natalia is a junior studying Computer Science." +
         "She has experience teaching high school students Python Game Development after being hired to work" +
         "for the University of Utah's Summer G.R.E.A.T Camp in 2018. Natalia also runs her own online business"
-        + "as the Owner and Designer of Charm Bits Design, a printable party kit shop on Etsy. Through hard work" 
+        + "as the Owner and Designer of Charm Bits Design, a printable party kit shop on Etsy. Through hard work"
         + " and education in search engine optimization, providing customer support, and using Adobe products,"
         + "her shop has provided her with income to help her pay college expenses. Separately, Natalia works " +
-        "as a Software Engineering Intern at Proofpoint and looks forward to gaining more experience and opportunities" 
+        "as a Software Engineering Intern at Proofpoint and looks forward to gaining more experience and opportunities"
        + " in the rest of her college experience." );
 
     // Viraj
@@ -142,7 +153,7 @@ function onLoadHelpPage() {
         .classed("header-wrap", true)
     renderTabHeader(header);
     pageHasTabs = true;
-    header.append("div").attr("class", "project-header").text("Help");
+    header.append("div").attr("class", "project-header").text("About");
     // create body
     const body = page.append("div")
         .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
@@ -150,6 +161,7 @@ function onLoadHelpPage() {
     // Title text
     const middle = body.append("div")
         .classed("w3-display-topmiddle", true)
+
 
     // 1st item
     const item = body.append("div")
@@ -191,12 +203,12 @@ function onLoadHelpPage() {
         .attr("class", "body-text tmp")
         .text("The map is created from three different base-layers and two sub-layers. The user is able to choose a base-layer and the sub-layers from the " +
             "options at the top right corner of the plot. Also, two buttons are provided as shortcuts for zooming to max and to an overview of the city.");
-    let imge2=item.append('img').attr('src','figs/screenshots/12.png').attr('width',"50%").attr('left',"25%");
+    let imge2=item.append('img').attr('src','figs/screenshots/12.png').attr('width',"50%");
     item.append("p")
         .attr("class", "body-text tmp")
         .text("Markers are clustered on map to avoid saturating the plot. As the user zooms in, the number of clusters increases until finally, the user is able to see" +
             "each individual building. A popup message shows the exact attribute of the building when the user hovers the mouse over it.");
-    let imge3=item.append('img').attr('src','figs/screenshots/14.png').attr('width',"50%").attr('text-align', 'center');
+    let imge3=item.append('img').attr('src','figs/screenshots/14.png').attr('width',"50%");
 
 
     item.append("h3")
@@ -233,7 +245,7 @@ function onLoadBackgroundPage() {
             .classed("header-wrap", true)
         renderTabHeader(header);
         pageHasTabs = true;
-        header.append("div").attr("class", "project-header").text("Background");
+        header.append("div").attr("class", "project-header").text("About");
         // create body
         const body = page.append("div")
             .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
@@ -250,15 +262,31 @@ function onLoadBackgroundPage() {
 
     // 1st item
     const item = body.append("div")
-        .classed("w3-display-left", true);
+        .classed("body-header", true);
     item.append("h2")
         .attr("class", "jumbo w3-animate-left")
-        .text("•\tEarthquake damage prediction is one of the most popular topics in the civil engineering community.\n" +
-            "•\nVisualizing the consequences of an earthquake with an attractive design and providing information regarding the level of vulnerability of different structures is the main goal of this project.\n" +
-            " \n" +
-            "•\n`A dataset, describing the seismic behavior of buildings in San Francisco city during a hypothetical M7.0 earthquake is available and will be implemented in the project\n");
+        .text("Concept")
+    item.append("p")
+        .attr("class", "body-text w3-large")
+        .text("\tEarthquake damage prediction is one of the most popular topics in the civil engineering community.\n" +
+            "\nVisualizing the consequences of an earthquake with an attractive design and providing information regarding the level of vulnerability of different structures is the main goal of this project.\n");
 
+    item.append("h2")
+        .attr("class", "jumbo w3-animate-left")
+        .text("Data")
+    item.append("p")
+        .attr("class","body-text w3-large")
+        .text("\nA dataset, describing the seismic behavior of buildings in San Francisco city during a hypothetical M7.0 earthquake is available and will be implemented in the project\n");
 
+    item.append("h2")
+        .attr("class", "jumbo w3-animate-left")
+        .text("Motivation")
+    item.append("p")
+        .attr("class","body-text w3-large")
+        .text("The idea behind this visualization is to provide an idea of the damage caused by an earthquake and the repair cost associated with it. " +
+            " Different factors like the area of the buildings in the area, no. of stories, type of the building, whether it is a residential or a commercial building. " +
+            " One of the project members is doing his research project in this domain and visualizing the data associated with an earthquake was an extension of the idea. " +
+            " Conceptually the idea is to create awareness among officials who deal with earthquakes and its causes.");
 }
 
 function renderTabHeader(header) {
