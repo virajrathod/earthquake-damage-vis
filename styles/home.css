@@ -1,8 +1,8 @@
 body,h1 {
     font-family: "Raleway", sans-serif;
     --tab-width: 14rem;
-    --def: rgb(255, 255, 253);
-    --inv: rgb(216, 255, 255);
+    --def: rgb(78, 78, 75);
+    --inv: rgb(255, 255, 255);
 }
 
 body, html {
