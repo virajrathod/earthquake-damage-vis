@@ -213,7 +213,7 @@ function onLoadHelpPage() {
         .attr("class", "body-header jumbo")
         .text("Scatter Plot:");
     item.append("p")
-        .attr("class", "tmp")
+        .attr("class", "body-text tmp")
         .text("Scatter Plot is provided to give the user the flexibility to see any building attribute against the others. Three dropdown menus are located at the bottom" +
             "which can be used to customize the plot view. The user is also able to brush on the dots and see the corresponding markers on the map." +
             " By clicking on any point, the map zooms to the corresponding building.");
