@@ -168,8 +168,9 @@ class mapClass {
         let heat = L.heatLayer(
             heatPoints
 
-            , {radius: 20,
-                max: 1
+            , {radius: 15,
+                max: 1,
+                gradient:{0.4: 'green', 0.65: 'lime', 1: 'red'}
                 // minOpacity: 0.2
             });
 
@@ -217,10 +218,10 @@ class mapClass {
             .attr('stroke','black').classed('legRect',true);
         legSvg.append('text').text('DamageRatio: '+1.0).attr('transform','translate(30,30)').classed('legText',true).attr('id','legText1');
         legSvg.append('text').text('DamageRatio: '+0.0).attr('transform','translate(30,55)').classed('legText',true).attr('id','legText2');
-        legSvg.append('circle').attr('cx',0).attr('cy',0).attr('r',5)
-            .attr('fill','#' + that.fullColorHex(255, 0, 0)).attr('transform','translate(20,25)');
-        legSvg.append('circle').attr('cx',0).attr('cy',0).attr('r',5)
-            .attr('fill','#' + that.fullColorHex(255, 255, 0)).attr('transform','translate(20,50)');
+        legSvg.append('path').attr('d',"M 0 0 L 16 0 L 8 16 z")
+            .attr('fill','#' + that.fullColorHex(255, 0, 0)).attr('transform','translate(7,15)');
+        legSvg.append('path').attr('d',"M 0 0 L 16 0 L 8 16 z")
+            .attr('fill','#' + that.fullColorHex(255, 255, 0)).attr('transform','translate(7,45)');
         this.pointsGroup=pointsGroup;
         this.heat=heat;
         this.layerControl=layerControl;
@@ -323,16 +324,20 @@ class mapClass {
                     }).addTo(pointsGroup);
             }
         });
+        let legScale = d3.scaleLinear()
+            .domain([code_min, code_max])
+            .range([0, 1]);
         let heatPoints=Array();
         for (let i = 0; i < data.length; ++i) {
-            heatPoints.push([data[i].Latitude, data[i].Longitude, data[i][code]])
+            heatPoints.push([data[i].Latitude, data[i].Longitude, (legScale(data[i][code]))])
         }
 
         let heat = L.heatLayer(
             heatPoints
 
-            , {radius: 20,
-                max: 1*code_max
+            , {radius: 15,
+                max: 1,
+                gradient:{0.4: 'green', 0.65: 'lime', 1: 'red'}
             });
 
         if (code=='SafetyTag'){
