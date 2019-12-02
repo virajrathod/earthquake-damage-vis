@@ -121,9 +121,7 @@ function onLoadAboutPage() {
         .attr("src", "figs/viraj.jpg");
     vir.append("p")
         .attr("class", "body-text w3-large")
-        .text("Hi, I'm Viraj Rathod, an MSIS grad student here at the David Eccles Business School." +
-            "I'm from Mumbai, India the bollywood capital of India." +
-            "Looking to make a career in Analytics and Data managment.")
+        .text("Viraj is an MSIS grad student at the David Eccles Business School from Mumbai, India. He has worked for two years for a telecom firm in India. Looking to make a career in Data Analytics and Business Intelligence.")
 
 }
 
@@ -141,7 +139,7 @@ function onLoadHelpPage() {
         .classed("header-wrap", true)
     renderTabHeader(header);
     pageHasTabs = true;
-    header.append("div").attr("class", "project-header").text("About");
+    header.append("div").attr("class", "project-header").text("Help");
     // create body
     const body = page.append("div")
         .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
@@ -233,7 +231,7 @@ function onLoadBackgroundPage() {
             .classed("header-wrap", true)
         renderTabHeader(header);
         pageHasTabs = true;
-        header.append("div").attr("class", "project-header").text("About");
+        header.append("div").attr("class", "project-header").text("Background");
         // create body
         const body = page.append("div")
             .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
