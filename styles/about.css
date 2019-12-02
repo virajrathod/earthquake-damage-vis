@@ -1,13 +1,16 @@
 .title-header {
     display: flex;
     justify-content: center;
-}
-
-.body-header {
     padding: 2rem;
 }
 
+.body-header {
+    padding: 0 0 2rem 2rem;
+}
+
 .body-text {
+    padding: 0 0 2rem 2rem;
+
     padding: 0 1rem;
 }
 

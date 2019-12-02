@@ -155,10 +155,10 @@ function onLoadHelpPage() {
     const item = body.append("div")
         .classed("tmp1", true);
     item.append("h2")
-        .attr("class", "jumbo")
+        .attr("class", "body-header jumbo")
         .text("Overview");
     item.append("p")
-        .attr("class", "tmp")
+        .attr("class", "body-text tmp")
         .text("The aim of the visualization is to show the distribution of damage to each individual building in an earthquake. There are a number of " +
             "attributes associated with each building:");
     let list0=item.append('ul');
@@ -172,42 +172,45 @@ function onLoadHelpPage() {
     list0.append('li').text('DamageRatio: A floating number between 0 and 1, where 1 indicates a total destruction of building and 0 means that it has remained intact.')
 
     item.append("p")
-        .attr("class", "tmp")
+        .attr("class", "body-text tmp")
         .text("The user is able to select any of these attributes to create the desired view in each different visualization.");
 
     item.append("h2")
-        .attr("class", "jumbo")
+        .attr("class", "body-header jumbo")
         .text("Main Page:");
     item.append("p")
-        .attr("class", "tmp")
+        .attr("class", "body-text tmp")
         .text("The main page shows the map view of the San Francisco with buildings shown as markers on top of it. On the left, the user have two options to select: 1) Sunburst plot, 2) Scatter Plot."
              );
     let imge1=item.append('img').attr('src','figs/screenshots/1.PNG').attr('width',"100%");
 
     item.append("h3")
-        .attr("class", "large")
+        .attr("class", "body-header jumbo")
         .text("Map view:");
     item.append("p")
-        .attr("class", "tmp")
+        .attr("class", "body-text tmp")
         .text("The map is created from three different base-layers and two sub-layers. The user is able to choose a base-layer and the sub-layers from the " +
             "options at the top right corner of the plot. Also, two buttons are provided as shortcuts for zooming to max and to an overview of the city.");
     let imge2=item.append('img').attr('src','figs/screenshots/12.png').attr('width',"50%");
     item.append("p")
-        .attr("class", "tmp")
+        .attr("class", "body-text tmp")
         .text("Markers are clustered on map to avoid saturating the plot. As the user zooms in, the number of clusters increases until finally, the user is able to see" +
             "each individual building. A popup message shows the exact attribute of the building when the user hovers the mouse over it.");
     let imge3=item.append('img').attr('src','figs/screenshots/14.png').attr('width',"50%");
 
 
     item.append("h3")
-        .attr("class", "large")
+        .attr("class", "body-header jumbo")
         .text("Sunburst:");
     item.append("p")
-        .attr("class", "tmp")
-        .text("The sunburst BLA BLA");
+        .attr("class", "body-text tmp")
+        .text("The sunburst can be used as a filter or way to quantify the number of buildings with specific attributes. "+
+        "It can also be used to quantify other values depending on the selected dropdown option. Users can " + 
+        "click a node on the sunburst to view all of its children. That filtering will also reflect on the map on the right." + 
+        "From there, the map continues to filter as the user goes furher up or down the sunburst hierarchy.");
     let imge4=item.append('img').attr('src','figs/screenshots/13.png').attr('width',"50%");
     item.append("h3")
-        .attr("class", "large")
+        .attr("class", "body-header jumbo")
         .text("Scatter Plot:");
     item.append("p")
         .attr("class", "tmp")
