@@ -72,17 +72,6 @@ function onLoadAboutPage() {
     title.append("h1")
         .attr("class", "jumbo w3-animate-top")
         .text("Meet the Developers");
-    // title.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Reza Sheiban");
-
-    // title.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Natalia Soto");
-
-    // title.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Viraj Rathod");
 
     // Reza
     const reza = body.append("div")
@@ -148,12 +137,6 @@ function onLoadHelpPage() {
     // Title text
     const middle = body.append("div")
         .classed("w3-display-topmiddle", true)
-    // middle.append("h1")
-    //     .attr("class", "jumbo w3-animate-top")
-    //     .text("How to Use This Site");
-    // middle.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Hi this is how");
 
     // 1st item
     const item = body.append("div")
@@ -244,13 +227,10 @@ function onLoadBackgroundPage() {
 
         // Title text
         const middle = body.append("div")
-            .classed("w3-display-topmiddle", true)
+            .classed("title-header", true)
         middle.append("h1")
             .attr("class", "jumbo w3-animate-top")
             .text("Background");
-        middle.append("p")
-            .attr("class", "w3-large w3-center uppercase")
-            .text("...");
 
     // 1st item
     const item = body.append("div")
