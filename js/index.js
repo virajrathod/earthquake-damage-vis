@@ -89,7 +89,16 @@ function onLoadAboutPage() {
         .classed("w3-display-left", true);
     reza.append("h2")
         .attr("class", "jumbo w3-animate-left")
-        .text("Reza bla bla");
+        .text("");
+
+    // Viraj
+    const vir = body.append("div")
+        .classed("w3-display-left", true);
+    vir.append("h2")
+        .attr("class","jumbo w3-animate-left")
+        .text("Hi, I'm Viraj Rathod, an MSIS grad student here at the David Eccles Business School." +
+            "I'm from Mumbai, India the bollywood capital of India." +
+            "Looking to make a career in Analytics and Data managment.")
 
 }
 
@@ -221,7 +230,10 @@ function onLoadBackgroundPage() {
         .classed("w3-display-left", true);
     item.append("h2")
         .attr("class", "jumbo w3-animate-left")
-        .text("bla bla");
+        .text("•\tEarthquake damage prediction is one of the most popular topics in the civil engineering community.\n" +
+            "•\nVisualizing the consequences of an earthquake with an attractive design and providing information regarding the level of vulnerability of different structures is the main goal of this project.\n" +
+            " \n" +
+            "•\n`A dataset, describing the seismic behavior of buildings in San Francisco city during a hypothetical M7.0 earthquake is available and will be implemented in the project\n");
 
 
 }
@@ -276,10 +288,6 @@ function renderTabHeader(header) {
     pageHasTabs = true;
 
     header.append("div").attr("class", "project-header shake-slow").text("Earthquake Visualization");
-    const ournames = header.append("div").attr("class", "our-names");
-    ournames.append("div").text("Reza Sheibani; E-mail: m.sheibani@utah.edu; UID: u1138100 ")
-    ournames.append("div").text("Natalia Soto; Email: n.soto@utah.edu; UID: u1058711 ")
-    ournames.append("div").text("Viraj Rathod; Email: viraj.rathod@utah.edu; UID: u1269659");
 
     // Append scatterplot and sunburst body elements
     const overlay = page.append("div")
