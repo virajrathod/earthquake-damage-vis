@@ -2,7 +2,7 @@
 * Visualizing the damage incurred on buildings in San Francisco due to earthquakes (1848 -2010)
 Authors: Natalia Soto, Reza Sheiban, Viraj Rathod
 * Project Website: https://rawgit.com/nataliamelissas/earthquake-damage-visualization/master/index.html
-* Project Screencast: 
+* Project Screencast: https://youtu.be/mSigoaSYAqo
 
 ## Earthquake Damage Visualization in San Francisco
 An overview of what we are handing in: which parts are our code, which parts are libraries, and so on. The README must contain URLs to your project websites and screencast videos. The README must also explain any non-obvious features of your interface.
