@@ -1,6 +1,6 @@
 # earthquake-damage-visualization
 * Visualizing the damage incurred on buildings in San Francisco due to a hypothetical earthquake.
-Authors: Natalia Soto, Reza Sheiban, Viraj Rathod
+Authors: Natalia Soto, Reza Sheibani, Viraj Rathod
 * Project Website: https://rawgit.com/nataliamelissas/earthquake-damage-visualization/master/index.html
 * Project Screencast: https://youtu.be/mSigoaSYAqo
 
