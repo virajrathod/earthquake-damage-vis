@@ -96,7 +96,7 @@ class GapPlot {
             .style('filter','url(#shadow)').style('fill','#a2a2a2').classed('BG_rect',true);
         mainSvg.select('#BG_g').append('rect').attr('x','2%').attr('y','2%')
             .attr('width','96%').attr('height','96%')
-            .style('fill','darkgrey').classed('BG_rect',true);
+            .style('fill','#d9d9d9').classed('BG_rect',true);
         d3.select('#chart-view').select('.plot-svg').append('g').classed("brush", true);
         let svgGroup = d3.select('#chart-view').select('.plot-svg').append('g').classed('wrapper-group', true);
 
