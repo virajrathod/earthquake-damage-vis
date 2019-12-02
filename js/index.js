@@ -79,6 +79,10 @@ function onLoadAboutPage() {
     reza.append("h2")
         .attr("class", "jumbo w3-animate-left")
         .text("Reza Sheiban");
+    reza.append("div")
+        .attr("class", "img-container")
+        .append("img")
+        .attr("src", "figs/reza.jpg");
     reza.append("p")
         .attr("class", "body-text w3-large")
         .text("Reza is a research assistant at the department of Civil and Environmental Engineering at the University of Utah. His research is focused on regional damage assessment of structures subjected to natural hazards. He is interested in the applications of data science in community resilience.")
@@ -90,6 +94,10 @@ function onLoadAboutPage() {
     nat.append("h2")
         .attr("class", "jumbo w3-animate-left")
         .text("Natalia Soto");
+    nat.append("div")
+        .attr("class", "img-container")
+        .append("img")
+        .attr("src", "figs/natalia.png");
     nat.append("p")
         .attr("class", "body-text w3-large")
         .text("Natalia is a junior studying Computer Science." +
@@ -107,6 +115,10 @@ function onLoadAboutPage() {
     vir.append("h2")
         .attr("class","jumbo w3-animate-left")
         .text("Viraj Rathod")
+    vir.append("div")
+        .attr("class", "img-container")
+        .append("img")
+        .attr("src", "/figs/viraj.jpg");
     vir.append("p")
         .attr("class", "body-text w3-large")
         .text("Hi, I'm Viraj Rathod, an MSIS grad student here at the David Eccles Business School." +
