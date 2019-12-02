@@ -1,10 +1,10 @@
-onLoadHomePage();
-
+onLoadLandingPage();
+let pageHasTabs = false;
 
 /**
  * Loads home page with background image of San Francisco
  */
-function onLoadHomePage() {
+function onLoadLandingPage() {
     // Setup DOM
 
     // Remove current page elements
@@ -37,38 +37,184 @@ function onLoadHomePage() {
         .attr("class", "btn from-left w3-large w3-center w3-animate-left");
 
     portal.text("Click to View");
-    portal.on("click", onLoadVisualizationPage);
+    portal.on("click", onLoadHomePage);
 
-    // portal to data viz project
+    // portal to Home page
     body.append("div")
         .attr("class", "w3-display-bottomleft w3-padding-large")
         .text("Created by Reza Sheibani, Natalia Soto, and Viraj Rathod");
 }
 
+/**
+ * Detailed descriptions of the developers of this project
+ */
+function onLoadAboutPage() {
+    // Setup DOM
+
+    // Remove current page elements
+    d3.select(".page").remove();
+    // Append page elements
+    const page = d3.select("body").append("div").attr("class", "page");
+    // Append header
+    const header = page.append("div")
+        .classed("header-wrap", true)
+    renderTabHeader(header);
+    pageHasTabs = true;
+    header.append("div").attr("class", "project-header").text("About");
+    // create body
+    const body = page.append("div")
+        .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
+
+    // Title text
+    const title = body.append("div")
+        .classed("w3-display-topmiddle", true);
+    title.append("h1")
+        .attr("class", "jumbo w3-animate-top")
+        .text("Meet the Developers");
+    title.append("p")
+        .attr("class", "w3-large w3-center uppercase")
+        .text("Reza Sheiban");
+
+    title.append("p")
+        .attr("class", "w3-large w3-center uppercase")
+        .text("Natalia Soto");
+
+    title.append("p")
+        .attr("class", "w3-large w3-center uppercase")
+        .text("Viraj Rathod");
+
+    // Reza
+    const reza = body.append("div")
+        .classed("w3-display-left", true);
+    reza.append("h2")
+        .attr("class", "jumbo w3-animate-left")
+        .text("Reza bla bla");
+
+}
+
+/**
+ * Loads help page that explains how to interpret the data and gives a brief explanation of the data
+ * and how to use the data charts
+ */
+function onLoadHelpPage() {
+    // Remove current page elements
+    d3.select(".page").remove();
+    // Append page elements
+    const page = d3.select("body").append("div").attr("class", "page");
+    // Append header
+    const header = page.append("div")
+        .classed("header-wrap", true)
+    renderTabHeader(header);
+    pageHasTabs = true;
+    header.append("div").attr("class", "project-header").text("About");
+    // create body
+    const body = page.append("div")
+        .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
+
+    // Title text
+    const middle = body.append("div")
+        .classed("w3-display-topmiddle", true)
+    middle.append("h1")
+        .attr("class", "jumbo w3-animate-top")
+        .text("How to Use This Site");
+    middle.append("p")
+        .attr("class", "w3-large w3-center uppercase")
+        .text("...");
+
+    // 1st item
+    const item = body.append("div")
+        .classed("w3-display-left", true);
+    item.append("h2")
+        .attr("class", "jumbo w3-animate-left")
+        .text("bla bla");
+}
+
+/**
+ * Loads the background page where we talk about our project inspiration
+ */
+function onLoadBackgroundPage() {
+        // Remove current page elements
+        d3.select(".page").remove();
+        // Append page elements
+        const page = d3.select("body").append("div").attr("class", "page");
+        // Append header
+        const header = page.append("div")
+            .classed("header-wrap", true)
+        renderTabHeader(header);
+        pageHasTabs = true;
+        header.append("div").attr("class", "project-header").text("About");
+        // create body
+        const body = page.append("div")
+            .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
+    
+        // Title text
+        const middle = body.append("div")
+            .classed("w3-display-topmiddle", true)
+        middle.append("h1")
+            .attr("class", "jumbo w3-animate-top")
+            .text("Background");
+        middle.append("p")
+            .attr("class", "w3-large w3-center uppercase")
+            .text("...");
+
+    // 1st item
+    const item = body.append("div")
+        .classed("w3-display-left", true);
+    item.append("h2")
+        .attr("class", "jumbo w3-animate-left")
+        .text("bla bla");
+
+
+}
+
+function renderTabHeader(header) {
+    // Make navigation
+    const navigation = header.append("div").attr("class", "navigation");
+    container = navigation.append("div").classed("tabs-container", true);
+    // Home
+    container.append("div")
+    .on("click", onLoadHomePage)
+    .attr("id", "nav-landingpage")
+    .attr("class", "tab from-left")
+    .text("Home")
+    // About
+    container.append("div")
+    .on("click", onLoadAboutPage)
+    .attr("class", "tab from-left")
+    .text("About")
+    // Help
+    container.append("div")
+    .on("click", onLoadHelpPage)
+    .attr("class", "tab from-left")
+    .text("Help")
+    // Background
+    container.append("div")
+    .on("click", onLoadBackgroundPage)
+    .attr("class", "tab from-left")
+    .text("Background")
+
+    navigation.append("div").attr("class", "border-bottom");
+}
 
  /**
  * Reads data from CSV file.
  * The file contains 20,000 entries of individual building data that tells information about 
  * the structural damages and costs of a 7.0 magnitude earthquake in San Francisco
  */
- function onLoadVisualizationPage() {
+ function onLoadHomePage() {
 
     // Setup DOM
 
     // Remove current page elements
-    d3.select(".page").select("*").remove();
-
+    d3.select(".page").remove();
     // Append page elements
-    const page = d3.select(".page");
-    page.classed("background-img", false);
-
+    const page = d3.select("body").append("div").attr("class", "page");
     // Append header
     const header = page.append("div")
         .classed("header-wrap", true)
-   
-    // Make navigation
-    const navigation = header.append("div").attr("class", "navigation");
-    // navigation.append("button")
+
+    renderTabHeader(header);
+    pageHasTabs = true;
 
     header.append("div").attr("class", "project-header shake-slow").text("Earthquake Visualization");
     const ournames = header.append("div").attr("class", "our-names");

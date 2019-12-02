@@ -2,10 +2,33 @@ body {
     margin: 0;
     --dark: rgb(34, 34, 34);
     --white: rgb(189, 189, 189);
+    --header-width: 70rem;
+}
+
+.page-body {
+    height: 50rem;
 }
 
 .navigation {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tabs-container {
+    align-self: center;
     display: inline-flex;
+    justify-content: space-evenly;
+    width: var(--header-width);
+}
+
+.border-bottom {
+	width: 90%;
+	height: 50px;
+	margin-top: -20px;
+	border-bottom: 1px solid var(--white);
+	box-shadow: 0 20px 20px -20px rgb(161, 161, 161);
+    margin: -50px auto 10px;
 }
 
 .down-arrow {
@@ -133,7 +156,8 @@ select {
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     font-size: 4rem;
     padding: 2rem;
-    width: fit-content;
+    width: var(--header-width);
+    justify-content: space-evenly;
     text-align: center;
     text-transform: uppercase;
     text-rendering: optimizeLegibility;
