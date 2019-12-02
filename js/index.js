@@ -78,11 +78,11 @@ function onLoadAboutPage() {
         .classed("body-header", true);
     reza.append("h2")
         .attr("class", "jumbo w3-animate-left")
-        .text("Reza Sheiban");
+        .text("Reza Sheibani");
     reza.append("div")
         .attr("class", "img-container")
         .append("img")
-        .attr("src", "/figs/reza.jpg");
+        .attr("src", "figs/reza.jpg");
     reza.append("p")
         .attr("class", "body-text w3-large")
         .text("Reza is a research assistant at the department of Civil and Environmental Engineering at the University of Utah. His research is focused on regional damage assessment of structures subjected to natural hazards. He is interested in the applications of data science in community resilience.")
@@ -97,7 +97,7 @@ function onLoadAboutPage() {
     nat.append("div")
         .attr("class", "img-container")
         .append("img")
-        .attr("src", "/figs/natalia.png");
+        .attr("src", "figs/natalia.png");
     
     nat.append("p")
         .attr("class", "body-text w3-large")
@@ -119,7 +119,7 @@ function onLoadAboutPage() {
     vir.append("div")
         .attr("class", "img-container")
         .append("img")
-        .attr("src", "/figs/viraj.jpg");
+        .attr("src", "figs/viraj.jpg");
     vir.append("p")
         .attr("class", "body-text w3-large")
         .text("Hi, I'm Viraj Rathod, an MSIS grad student here at the David Eccles Business School." +
@@ -191,12 +191,12 @@ function onLoadHelpPage() {
         .attr("class", "body-text tmp")
         .text("The map is created from three different base-layers and two sub-layers. The user is able to choose a base-layer and the sub-layers from the " +
             "options at the top right corner of the plot. Also, two buttons are provided as shortcuts for zooming to max and to an overview of the city.");
-    let imge2=item.append('img').attr('src','figs/screenshots/12.png').attr('width',"50%");
+    let imge2=item.append('img').attr('src','figs/screenshots/12.png').attr('width',"50%").attr('left',"25%");
     item.append("p")
         .attr("class", "body-text tmp")
         .text("Markers are clustered on map to avoid saturating the plot. As the user zooms in, the number of clusters increases until finally, the user is able to see" +
             "each individual building. A popup message shows the exact attribute of the building when the user hovers the mouse over it.");
-    let imge3=item.append('img').attr('src','figs/screenshots/14.png').attr('width',"50%");
+    let imge3=item.append('img').attr('src','figs/screenshots/14.png').attr('width',"50%").attr('text-align', 'center');
 
 
     item.append("h3")
@@ -207,7 +207,7 @@ function onLoadHelpPage() {
         .text("The sunburst can be used as a filter or way to quantify the number of buildings with specific attributes. "+
         "It can also be used to quantify other values depending on the selected dropdown option. Users can " + 
         "click a node on the sunburst to view all of its children. That filtering will also reflect on the map on the right." + 
-        "From there, the map continues to filter as the user goes furher up or down the sunburst hierarchy.");
+        "From there, the map continues to filter as the user goes further up or down the sunburst hierarchy.");
     let imge4=item.append('img').attr('src','figs/screenshots/13.png').attr('width',"50%");
     item.append("h3")
         .attr("class", "body-header jumbo")
