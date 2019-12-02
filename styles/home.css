@@ -1,5 +1,7 @@
 body,h1 {
-    font-family: "Raleway", sans-serif
+    font-family: "Raleway", sans-serif;
+    --def: rgb(0, 65, 85);
+    --inv: rgb(189, 189, 189);
 }
 
 body, html {
@@ -23,9 +25,70 @@ body, html {
 
 .small-line-size {
     margin: auto;
-    width: 10%
+    width: 20%
 }
 
 #project-portal {
     cursor: pointer;
+}
+
+/* From Left */
+
+.btn {		
+	position: relative;	
+	padding: 1.4rem 4.2rem;
+	padding-right: 3.1rem;
+	font-size: 1.4rem;
+	color: var(--inv);
+	letter-spacing: 1rem;
+	text-transform: uppercase;
+	transition: all 600ms cubic-bezier(0.77, 0, 0.175, 1);	
+	cursor: pointer;
+	user-select: none;
+}
+
+.btn:before, .btn:after {
+	content: '';
+	position: absolute;	
+	transition: inherit;
+	z-index: -1;
+}
+
+.btn:hover {
+	color: var(--def);
+	transition-delay: .6s;
+}
+
+.btn:hover:before {
+	transition-delay: 0s;
+}
+
+.btn:hover:after {
+    background: var(--inv);
+    opacity: .4;
+	transition-delay: .4s;
+}
+
+
+.from-left:before, 
+.from-left:after {
+	top: 0;
+	width: 0;
+	height: 100%;
+}
+
+.from-left:before {
+	right: 0;
+	border: 1px solid var(--inv);
+	border-left: 0;
+	border-right: 0;	
+}
+
+.from-left:after {
+	left: 0;
+}
+
+.from-left:hover:before,
+.from-left:hover:after {
+	width: 100%;
 }

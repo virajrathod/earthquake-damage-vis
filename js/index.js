@@ -34,7 +34,7 @@ function onLoadHomePage() {
         .text("San Francisco");
     const portal = middle.append("h1")
         .attr("id", "project-portal")
-        .attr("class", "w3-large w3-center w3-animate-left");
+        .attr("class", "btn from-left w3-large w3-center w3-animate-left");
 
     portal.text("Click to View");
     portal.on("click", onLoadVisualizationPage);
