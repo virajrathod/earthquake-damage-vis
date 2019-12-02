@@ -218,10 +218,6 @@ function renderTabHeader(header) {
     pageHasTabs = true;
 
     header.append("div").attr("class", "project-header shake-slow").text("Earthquake Visualization");
-    const ournames = header.append("div").attr("class", "our-names");
-    ournames.append("div").text("Reza Sheibani; E-mail: m.sheibani@utah.edu; UID: u1138100 ")
-    ournames.append("div").text("Natalia Soto; Email: n.soto@utah.edu; UID: u1058711 ")
-    ournames.append("div").text("Viraj Rathod; Email: viraj.rathod@utah.edu; UID: u1269659");
 
     // Append scatterplot and sunburst body elements
     const overlay = page.append("div")

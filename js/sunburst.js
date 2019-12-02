@@ -11,12 +11,12 @@ const numStoriesNames = {
 /**-------- */
 
 const yearBuiltName = {
-    '-1874': 'Built On/Before: 1848-1874',
-    '1875-1901': 'Built Between: 1875-1901',
-    '1902-1928': 'Built Between: 1902-1928',
-    '1929-1955': 'Built Between: 1929-1955',
-    '1956-1982': 'Built Between: 1956-1982',
-    '1983-': 'Built On/After: 1983-2010',
+    '-1874': 'Built On/Before:\n 1848-1874',
+    '1875-1901': 'Built Between:\n 1875-1901',
+    '1902-1928': 'Built Between:\n 1902-1928',
+    '1929-1955': 'Built Between:\n 1929-1955',
+    '1956-1982': 'Built Between:\n 1956-1982',
+    '1983-': 'Built On/After:\n 1983-2010',
 }
 /**-------- */
 
@@ -240,7 +240,7 @@ class Sunburst {
         }
         const color = d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1));
         const format = d3.format(",.3f")
-        const width = 600;
+        const width = 725;
         const radius = width / 6;
     
         const arc = d3.arc()
