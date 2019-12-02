@@ -1,8 +1,8 @@
 # earthquake-damage-visualization
-* Visualizing the damage incurred on buildings in San Francisco due to earthquakes (1848 -2010)
+* Visualizing the damage incurred on buildings in San Francisco due to a hypothetical earthquake.
 Authors: Natalia Soto, Reza Sheiban, Viraj Rathod
 * Project Website: https://rawgit.com/nataliamelissas/earthquake-damage-visualization/master/index.html
-* Project Screencast: 
+* Project Screencast: https://youtu.be/mSigoaSYAqo
 
 ## Earthquake Damage Visualization in San Francisco
 An overview of what we are handing in: which parts are our code, which parts are libraries, and so on. The README must contain URLs to your project websites and screencast videos. The README must also explain any non-obvious features of your interface.
@@ -17,6 +17,7 @@ An overview of what we are handing in: which parts are our code, which parts are
     
 * **Libraries, Stylesheets, Plugins**
 Here we go give credit for stylesheets used and briefly explain the libaries used.
+  - All external libraries, plugins, or stylesheets are already included as links in the index.html file. No further work or download is necessary.
   - External stylesheets:
     - For text shaking in our Home page: https://csshake.surge.sh/csshake.min.css
     - For positioning of items on our landing page and About, Background, Help sections: https://www.w3schools.com/w3css/4/w3.css
