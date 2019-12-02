@@ -72,17 +72,6 @@ function onLoadAboutPage() {
     title.append("h1")
         .attr("class", "jumbo w3-animate-top")
         .text("Meet the Developers");
-    // title.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Reza Sheiban");
-
-    // title.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Natalia Soto");
-
-    // title.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Viraj Rathod");
 
     // Reza
     const reza = body.append("div")
@@ -90,6 +79,10 @@ function onLoadAboutPage() {
     reza.append("h2")
         .attr("class", "jumbo w3-animate-left")
         .text("Reza Sheiban");
+    reza.append("div")
+        .attr("class", "img-container")
+        .append("img")
+        .attr("src", "/figs/reza.jpg");
     reza.append("p")
         .attr("class", "body-text w3-large")
         .text("Reza is a research assistant at the department of Civil and Environmental Engineering at the University of Utah. His research is focused on regional damage assessment of structures subjected to natural hazards. He is interested in the applications of data science in community resilience.")
@@ -101,6 +94,11 @@ function onLoadAboutPage() {
     nat.append("h2")
         .attr("class", "jumbo w3-animate-left")
         .text("Natalia Soto");
+    nat.append("div")
+        .attr("class", "img-container")
+        .append("img")
+        .attr("src", "/figs/natalia.png");
+    
     nat.append("p")
         .attr("class", "body-text w3-large")
         .text("Natalia is a junior studying Computer Science." +
@@ -118,6 +116,10 @@ function onLoadAboutPage() {
     vir.append("h2")
         .attr("class","jumbo w3-animate-left")
         .text("Viraj Rathod")
+    vir.append("div")
+        .attr("class", "img-container")
+        .append("img")
+        .attr("src", "/figs/viraj.jpg");
     vir.append("p")
         .attr("class", "body-text w3-large")
         .text("Hi, I'm Viraj Rathod, an MSIS grad student here at the David Eccles Business School." +
@@ -140,7 +142,7 @@ function onLoadHelpPage() {
         .classed("header-wrap", true)
     renderTabHeader(header);
     pageHasTabs = true;
-    header.append("div").attr("class", "project-header").text("About");
+    header.append("div").attr("class", "project-header").text("Help");
     // create body
     const body = page.append("div")
         .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
@@ -148,12 +150,6 @@ function onLoadHelpPage() {
     // Title text
     const middle = body.append("div")
         .classed("w3-display-topmiddle", true)
-    // middle.append("h1")
-    //     .attr("class", "jumbo w3-animate-top")
-    //     .text("How to Use This Site");
-    // middle.append("p")
-    //     .attr("class", "w3-large w3-center uppercase")
-    //     .text("Hi this is how");
 
     // 1st item
     const item = body.append("div")
@@ -234,7 +230,7 @@ function onLoadBackgroundPage() {
             .classed("header-wrap", true)
         renderTabHeader(header);
         pageHasTabs = true;
-        header.append("div").attr("class", "project-header").text("About");
+        header.append("div").attr("class", "project-header").text("Background");
         // create body
         const body = page.append("div")
             .attr("class", "page-body w3-animate-opacity w3-display-container text-color");
