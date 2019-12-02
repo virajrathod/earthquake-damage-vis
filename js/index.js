@@ -16,7 +16,7 @@ function onLoadHomePage() {
 
     // create body
     const body = page.append("div")
-        .attr("class", "w3-animate-opacity w3-text-black");
+        .attr("class", "w3-animate-opacity text-color");
 
     // corner text
     body.append("div")

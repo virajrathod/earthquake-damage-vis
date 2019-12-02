@@ -15,6 +15,11 @@ body, html {
     background-size: cover;
 }
 
+
+.text-color {
+    color: var(--def);
+}
+
 .jumbo {
     font-size: 54px;
 }
