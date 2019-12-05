@@ -270,6 +270,22 @@ function onLoadBackgroundPage() {
             " Different factors like the area of the buildings in the area, no. of stories, type of the building, whether it is a residential or a commercial building. " +
             " One of the project members is doing his research project in this domain and visualizing the data associated with an earthquake was an extension of the idea. " +
             " Conceptually the idea is to create awareness among officials who deal with earthquakes and its causes.");
+    item.append("h2")
+        .attr("class", "jumbo w3-animate-left")
+        .text("Acknowledgement")
+
+    item.append("p").attr('id','ackn')
+        .attr("class","body-text w3-large")
+        // .text("The earthquake ground motion data is generated for the Hayward fault in the Bay Area and is obtained from [1]. " +
+        //     "The building’s responses to the seismic loading are simulated by dynamic finite element analyses. The simulation " +
+        //     "is studied in a collaboration between the SimCenter at NHERI [2] and one of the team member’s research group.").append('a').attr('href','https://simcenter.designsafe-ci.org/research-tools/regional-workflow/');
+    let str1 = "NHERI-SimCenter";
+    let result1 = str1.link("https://simcenter.designsafe-ci.org/research-tools/regional-workflow/");
+    let str2 = "\"Broadband (0–4 Hz) Ground Motions for a Magnitude 7.0 Hayward Fault Earthquake With Three‐Dimensional Structure and Topography\"";
+    let result2 = str2.link(" https://doi.org/10.1002/2017GL076505");
+    document.getElementById("ackn").innerHTML = "The earthquake ground motion data is generated for the Hayward fault in the Bay Area and is based on "+result2+". " +
+        "The building’s responses to the seismic loading are simulated by dynamic finite element analyses. The simulation " +
+        "is carried out using the rWHALE workflow provided by "+result1+".";
 }
 
 function renderTabHeader(header) {
